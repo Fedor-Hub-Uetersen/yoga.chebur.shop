@@ -202,4 +202,72 @@
         </div>
     </div>
 
-    <audio id="alarm-sound" src="
+    <!-- Аудио из открытых интернет-источников -->
+    <audio id="alarm-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
+
+    <script>
+        let workTime = 60 * 60; // 1 минута работы
+        let restTime = 2 * 60;  // 2 минуты отдыха
+        let currentTimer = null;
+        let isWorking = true;
+
+        const workTimerEl = document.getElementById('work-timer');
+        const restTimerEl = document.getElementById('rest-timer');
+        const restOverlayEl = document.getElementById('rest-overlay');
+        const skipBtn = document.getElementById('skip-btn');
+        const alarmSound = document.getElementById('alarm-sound');
+
+        function formatTime(seconds) {
+            let mins = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startWorkTimer() {
+            isWorking = true;
+            workTime = 60 * 60; 
+            workTimerEl.innerText = formatTime(workTime);
+            restOverlayEl.classList.remove('active');
+            
+            clearInterval(currentTimer);
+            currentTimer = setInterval(() => {
+                workTime--;
+                workTimerEl.innerText = formatTime(workTime);
+                if (workTime <= 0) {
+                    clearInterval(currentTimer);
+                    startRestTimer();
+                }
+            }, 1000);
+        }
+
+        function startRestTimer() {
+            isWorking = false;
+            restTime = 2 * 60;
+            restTimerEl.innerText = formatTime(restTime);
+            restOverlayEl.classList.add('active');
+            
+            // Воспроизведение звука
+            alarmSound.play().catch(e => console.log("Нужен клик для звука"));
+
+            clearInterval(currentTimer);
+            currentTimer = setInterval(() => {
+                restTime--;
+                restTimerEl.innerText = formatTime(restTime);
+                if (restTime <= 0) {
+                    clearInterval(currentTimer);
+                    startWorkTimer();
+                }
+            }, 1000);
+        }
+
+        skipBtn.addEventListener('click', () => {
+            alarmSound.pause();
+            alarmSound.currentTime = 0;
+            startWorkTimer();
+        });
+
+        // Запуск при старте страницы
+        startWorkTimer();
+    </script>
+</body>
+</html>
