@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Здоровая разминка с Чебурашкой</title>
+    <title>ChebuYoga — Напоминалка для разминки</title>
     <style>
         :root {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-color: #ffffff;
-            --accent-color: #ff9800; /* Оранжевый, как апельсины Чебурашки */
+            --accent-color: #ff9800; /* Теплый апельсиновый цвет */
             --danger-color: #e53935;
         }
 
@@ -62,7 +62,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(30, 20, 10, 0.98); /* Тёплый коричневый оттенок */
+            background-color: rgba(25, 18, 12, 0.98); /* Тёплый шоколадно-медитативный фон */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -70,7 +70,7 @@
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
         }
 
         .overlay.active {
@@ -87,24 +87,45 @@
             align-items: center;
         }
 
-        /* Стили для логотипа Чебурашки */
+        /* Стили для Чебурашки в медитации */
+        .cheburashka-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 15px;
+        }
+
         .cheburashka-logo {
-            width: 180px;
+            width: 100%;
             height: auto;
-            margin-bottom: 10px;
-            animation: bounce 2s infinite ease-in-out;
+            animation: meditate 4s infinite ease-in-out;
+        }
+
+        /* Аура медитации вокруг Чебурашки */
+        .aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,152,0,0.2) 0%, rgba(255,152,0,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-aura 4s infinite ease-in-out;
         }
 
         .overlay h2 {
-            font-size: 32px;
+            font-size: 36px;
             color: var(--accent-color);
             margin: 10px 0;
+            font-weight: 600;
         }
 
         .cheburashka-speech {
             font-style: italic;
             color: #ffcc80;
-            font-size: 18px;
+            font-size: 19px;
             margin-bottom: 25px;
         }
 
@@ -112,7 +133,7 @@
             text-align: left;
             font-size: 20px;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             padding-left: 20px;
         }
 
@@ -121,58 +142,70 @@
         }
 
         .btn {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
+            background-color: transparent;
+            color: #ffcc80;
+            border: 2px solid #ff9800;
             padding: 12px 35px;
             font-size: 18px;
             border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-            box-shadow: 0 5px 15px rgba(229, 57, 53, 0.4);
+            transition: all 0.3s;
         }
 
         .btn:hover {
-            background-color: #b71c1c;
+            background-color: var(--accent-color);
+            color: #121212;
             transform: scale(1.05);
         }
 
-        /* Анимация покачивания Чебурашки */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(3deg); }
+        /* Анимация плавного парения в медитации */
+        @keyframes meditate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Анимация пульсации ауры */
+        @keyframes pulse-aura {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.6; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Время работать! 🍊</h1>
-        <div class="status-text">До прихода Чебурашки осталось:</div>
+        <h1>Время работать ✨</h1>
+        <div class="status-text">До медитации с Чебурашкой осталось:</div>
         <div class="timer" id="work-timer">60:00</div>
     </div>
 
+    <!-- Блокирующий экран медитации -->
     <div class="overlay" id="rest-overlay">
         <div class="overlay-content">
             
-            <img class="cheburashka-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Cheburashka_vector_transparent.svg" alt="Чебурашка">
+            <div class="cheburashka-container">
+                <div class="aura"></div>
+                <!-- Логотип Чебурашки -->
+                <img class="cheburashka-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Cheburashka_vector_transparent.svg" alt="Чебурашка медитирует">
+            </div>
             
-            <h2>Ген, отложи работу! Пора размяться!</h2>
-            <div class="cheburashka-speech">«Мы строили, строили и наконец построили... А теперь надо потянуться!»</div>
+            <h2>Оммм... Время разминки! 🧘‍♂️</h2>
+            <div class="cheburashka-speech">«Ген, заbasic-уйся... Закрой глаза, вдохни поглубже и расправь плечи!»</div>
             
-            <div class="timer" id="rest-timer" style="color: var(--accent-color); margin: 10px 0;">02:00</div>
+            <div class="timer" id="rest-timer" style="color: var(--accent-color); margin: 5px 0;">02:00</div>
             
             <ul class="exercises">
-                <li>👀 <strong>Бережём глаза:</strong> Посмотри в окно на дальнее дерево 20 секунд, потом поморгай.</li>
-                <li>🧘‍♂️ <strong>Выпрямляем спину:</strong> Встань, сделай глубокий вдох, подними руки и потянись к солнцу.</li>
-                <li>🍊 <strong>Свежесть:</strong> Сделай глоток воды (или съешь апельсинку).</li>
+                <li>👀 <strong>Отдых глаз:</strong> Закрой глаза на 10 секунд, затем посмотри в окно максимально вдаль.</li>
+                <li>🧘‍♂️ <strong>Асаны для спины:</strong> Встань ровно, сделай глубокий вдох, подними лапы вверх и мягко потянись.</li>
+                <li>💧 <strong>Чистая энергия:</strong> Сделай пару медленных глотков чистой воды.</li>
             </ul>
 
-            <button class="btn" id="skip-btn">Я ещё поработаю</button>
+            <button class="btn" id="skip-btn">Вернуться в суету</button>
         </div>
     </div>
 
-    <audio id="alarm-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
+    <!-- Приятный тибетский гонг для медитации -->
+    <audio id="alarm-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
 
     <script>
         // Настройки времени в секундах
@@ -217,7 +250,8 @@
             restTimerDisplay.textContent = formatTime(timeLeft);
             restOverlay.classList.add('active');
             
-            alarmSound.play().catch(e => console.log("Нужен клик для активации звука"));
+            // Запуск глубокого гонга
+            alarmSound.play().catch(e => console.log("Нажмите на экран для активации звука"));
         }
 
         function startWorkPhase() {
