@@ -28,8 +28,9 @@
             overflow: hidden; 
         }
 
-        /* Стильный неоновый контейнер */
+        /* Неоновый контейнер */
         .container { 
+            position: relative;
             text-align: center; 
             background: var(--card); 
             padding: 40px; 
@@ -39,16 +40,28 @@
             width: 380px; 
         }
 
-        /* МЕСТО ДЛЯ ЛОГОТИПА НЕОНОВОГО ВОЛКА */
+        /* Счётчик разминок в углу */
+        .streak-counter {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--music);
+            text-shadow: 0 0 5px var(--music);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Блок логотипа */
         .logo-area {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        /* Текстовая заглушка волка с неоновым свечением */
         .wolf-logo-placeholder {
             font-size: 22px;
             font-weight: bold;
@@ -60,18 +73,46 @@
             border-radius: 10px;
         }
 
-        /* Если у тебя будет картинка волка wolf.png, эта настройка для неё: */
         .wolf-logo-img {
             max-width: 120px;
             height: auto;
             filter: drop-shadow(0 0 10px var(--accent));
-            display: none; /* Переключи на block, когда добавишь файл */
+            display: none; 
         }
 
         h1 { font-size: 24px; color: #fff; text-shadow: var(--neon-glow); margin: 15px 0 5px 0; text-transform: uppercase; }
-        .timer { font-size: 68px; font-weight: bold; margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
+        .timer { font-size: 68px; font-weight: bold; margin: 10px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
         .status { font-size: 14px; color: #8a8a93; letter-spacing: 1px; text-transform: uppercase; }
         
+        /* Блок выбора звука гонга */
+        .sound-selector {
+            margin: 15px 0 5px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .sound-selector label {
+            font-size: 11px;
+            color: #8a8a93;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sound-selector select {
+            background: #1a1a24;
+            color: #fff;
+            border: 1px solid var(--accent);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .sound-selector select:focus {
+            box-shadow: 0 0 8px var(--accent);
+        }
+
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -90,34 +131,30 @@
         .exercises { text-align: left; font-size: 18px; line-height: 1.6; margin-bottom: 20px; width: 100%; color: #e1e1e6; }
         .btn-group { display: flex; gap: 15px; justify-content: center; margin-bottom: 15px; }
         
-        /* Неоновые кнопки */
         .btn { background: transparent; color: #fff; border: 2px solid var(--accent); padding: 12px 25px; font-size: 15px; border-radius: 25px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.2s; box-shadow: inset 0 0 8px rgba(255, 85, 0, 0.2); }
         .btn:hover { background: var(--accent); box-shadow: var(--neon-glow); color: #000; transform: scale(1.05); }
         
-        .btn-m { border-color: var(--music); color: #fff; box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); }
+        .btn-m { border-color: var(--music); color: #fff; box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); min-width: 220px; }
         .btn-m:hover { background: var(--music); box-shadow: var(--neon-music); color: #000; }
 
-        /* Фирменный подвал с авторскими правами */
         .footer-credits {
-            margin-top: 30px;
+            margin-top: 25px;
             font-size: 11px;
-            color: #666;
+            color: #555;
             letter-spacing: 1px;
             text-transform: uppercase;
-            text-shadow: 0 0 2px rgba(255,255,255,0.1);
         }
-        .footer-credits a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .footer-credits a { color: var(--accent); text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- СЧЁТЧИК РАЗМИНОК -->
+        <div class="streak-counter" id="streak-display">Bio-Score: 0</div>
+
         <div class="logo-area">
-            <div class="wolf-logo-placeholder" id="wolf-text">tech.chebur.shop</div>
+            <div class="wolf-logo-placeholder" id="wolf-text">BIOWOLF</div>
             <img src="wolf.png" alt="BioWolf Logo" class="wolf-logo-img" id="wolf-img">
         </div>
 
@@ -125,14 +162,23 @@
         <div class="status" id="status-text">До разминки осталось:</div>
         <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">01:00</div>
         
+        <!-- НАСТРОЙКА ЗВУКА ГОНГА -->
+        <div class="sound-selector">
+            <label for="alarm-sound-select">🔔 Сигнал разминки:</label>
+            <select id="alarm-sound-select">
+                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Цифровой сигнал</option>
+                <option value="https://actions.google.com/sounds/v1/ambiences/gong.ogg" selected>Космический гонг</option>
+                <option value="https://actions.google.com/sounds/v1/foley/singing_bowl.ogg">Тибетская чаша</option>
+            </select>
+        </div>
+
         <div class="footer-credits">
-            © Tm.<a href="https://tech.chebur.shop" target="_blank">tech.chebur.shop</a> | +49017661566356
+            © Tech.<a href="https://chebur.shop" target="_blank">chebur.shop</a> | +49017661566356
         </div>
     </div>
 
     <div class="overlay" id="overlay">
         <div class="content">
-            
             <video class="my-video" id="yoga-video" controls preload="auto" loop muted>
                 <source src="video.mp4" type="video/mp4">
                 Ваш браузер не поддерживает видео.
@@ -154,26 +200,32 @@
             </div>
 
             <div class="footer-credits" style="color: #444;">
-                © Tm.<a href="https://tech.chebur.shop" target="_blank">tech.chebur.shop</a> | +49017661566356
+                © Tech.<a href="https://chebur.shop" target="_blank">chebur.shop</a> | +49017661566356
             </div>
         </div>
     </div>
 
+    <!-- Аудио-плееры для музыки и для гонга -->
     <audio id="bg-music" preload="auto" loop></audio>
+    <audio id="alarm-sound" preload="auto"></audio>
 
     <script>
-        const WORK_DURATION = 60;   // 1 минута для тестов (для часа ставь 3600)
+        const WORK_DURATION = 60;   // 1 минута работы для теста (потом сделаешь 3600)
         const REST_DURATION = 120;  // 2 минуты отдыха
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
 
         let timer = null;
         let notificationSent = false;
+        
         const wEl = document.getElementById('w-timer');
         const rEl = document.getElementById('r-timer');
         const ovEl = document.getElementById('overlay');
         const musicAudio = document.getElementById('bg-music');
+        const alarmAudio = document.getElementById('alarm-sound');
         const videoPlayer = document.getElementById('yoga-video');
         const musicBtn = document.getElementById('m-btn');
+        const streakEl = document.getElementById('streak-display');
+        const soundSelect = document.getElementById('alarm-sound-select');
         
         musicAudio.src = MUSIC_URL;
 
@@ -184,6 +236,19 @@
         function format(seconds) {
             if (seconds < 0) seconds = 0;
             return `${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
+        }
+
+        // Обновление и показ счётчика разминок
+        function updateStreakDisplay() {
+            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
+            streakEl.innerText = `Bio-Score: ${currentStreak}`;
+        }
+
+        function incrementStreak() {
+            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
+            currentStreak++;
+            localStorage.setItem('chebu_streak', currentStreak);
+            updateStreakDisplay();
         }
 
         function sendNotification(title, body) {
@@ -215,9 +280,15 @@
                     wEl.innerText = format(0);
                     rEl.innerText = format(REST_DURATION);
                     
-                    videoPlayer.play().catch(e => console.log("Браузер ждет клика"));
+                    // Запуск мультика и выбранного гонга
+                    videoPlayer.play().catch(e => console.log("Ждем клика"));
+                    alarmAudio.src = soundSelect.value;
+                    alarmAudio.play().catch(e => console.log("Браузер блокирует автозвук"));
+                    
                     sendNotification("Чебурашка зовёт!", "Друг, пора размяться!");
                 } else {
+                    // Если время отдыха закончилось само по таймеру — засчитываем балл
+                    incrementStreak();
                     startWorkMode();
                 }
             } else {
@@ -240,6 +311,8 @@
             
             musicAudio.pause();
             musicAudio.currentTime = 0;
+            alarmAudio.pause();
+            alarmAudio.currentTime = 0;
             videoPlayer.pause();
             videoPlayer.currentTime = 0;
             musicBtn.innerText = "🎵 Включить музыку релакс";
@@ -250,20 +323,30 @@
 
         clearInterval(timer);
         timer = setInterval(updateTimer, 1000);
+        
+        // Старт системы
+        updateStreakDisplay();
         updateTimer();
 
+        // Логика кнопок
         musicBtn.addEventListener('click', () => {
             if (musicAudio.paused) {
                 musicAudio.play()
                     .then(() => { musicBtn.innerText = "⏸ Поставить на паузу"; })
-                    .catch(e => console.log("Браузер блокирует звук"));
+                    .catch(e => console.log("Звук заблокирован"));
             } else {
                 musicAudio.pause();
                 musicBtn.innerText = "🎵 Включить музыку релакс";
             }
         });
 
-        document.getElementById('s-btn').addEventListener('click', startWorkMode);
+        document.getElementById('s-btn').addEventListener('click', () => {
+            // Если нажал кнопку возврата вручную во время разминки — тоже засчитываем балл
+            if (localStorage.getItem('chebu_mode') === 'rest') {
+                incrementStreak();
+            }
+            startWorkMode();
+        });
     </script>
 </body>
 </html>
