@@ -9,8 +9,8 @@
             --bg: #0a0a0c; 
             --card: #121216; 
             --text: #ffffff; 
-            --accent: #ff5500; /* Яркий neon-оранжевый */
-            --music: #00ff66;  /* Кислотно-зеленый неон */
+            --accent: #ff5500; /* Неоновый оранжевый */
+            --music: #00ff66;  /* Неоновый зеленый */
             --neon-glow: 0 0 15px var(--accent), 0 0 30px var(--accent);
             --neon-music: 0 0 15px var(--music);
             --neon-footer: 0 0 6px var(--accent);
@@ -29,7 +29,6 @@
             overflow: hidden; 
         }
 
-        /* Неоновый контейнер */
         .container { 
             position: relative;
             text-align: center; 
@@ -41,7 +40,6 @@
             width: 380px; 
         }
 
-        /* Переключатель языков в левом углу */
         .lang-switcher {
             position: absolute;
             top: 15px;
@@ -67,7 +65,6 @@
             box-shadow: 0 0 5px var(--music);
         }
 
-        /* Счётчик разминок в углу */
         .streak-counter {
             position: absolute;
             top: 15px;
@@ -80,13 +77,8 @@
             text-transform: uppercase;
         }
 
-        /* Блок логотипа */
         .logo-area {
             margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         .wolf-logo-placeholder {
@@ -101,32 +93,31 @@
             text-transform: uppercase;
         }
 
-        .wolf-logo-img {
-            max-width: 120px;
-            height: auto;
-            filter: drop-shadow(0 0 10px var(--accent));
-            display: none; 
-        }
-
         h1 { font-size: 24px; color: #fff; text-shadow: var(--neon-glow); margin: 15px 0 5px 0; text-transform: uppercase; }
         .timer { font-size: 68px; font-weight: bold; margin: 10px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
         .status { font-size: 14px; color: #8a8a93; letter-spacing: 1px; text-transform: uppercase; }
         
-        /* Блок выбора звука гонга */
-        .sound-selector {
+        .selectors-group {
             margin: 15px 0 5px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 12px;
         }
-        .sound-selector label {
+        .selector-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+        }
+        .selector-item label {
             font-size: 11px;
             color: #8a8a93;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .sound-selector select {
+        .selector-item select {
             background: #1a1a24;
             color: #fff;
             border: 1px solid var(--accent);
@@ -135,13 +126,15 @@
             font-size: 13px;
             cursor: pointer;
             outline: none;
+            width: 85%;
+            text-align: center;
             transition: all 0.3s;
         }
-        .sound-selector select:focus {
+        .selector-item select:focus {
             box-shadow: 0 0 8px var(--accent);
         }
 
-        /* Всплывающий экран (Оверлей) Чебурашки */
+        /* Экран разминки Чебурашки */
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -166,7 +159,6 @@
         .btn-m { border-color: var(--music); color: #fff; box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); min-width: 220px; }
         .btn-m:hover { background: var(--music); box-shadow: var(--neon-music); color: #000; }
 
-        /* Фирменный подвал */
         .footer-credits {
             margin-top: 25px;
             font-size: 11px;
@@ -200,20 +192,35 @@
 
         <div class="logo-area">
             <div class="wolf-logo-placeholder" id="wolf-text">TECH.CHEBUR.SHOP</div>
-            <img src="wolf.png" alt="Tech.chebur.shop" class="wolf-logo-img" id="wolf-img">
         </div>
 
         <h1 id="main-title">Время работать ✨</h1>
         <div class="status" id="status-text">До разминки осталось:</div>
         <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">60:00</div>
         
-        <div class="sound-selector">
-            <label for="alarm-sound-select" id="sound-label">🔔 Сигнал разминки:</label>
-            <select id="alarm-sound-select">
-                <option value="digital.mp3" id="opt-dig">Цифровой сигнал</option>
-                <option value="gong.mp3" id="opt-gong" selected>Космический гонг</option>
-                <option value="bowl.mp3" id="opt-bowl">Тибетская чаша</option>
-            </select>
+        <div class="selectors-group">
+            <div class="selector-item">
+                <label for="start-day-select" id="day-label">📅 День для зарядки:</label>
+                <select id="start-day-select">
+                    <option value="all" id="opt-all">Каждый день (Всегда активна)</option>
+                    <option value="1">Понедельник / Montag</option>
+                    <option value="2">Вторник / Dienstag</option>
+                    <option value="3">Среда / Mittwoch</option>
+                    <option value="4">Четверг / Donnerstag</option>
+                    <option value="5">Пятница / Freitag</option>
+                    <option value="6">Суббота / Samstag</option>
+                    <option value="0">Воскресенье / Sonntag</option>
+                </select>
+            </div>
+
+            <div class="selector-item">
+                <label for="alarm-sound-select" id="sound-label">🔔 Сигнал разминки:</label>
+                <select id="alarm-sound-select">
+                    <option value="digital.mp3" id="opt-dig">Цифровой сигнал</option>
+                    <option value="gong.mp3" id="opt-gong" selected>Космический гонг</option>
+                    <option value="bowl.mp3" id="opt-bowl">Тибетская чаша</option>
+                </select>
+            </div>
         </div>
 
         <div class="footer-credits">
@@ -258,6 +265,8 @@
                 mainTitle: "Время работать ✨",
                 statusText: "До разминки осталось:",
                 soundLabel: "🔔 Сигнал разминки:",
+                dayLabel: "📅 День для зарядки:",
+                optAll: "Каждый день (Всегда активна)",
                 optDig: "Цифровой сигнал", optGong: "Космический гонг", optBowl: "Тибетская чаша",
                 restTitle: "Время разминки! 🧘‍♂️",
                 restSpeech: "«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»",
@@ -270,6 +279,8 @@
                 mainTitle: "Zeit zu arbeiten ✨",
                 statusText: "Bis zur Pause:",
                 soundLabel: "🔔 Pausensignal:",
+                dayLabel: "📅 Wochentag für Yoga:",
+                optAll: "Jeden Tag (Immer aktiv)",
                 optDig: "Digitaler Alarm", optGong: "Weltraum-Gong", optBowl: "Tibetische Schale",
                 restTitle: "Zeit für die Pause! 🧘‍♂️",
                 restSpeech: "«Gena, entbasic-e dich... Atme tief ein und strecke dich!»",
@@ -286,14 +297,20 @@
         const wEl = document.getElementById('w-timer');
         const rEl = document.getElementById('r-timer');
         const ovEl = document.getElementById('overlay');
+        const statusText = document.getElementById('status-text');
         const musicAudio = document.getElementById('bg-music');
         const alarmAudio = document.getElementById('alarm-sound');
         const videoPlayer = document.getElementById('yoga-video');
         const musicBtn = document.getElementById('m-btn');
         const streakEl = document.getElementById('streak-display');
         const soundSelect = document.getElementById('alarm-sound-select');
+        const daySelect = document.getElementById('start-day-select');
         
         musicAudio.src = MUSIC_URL;
+
+        if (localStorage.getItem('chebu_weekday')) {
+            daySelect.value = localStorage.getItem('chebu_weekday');
+        }
 
         if (Notification.permission !== "granted" && Notification.permission !== "denied") {
             Notification.requestPermission();
@@ -308,8 +325,9 @@
             document.getElementById('lang-de').classList.toggle('active', lang === 'de');
 
             document.getElementById('main-title').innerHTML = i18n[lang].mainTitle;
-            document.getElementById('status-text').innerHTML = i18n[lang].statusText;
             document.getElementById('sound-label').innerHTML = i18n[lang].soundLabel;
+            document.getElementById('day-label').innerHTML = i18n[lang].dayLabel;
+            document.getElementById('opt-all').innerHTML = i18n[lang].optAll;
             document.getElementById('opt-dig').innerHTML = i18n[lang].optDig;
             document.getElementById('opt-gong').innerHTML = i18n[lang].optGong;
             document.getElementById('opt-bowl').innerHTML = i18n[lang].optBowl;
@@ -355,6 +373,23 @@
         }
 
         function updateTimer() {
+            // ПРОВЕРКА ДНЯ НЕДЕЛИ СНАЧАЛА
+            const currentWeekday = new Date().getDay(); 
+            const selectedValue = daySelect.value;
+
+            if (selectedValue !== "all" && parseInt(selectedValue) !== currentWeekday) {
+                const dayNamesRu = { "1": "Понедельника", "2": "Вторника", "3": "Среды", "4": "Четверга", "5": "Пятницы", "6": "Субботы", "0": "Воскресенья" };
+                const dayNamesDe = { "1": "Montag", "2": "Dienstag", "3": "Mittwoch", "4": "Donnerstag", "5": "Freitag", "6": "Samstag", "0": "Sonntag" };
+                
+                statusText.innerText = currentLang === 'ru' ? `Ожидание старта в день: ${dayNamesRu[selectedValue]}` : `Warten auf: ${dayNamesDe[selectedValue]}`;
+                wEl.innerText = "--:--";
+                ovEl.classList.remove('active');
+                return;
+            }
+
+            // ЕСЛИ ДЕНЬ СОВПАЛ — ВКЛЮЧАЕМ ТАЙМЕРЫ
+            statusText.innerHTML = i18n[currentLang].statusText;
+
             const now = Math.floor(Date.now() / 1000);
             let endTime = parseInt(localStorage.getItem('chebu_endTime'));
             let mode = localStorage.getItem('chebu_mode');
@@ -381,7 +416,7 @@
                     
                     alarmAudio.src = soundSelect.value;
                     alarmAudio.load(); 
-                    alarmAudio.play().catch(e => console.log("Звук заблокирован"));
+                    alarmAudio.play().catch(e => console.log("Блокировка автозвука браузером"));
                     
                     sendNotification(i18n[currentLang].notifTitle, i18n[currentLang].notifBody);
                 } else {
@@ -420,6 +455,15 @@
 
         document.getElementById('lang-ru').addEventListener('click', () => applyLanguage('ru'));
         document.getElementById('lang-de').addEventListener('click', () => applyLanguage('de'));
+
+        daySelect.addEventListener('change', () => {
+            localStorage.setItem('chebu_weekday', daySelect.value);
+            const currentWeekday = new Date().getDay();
+            if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
+                startWorkMode();
+            }
+            updateTimer();
+        });
 
         soundSelect.addEventListener('change', () => {
             alarmAudio.src = soundSelect.value;
