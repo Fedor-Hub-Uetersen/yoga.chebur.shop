@@ -9,7 +9,7 @@
             --bg: #0a0a0c; 
             --card: #121216; 
             --text: #ffffff; 
-            --accent: #ff5500; /* Яркий неоновый оранжевый */
+            --accent: #ff5500; /* Яркий neon-оранжевый */
             --music: #00ff66;  /* Кислотно-зеленый неон */
             --neon-glow: 0 0 15px var(--accent), 0 0 30px var(--accent);
             --neon-music: 0 0 15px var(--music);
@@ -205,7 +205,7 @@
 
         <h1 id="main-title">Время работать ✨</h1>
         <div class="status" id="status-text">До разминки осталось:</div>
-        <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">01:00</div>
+        <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">60:00</div>
         
         <div class="sound-selector">
             <label for="alarm-sound-select" id="sound-label">🔔 Сигнал разминки:</label>
@@ -230,7 +230,7 @@
             
             <h2 id="rest-title" style="text-shadow: var(--neon-glow);">Время разминки! 🧘‍♂️</h2>
             <div class="speech" id="rest-speech">«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»</div>
-            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music);">02:00</div>
+            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music);">05:00</div>
             
             <ul class="exercises" id="exercises-list"></ul>
 
@@ -253,7 +253,6 @@
         const REST_DURATION = 300;  
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
 
-        // БАЗА ПЕРЕВОДОВ (ТЕПЕРЬ ВСЁ НА МЕСТЕ!)
         const i18n = {
             ru: {
                 mainTitle: "Время работать ✨",
@@ -355,7 +354,6 @@
             }
         }
 
-        // ЖИВУЧАЯ ЛОГИКА ТАЙМЕРА (ДЛЯ ПК И ТЕЛЕФОНА)
         function updateTimer() {
             const now = Math.floor(Date.now() / 1000);
             let endTime = parseInt(localStorage.getItem('chebu_endTime'));
@@ -375,7 +373,6 @@
                     localStorage.setItem('chebu_mode', 'rest');
                     localStorage.setItem('chebu_endTime', now + REST_DURATION);
                     
-                    // ВКЛЮЧАЕМ ВСПЛЫВАЮЩИЙ ОВЕРЛЕЙ ЧЕБУРАШКИ!
                     ovEl.classList.add('active');
                     wEl.innerText = format(0);
                     rEl.innerText = format(REST_DURATION);
@@ -384,7 +381,7 @@
                     
                     alarmAudio.src = soundSelect.value;
                     alarmAudio.load(); 
-                    alarmAudio.play().catch(e => console.log("Браузер блокирует автозвук"));
+                    alarmAudio.play().catch(e => console.log("Звук заблокирован"));
                     
                     sendNotification(i18n[currentLang].notifTitle, i18n[currentLang].notifBody);
                 } else {
@@ -431,7 +428,6 @@
             setTimeout(() => { alarmAudio.pause(); alarmAudio.currentTime = 0; }, 2000);
         });
 
-        // ЗАПУСК ЧЕРЕЗ АНИМАЦИОННЫЙ ЦИКЛ, ЧТОБЫ ТЕЛЕФОН НЕ СПАЛ
         function tick() {
             updateTimer();
             setTimeout(tick, 1000);
