@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yoga — Tech.chebur.shop</title>
-    
-    <link rel="manifest" href="manifest.json">
-
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
-    
+    <!-- Іконка для вкладки браузера та ярлика на робочому столі -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
     <style>
         :root { 
             --bg: #0a0a0c; 
             --card: #121216; 
             --text: #ffffff; 
-            --accent: #ff5500; 
-            --music: #00ff66;  
+            --accent: #ff5500; /* Неоновий помаранчевий */
+            --music: #00ff66;  /* Неоновий зелений */
             --neon-glow: 0 0 15px var(--accent), 0 0 30px var(--accent);
             --neon-music: 0 0 15px var(--music);
             --neon-footer: 0 0 6px var(--accent);
@@ -140,6 +137,7 @@
             box-shadow: 0 0 8px var(--accent);
         }
 
+        /* Екран розминки */
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -378,6 +376,7 @@
         }
 
         function updateTimer() {
+            // ПЕРЕВІРКА ДНЯ ТИЖНЯ СПОЧАТКУ
             const currentWeekday = new Date().getDay(); 
             const selectedValue = daySelect.value;
 
@@ -391,16 +390,18 @@
                 return;
             }
 
+            // ЯКЩО ДЕНЬ ЗБІГСЯ — УВІМКАТИ ТАЙМЕРИ
             statusText.innerHTML = i18n[currentLang].statusText;
 
             const now = Math.floor(Date.now() / 1000);
             let endTime = parseInt(localStorage.getItem('chebu_endTime'));
             let mode = localStorage.getItem('chebu_mode');
 
-            // ИСПРАВЛЕНИЕ: если время сбилось или устарело — принудительно сбрасываем таймер на 60 минут вперёд
-            if (!endTime || !mode || (endTime - now > WORK_DURATION + 60) || (endTime - now < -3600)) {
-                startWorkMode();
-                return;
+            if (!endTime || !mode) {
+                localStorage.setItem('chebu_mode', 'work');
+                localStorage.setItem('chebu_endTime', now + WORK_DURATION);
+                mode = 'work';
+                endTime = now + WORK_DURATION;
             }
 
             let timeLeft = endTime - now;
@@ -460,7 +461,10 @@
 
         daySelect.addEventListener('change', () => {
             localStorage.setItem('chebu_weekday', daySelect.value);
-            startWorkMode();
+            const currentWeekday = new Date().getDay();
+            if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
+                startWorkMode();
+            }
             updateTimer();
         });
 
