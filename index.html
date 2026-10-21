@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yoga — Tech.chebur.shop</title>
-    <!-- Иконка для вкладки браузера и ярлыка на рабочем столе -->
+    <!-- Іконка для вкладки браузера та ярлика на робочому столі -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
     <style>
@@ -12,8 +12,8 @@
             --bg: #0a0a0c; 
             --card: #121216; 
             --text: #ffffff; 
-            --accent: #ff5500; /* Неоновый оранжевый */
-            --music: #00ff66;  /* Неоновый зеленый */
+            --accent: #ff5500; /* Неоновий помаранчевий */
+            --music: #00ff66;  /* Неоновий зелений */
             --neon-glow: 0 0 15px var(--accent), 0 0 30px var(--accent);
             --neon-music: 0 0 15px var(--music);
             --neon-footer: 0 0 6px var(--accent);
@@ -137,7 +137,7 @@
             box-shadow: 0 0 8px var(--accent);
         }
 
-        /* Экран разминки Чебурашки */
+        /* Екран розминки */
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -187,7 +187,7 @@
 
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" id="lang-ru">RU</button>
+            <button class="lang-btn" id="lang-ua">UA</button>
             <button class="lang-btn" id="lang-de">DE</button>
         </div>
 
@@ -197,31 +197,31 @@
             <div class="wolf-logo-placeholder" id="wolf-text">TECH.CHEBUR.SHOP</div>
         </div>
 
-        <h1 id="main-title">Время работать ✨</h1>
-        <div class="status" id="status-text">До разминки осталось:</div>
+        <h1 id="main-title">Час працювати ✨</h1>
+        <div class="status" id="status-text">До розминки залишилося:</div>
         <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">60:00</div>
         
         <div class="selectors-group">
             <div class="selector-item">
                 <label for="start-day-select" id="day-label">📅 День для зарядки:</label>
                 <select id="start-day-select">
-                    <option value="all" id="opt-all">Каждый день (Всегда активна)</option>
-                    <option value="1">Понедельник / Montag</option>
-                    <option value="2">Вторник / Dienstag</option>
-                    <option value="3">Среда / Mittwoch</option>
-                    <option value="4">Четверг / Donnerstag</option>
-                    <option value="5">Пятница / Freitag</option>
-                    <option value="6">Суббота / Samstag</option>
-                    <option value="0">Воскресенье / Sonntag</option>
+                    <option value="all" id="opt-all">Кожен день (Завжди активна)</option>
+                    <option value="1">Понеділок / Montag</option>
+                    <option value="2">Вівторок / Dienstag</option>
+                    <option value="3">Середа / Mittwoch</option>
+                    <option value="4">Четвер / Donnerstag</option>
+                    <option value="5">П'ятниця / Freitag</option>
+                    <option value="6">Субота / Samstag</option>
+                    <option value="0">Неділя / Sonntag</option>
                 </select>
             </div>
 
             <div class="selector-item">
-                <label for="alarm-sound-select" id="sound-label">🔔 Сигнал разминки:</label>
+                <label for="alarm-sound-select" id="sound-label">🔔 Сигнал розминки:</label>
                 <select id="alarm-sound-select">
-                    <option value="digital.mp3" id="opt-dig">Цифровой сигнал</option>
-                    <option value="gong.mp3" id="opt-gong" selected>Космический гонг</option>
-                    <option value="bowl.mp3" id="opt-bowl">Тибетская чаша</option>
+                    <option value="digital.mp3" id="opt-dig">Цифровий сигнал</option>
+                    <option value="gong.mp3" id="opt-gong" selected>Космічний гонг</option>
+                    <option value="bowl.mp3" id="opt-bowl">Тибетська чаша</option>
                 </select>
             </div>
         </div>
@@ -235,18 +235,18 @@
         <div class="content">
             <video class="my-video" id="yoga-video" controls preload="auto" loop muted>
                 <source src="video.mp4" type="video/mp4">
-                Ваш браузер не поддерживает video.
+                Ваш браузер не підтримує video.
             </video>
             
-            <h2 id="rest-title" style="text-shadow: var(--neon-glow);">Время разминки! 🧘‍♂️</h2>
-            <div class="speech" id="rest-speech">«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»</div>
+            <h2 id="rest-title" style="text-shadow: var(--neon-glow);">Час розминки! 🧘‍♂️</h2>
+            <div class="speech" id="rest-speech">«Ген, заbasic-уйся... Вдихни глибше і розправ плечі!»</div>
             <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music);">05:00</div>
             
             <ul class="exercises" id="exercises-list"></ul>
 
             <div class="btn-group">
-                <button class="btn btn-m" id="m-btn">🎵 Включить музыку релакс</button>
-                <button class="btn" id="s-btn">Вернуться в суету</button>
+                <button class="btn btn-m" id="m-btn">🎵 Увімкнути музику релакс</button>
+                <button class="btn" id="s-btn">Повернутися в суєту</button>
             </div>
 
             <div class="footer-credits" style="color: #888;">
@@ -259,24 +259,24 @@
     <audio id="alarm-sound" preload="auto"></audio>
 
     <script>
-        const WORK_DURATION = 3600;   
+        const WORK_DURATION = 3600;    
         const REST_DURATION = 300;  
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
 
         const i18n = {
-            ru: {
-                mainTitle: "Время работать ✨",
-                statusText: "До разминки осталось:",
-                soundLabel: "🔔 Сигнал разминки:",
+            ua: {
+                mainTitle: "Час працювати ✨",
+                statusText: "До розминки залишилося:",
+                soundLabel: "🔔 Сигнал розминки:",
                 dayLabel: "📅 День для зарядки:",
-                optAll: "Каждый день (Всегда активна)",
-                optDig: "Цифровой сигнал", optGong: "Космический гонг", optBowl: "Тибетская чаша",
-                restTitle: "Время разминки! 🧘‍♂️",
-                restSpeech: "«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»",
-                btnMusicOn: "🎵 Включить музыку релакс", btnMusicOff: "⏸ Поставить на паузу",
-                btnReturn: "Вернуться в суету",
-                notifTitle: "Чебурашка зовёт!", notifBody: "Друг, пора размяться!",
-                exercises: ["👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.", "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись лапами вверх.", "💧 <strong>Вода:</strong> Сделай пару глотков чистой воды."]
+                optAll: "Кожен день (Завжди активна)",
+                optDig: "Цифровий сигнал", optGong: "Космічний гонг", optBowl: "Тибетська чаша",
+                restTitle: "Час розминки! 🧘‍♂️",
+                restSpeech: "«Ген, заbasic-уйся... Вдихни глибше і розправ плечі!»",
+                btnMusicOn: "🎵 Увімкнути музику релакс", btnMusicOff: "⏸ Поставити на паузу",
+                btnReturn: "Повернутися в суєту",
+                notifTitle: "Чебурашка кличе!", notifBody: "Друже, час розім'ятися!",
+                exercises: ["👀 <strong>Очі:</strong> Закрий очі на 10 секунд, подивися у вікно вдалину.", "🧘‍♂️ <strong>Спина:</strong> Встань рівно, потягнися лапами вгору.", "💧 <strong>Вода:</strong> Зроби кілька ковтків чистої води."]
             },
             de: {
                 mainTitle: "Zeit zu arbeiten ✨",
@@ -294,7 +294,7 @@
             }
         };
 
-        let currentLang = localStorage.getItem('chebu_lang') || 'ru';
+        let currentLang = localStorage.getItem('chebu_lang') || 'ua';
         let notificationSent = false;
         
         const wEl = document.getElementById('w-timer');
@@ -306,200 +306,4 @@
         const videoPlayer = document.getElementById('yoga-video');
         const musicBtn = document.getElementById('m-btn');
         const streakEl = document.getElementById('streak-display');
-        const soundSelect = document.getElementById('alarm-sound-select');
-        const daySelect = document.getElementById('start-day-select');
-        
-        musicAudio.src = MUSIC_URL;
-
-        if (localStorage.getItem('chebu_weekday')) {
-            daySelect.value = localStorage.getItem('chebu_weekday');
-        }
-
-        if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-            Notification.requestPermission();
-        }
-
-        function applyLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('chebu_lang', lang);
-            document.documentElement.lang = lang;
-
-            document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
-            document.getElementById('lang-de').classList.toggle('active', lang === 'de');
-
-            document.getElementById('main-title').innerHTML = i18n[lang].mainTitle;
-            document.getElementById('sound-label').innerHTML = i18n[lang].soundLabel;
-            document.getElementById('day-label').innerHTML = i18n[lang].dayLabel;
-            document.getElementById('opt-all').innerHTML = i18n[lang].optAll;
-            document.getElementById('opt-dig').innerHTML = i18n[lang].optDig;
-            document.getElementById('opt-gong').innerHTML = i18n[lang].optGong;
-            document.getElementById('opt-bowl').innerHTML = i18n[lang].optBowl;
-            document.getElementById('rest-title').innerHTML = i18n[lang].restTitle;
-            document.getElementById('rest-speech').innerHTML = i18n[lang].restSpeech;
-            document.getElementById('s-btn').innerHTML = i18n[lang].btnReturn;
-            
-            musicBtn.innerHTML = musicAudio.paused ? i18n[lang].btnMusicOn : i18n[lang].btnMusicOff;
-
-            const exList = document.getElementById('exercises-list');
-            exList.innerHTML = "";
-            i18n[lang].exercises.forEach(ex => {
-                const li = document.createElement('li');
-                li.innerHTML = ex;
-                exList.appendChild(li);
-            });
-
-            updateStreakDisplay();
-        }
-
-        function format(seconds) {
-            if (seconds < 0) seconds = 0;
-            return `${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
-        }
-
-        function updateStreakDisplay() {
-            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
-            streakEl.innerText = `Bio-Score: ${currentStreak}`;
-        }
-
-        function incrementStreak() {
-            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
-            currentStreak++;
-            localStorage.setItem('chebu_streak', currentStreak);
-            updateStreakDisplay();
-        }
-
-        function sendNotification(title, body) {
-            if (Notification.permission === "granted" && !notificationSent) {
-                new Notification(title, { body: body });
-                notificationSent = true;
-            }
-        }
-
-        function updateTimer() {
-            // ПРОВЕРКА ДНЯ НЕДЕЛИ СНАЧАЛА
-            const currentWeekday = new Date().getDay(); 
-            const selectedValue = daySelect.value;
-
-            if (selectedValue !== "all" && parseInt(selectedValue) !== currentWeekday) {
-                const dayNamesRu = { "1": "Понедельника", "2": "Вторника", "3": "Среды", "4": "Четверга", "5": "Пятницы", "6": "Субботы", "0": "Воскресенья" };
-                const dayNamesDe = { "1": "Montag", "2": "Dienstag", "3": "Mittwoch", "4": "Donnerstag", "5": "Freitag", "6": "Samstag", "0": "Sonntag" };
-                
-                statusText.innerText = currentLang === 'ru' ? `Ожидание старта в день: ${dayNamesRu[selectedValue]}` : `Warten auf: ${dayNamesDe[selectedValue]}`;
-                wEl.innerText = "--:--";
-                ovEl.classList.remove('active');
-                return;
-            }
-
-            // ЕСЛИ ДЕНЬ СОВПАЛ — ВКЛЮЧАЕМ ТАЙМЕРЫ
-            statusText.innerHTML = i18n[currentLang].statusText;
-
-            const now = Math.floor(Date.now() / 1000);
-            let endTime = parseInt(localStorage.getItem('chebu_endTime'));
-            let mode = localStorage.getItem('chebu_mode');
-
-            if (!endTime || !mode) {
-                localStorage.setItem('chebu_mode', 'work');
-                localStorage.setItem('chebu_endTime', now + WORK_DURATION);
-                mode = 'work';
-                endTime = now + WORK_DURATION;
-            }
-
-            let timeLeft = endTime - now;
-
-            if (timeLeft <= 0) {
-                if (mode === 'work') {
-                    localStorage.setItem('chebu_mode', 'rest');
-                    localStorage.setItem('chebu_endTime', now + REST_DURATION);
-                    
-                    ovEl.classList.add('active');
-                    wEl.innerText = format(0);
-                    rEl.innerText = format(REST_DURATION);
-                    
-                    videoPlayer.play().catch(e => console.log("Ждем активность"));
-                    
-                    alarmAudio.src = soundSelect.value;
-                    alarmAudio.load(); 
-                    alarmAudio.play().catch(e => console.log("Блокировка автозвука браузером"));
-                    
-                    sendNotification(i18n[currentLang].notifTitle, i18n[currentLang].notifBody);
-                } else {
-                    incrementStreak();
-                    startWorkMode();
-                }
-            } else {
-                if (mode === 'work') {
-                    ovEl.classList.remove('active');
-                    wEl.innerText = format(timeLeft);
-                    notificationSent = false;
-                } else {
-                    ovEl.classList.add('active');
-                    rEl.innerText = format(timeLeft);
-                }
-            }
-        }
-
-        function startWorkMode() {
-            const now = Math.floor(Date.now() / 1000);
-            localStorage.setItem('chebu_mode', 'work');
-            localStorage.setItem('chebu_endTime', now + WORK_DURATION);
-            ovEl.classList.remove('active');
-            
-            musicAudio.pause();
-            musicAudio.currentTime = 0;
-            alarmAudio.pause();
-            alarmAudio.currentTime = 0;
-            videoPlayer.pause();
-            videoPlayer.currentTime = 0;
-            
-            wEl.innerText = format(WORK_DURATION);
-            notificationSent = false;
-            applyLanguage(currentLang);
-        }
-
-        document.getElementById('lang-ru').addEventListener('click', () => applyLanguage('ru'));
-        document.getElementById('lang-de').addEventListener('click', () => applyLanguage('de'));
-
-        daySelect.addEventListener('change', () => {
-            localStorage.setItem('chebu_weekday', daySelect.value);
-            const currentWeekday = new Date().getDay();
-            if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
-                startWorkMode();
-            }
-            updateTimer();
-        });
-
-        soundSelect.addEventListener('change', () => {
-            alarmAudio.src = soundSelect.value;
-            alarmAudio.load();
-            alarmAudio.play().catch(e => console.log("Нужен клик"));
-            setTimeout(() => { alarmAudio.pause(); alarmAudio.currentTime = 0; }, 2000);
-        });
-
-        function tick() {
-            updateTimer();
-            setTimeout(tick, 1000);
-        }
-        tick();
-
-        applyLanguage(currentLang);
-
-        musicBtn.addEventListener('click', () => {
-            if (musicAudio.paused) {
-                musicAudio.play()
-                    .then(() => { musicBtn.innerHTML = i18n[currentLang].btnMusicOff; })
-                    .catch(e => console.log("Звук заблокирован"));
-            } else {
-                musicAudio.pause();
-                musicBtn.innerHTML = i18n[currentLang].btnMusicOn;
-            }
-        });
-
-        document.getElementById('s-btn').addEventListener('click', () => {
-            if (localStorage.getItem('chebu_mode') === 'rest') {
-                incrementStreak();
-            }
-            startWorkMode();
-        });
-    </script>
-</body>
-</html>
+        const soundSelect =
