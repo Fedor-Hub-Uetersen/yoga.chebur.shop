@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yoga — Tech.chebur.shop</title>
     <link rel="manifest" href="manifest.json">
-    <!-- Иконка для вкладки браузера и ярлыка на рабочем столе -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230f172a'/><circle cx='50' cy='50' r='44' fill='none' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='30' r='8' fill='%2310b981'/><path d='M 50 40 C 42 45 35 55 25 62 C 22 64 25 70 30 70 C 38 70 45 62 50 55 C 55 62 62 70 70 70 C 75 70 78 64 75 62 C 65 55 58 45 50 40 Z' fill='%2310b981'/><path d='M 35 70 C 42 75 58 75 65 70' stroke='%2310b981' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
     <style>
         :root { 
             --bg: #0a0a0c; 
             --card: #121216; 
             --text: #ffffff; 
-            --accent: #ff5500; /* Неоновый оранжевый */
-            --music: #00ff66;  /* Неоновый зеленый */
+            --accent: #ff5500;
+            --music: #00ff66;
             --neon-glow: 0 0 15px var(--accent), 0 0 30px var(--accent);
             --neon-music: 0 0 15px var(--music);
             --neon-footer: 0 0 6px var(--accent);
@@ -37,26 +35,28 @@
             position: relative;
             text-align: center; 
             background: var(--card); 
-            padding: 40px; 
+            padding: 55px 35px 30px 35px; 
             border-radius: 20px; 
             border: 2px solid var(--accent);
             box-shadow: 0 0 25px rgba(255, 85, 0, 0.2), inset 0 0 15px rgba(255, 85, 0, 0.1); 
-            width: 380px; 
+            width: 390px; 
+            max-width: 92vw;
+            box-sizing: border-box;
         }
 
         .lang-switcher {
             position: absolute;
             top: 15px;
-            left: 20px;
+            left: 18px;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             z-index: 100;
         }
         .lang-btn {
             background: #1a1a24;
             border: 1px solid #444;
             color: #8a8a93;
-            padding: 3px 8px;
+            padding: 4px 10px;
             font-size: 11px;
             border-radius: 5px;
             cursor: pointer;
@@ -66,23 +66,64 @@
         .lang-btn.active {
             border-color: var(--music);
             color: #fff;
-            box-shadow: 0 0 5px var(--music);
+            box-shadow: 0 0 8px var(--music);
         }
 
-        .streak-counter {
+        .stats-header {
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 12px;
+            right: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 11px;
             font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .streak-counter {
             color: var(--music);
             text-shadow: 0 0 5px var(--music);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        }
+        .day-streak {
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            background: rgba(255, 85, 0, 0.12);
+            padding: 1px 6px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 85, 0, 0.4);
+        }
+        .daily-balance {
+            display: flex;
+            gap: 6px;
+        }
+        .bal-badge {
+            font-size: 13px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            background: #1a1a24;
+            border: 1px solid #333;
+            filter: grayscale(100%) opacity(0.45);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .bal-badge.done {
+            filter: grayscale(0%) opacity(1);
+            border-color: var(--music);
+            background: rgba(0, 255, 102, 0.12);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
         }
 
         .logo-area {
-            margin-bottom: 20px;
+            margin-top: 12px;
+            margin-bottom: 18px;
         }
 
         .wolf-logo-placeholder {
@@ -97,8 +138,8 @@
             text-transform: uppercase;
         }
 
-        h1 { font-size: 24px; color: #fff; text-shadow: var(--neon-glow); margin: 15px 0 5px 0; text-transform: uppercase; }
-        .timer { font-size: 68px; font-weight: bold; margin: 10px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
+        h1 { font-size: 24px; color: #fff; text-shadow: var(--neon-glow); margin: 12px 0 5px 0; text-transform: uppercase; }
+        .timer { font-size: 66px; font-weight: bold; margin: 8px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
         .status { font-size: 14px; color: #8a8a93; letter-spacing: 1px; text-transform: uppercase; }
         
         .selectors-group {
@@ -132,54 +173,117 @@
             outline: none;
             width: 85%;
             text-align: center;
-            transition: all 0.3s;
-        }
-        .selector-item select:focus {
-            box-shadow: 0 0 8px var(--accent);
         }
 
-        /* Экран разминки Чебурашки */
-        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow-y: auto; }
         .overlay.active { opacity: 1; pointer-events: auto; }
-        .content { text-align: center; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .content { text-align: center; max-width: 600px; padding: 15px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
         
         .my-video {
-            width: 340px;
-            height: 190px;
+            width: 290px;
+            height: 162px;
             border-radius: 15px;
             border: 2px solid var(--accent);
             box-shadow: var(--neon-glow);
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             background: #000;
         }
         
-        .speech { font-style: italic; color: #ffaa66; font-size: 18px; margin-bottom: 15px; text-shadow: 0 0 5px rgba(255,170,102,0.3); }
-        .exercises { text-align: left; font-size: 18px; line-height: 1.6; margin-bottom: 20px; width: 100%; color: #e1e1e6; }
-        .btn-group { display: flex; gap: 15px; justify-content: center; margin-bottom: 15px; }
+        .speech { font-style: italic; color: #ffaa66; font-size: 15px; margin-bottom: 6px; }
+
+        .breath-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 6px 0 10px 0;
+        }
+        .breath-circle {
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            border: 2px solid var(--music);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4), inset 0 0 12px rgba(0, 255, 102, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.2) 0%, transparent 70%);
+            transform: scale(0.78);
+            transition: transform 4s ease-in-out, border-color 0.5s, box-shadow 0.5s;
+        }
+        .breath-circle.inhale {
+            transform: scale(1.24);
+            border-color: var(--music);
+            box-shadow: 0 0 25px var(--music), inset 0 0 15px var(--music);
+        }
+        .breath-circle.hold {
+            transform: scale(1.24);
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent), inset 0 0 15px var(--accent);
+            transition: transform 0.2s linear, border-color 0.4s, box-shadow 0.4s;
+        }
+        .breath-circle.exhale {
+            transform: scale(0.78);
+            border-color: var(--music);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+            transition: transform 6s ease-in-out, border-color 0.5s, box-shadow 0.5s;
+        }
+        .breath-hint {
+            font-size: 11px;
+            color: #8a8a93;
+            margin-top: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .exercises { text-align: left; font-size: 15px; line-height: 1.45; margin-bottom: 12px; width: 100%; color: #e1e1e6; }
         
-        .btn { background: transparent; color: #fff; border: 2px solid var(--accent); padding: 12px 25px; font-size: 15px; border-radius: 25px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.2s; box-shadow: inset 0 0 8px rgba(255, 85, 0, 0.2); }
-        .btn:hover { background: var(--accent); box-shadow: var(--neon-glow); color: #000; transform: scale(1.05); }
-        
-        .btn-m { border-color: var(--music); color: #fff; box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); min-width: 220px; }
+        .quick-checks {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .check-pill {
+            background: #1a1a24;
+            border: 1px solid #444;
+            color: #ccc;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .check-pill.checked {
+            border-color: var(--music);
+            color: #fff;
+            background: rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.35);
+        }
+
+        .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+        .btn { background: transparent; color: #fff; border: 2px solid var(--accent); padding: 10px 20px; font-size: 14px; border-radius: 25px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.2s; }
+        .btn:hover { background: var(--accent); box-shadow: var(--neon-glow); color: #000; }
+        .btn-m { border-color: var(--music); color: #fff; min-width: 205px; }
         .btn-m:hover { background: var(--music); box-shadow: var(--neon-music); color: #000; }
 
         .footer-credits {
-            margin-top: 25px;
+            margin-top: 18px;
             font-size: 11px;
             color: #bbb;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        .footer-credits a { 
+        .footer-credits a, .neon-phone a { 
             color: var(--accent); 
             text-decoration: none; 
             font-weight: bold; 
-            text-shadow: var(--neon-footer);
-        }
-        .neon-phone a {
-            color: var(--accent);
-            font-weight: bold;
-            text-decoration: none;
             text-shadow: var(--neon-footer);
         }
     </style>
@@ -188,14 +292,24 @@
 
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" id="lang-ru">RU</button>
-            <button class="lang-btn" id="lang-de">DE</button>
+            <button type="button" class="lang-btn active" id="lang-ru">RU</button>
+            <button type="button" class="lang-btn" id="lang-de">DE</button>
         </div>
 
-        <div class="streak-counter" id="streak-display">Bio-Score: 0</div>
+        <div class="stats-header">
+            <div class="score-row">
+                <span class="streak-counter" id="streak-display">Bio-Score: 0</span>
+                <span class="day-streak" id="day-streak-display">🔥 0 д.</span>
+            </div>
+            <div class="daily-balance">
+                <span class="bal-badge" id="badge-water">💧</span>
+                <span class="bal-badge" id="badge-breath">🌬️</span>
+                <span class="bal-badge" id="badge-stretch">🧘</span>
+            </div>
+        </div>
 
         <div class="logo-area">
-            <div class="wolf-logo-placeholder" id="wolf-text">TECH.CHEBUR.SHOP</div>
+            <div class="wolf-logo-placeholder">TECH.CHEBUR.SHOP</div>
         </div>
 
         <h1 id="main-title">Время работать ✨</h1>
@@ -236,21 +350,30 @@
         <div class="content">
             <video class="my-video" id="yoga-video" controls preload="auto" loop muted>
                 <source src="video.mp4" type="video/mp4">
-                Ваш браузер не поддерживает video.
             </video>
             
-            <h2 id="rest-title" style="text-shadow: var(--neon-glow);">Время разминки! 🧘‍♂️</h2>
+            <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 4px 0;">Время разминки! 🧘‍♂️</h2>
             <div class="speech" id="rest-speech">«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»</div>
-            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music);">05:00</div>
+            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 50px; margin: 2px 0;">05:00</div>
             
-            <ul class="exercises" id="exercises-list"></ul>
-
-            <div class="btn-group">
-                <button class="btn btn-m" id="m-btn">🎵 Включить музыку релакс</button>
-                <button class="btn" id="s-btn">Вернуться в суету</button>
+            <div class="breath-box">
+                <div class="breath-circle" id="breath-circle">Вдох</div>
+                <div class="breath-hint" id="breath-hint">Ритм Ошо: 4с вдох • 2с пауза • 6с выдох</div>
             </div>
 
-            <div class="footer-credits" style="color: #888;">
+            <ul class="exercises" id="exercises-list"></ul>
+
+            <div class="quick-checks">
+                <button type="button" class="check-pill" id="pill-water">💧 Выпил воды</button>
+                <button type="button" class="check-pill" id="pill-breath">🌬️ Подышал</button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-m" id="m-btn">🎵 Включить музыку релакс</button>
+                <button type="button" class="btn" id="s-btn">Вернуться в суету</button>
+            </div>
+
+            <div class="footer-credits" style="color: #888; margin-top: 8px;">
                 © Tm.<a href="https://tech.chebur.shop" target="_blank">tech.chebur.shop</a> | <span class="neon-phone"><a href="tel:+49017661566343">+49017661566343</a></span>
             </div>
         </div>
@@ -277,7 +400,15 @@
                 btnMusicOn: "🎵 Включить музыку релакс", btnMusicOff: "⏸ Поставить на паузу",
                 btnReturn: "Вернуться в суету",
                 notifTitle: "Чебурашка зовёт!", notifBody: "Друг, пора размяться!",
-                exercises: ["👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.", "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись лапами вверх.", "💧 <strong>Вода:</strong> Сделай пару глотков чистой воды."]
+                breathInhale: "Вдох", breathHold: "Пауза", breathExhale: "Выдох",
+                breathHint: "Ритм Ошо: 4с вдох • 2с пауза • 6с выдох",
+                daySuffix: "д.",
+                pillWater: "💧 Выпил воды", pillBreath: "🌬️ Подышал",
+                exercises: [
+                    "👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.",
+                    "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись лапами вверх.",
+                    "💧 <strong>Вода:</strong> Сделай пару глотков чистой воды."
+                ]
             },
             de: {
                 mainTitle: "Zeit zu arbeiten ✨",
@@ -291,13 +422,25 @@
                 btnMusicOn: "🎵 Relax-Musik einschalten", btnMusicOff: "⏸ Pause",
                 btnReturn: "Zurück zur Arbeit",
                 notifTitle: "Tscheburaschka ruft!", notifBody: "Freund, Zeit für eine Pause!",
-                exercises: ["👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.", "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstrecken, die Arme nach oben ziehen.", "💧 <strong>Wasser:</strong> Ein paar Schlucke klares Wasser trinken."]
+                breathInhale: "Einatmen", breathHold: "Halten", breathExhale: "Ausatmen",
+                breathHint: "Osho-Rhythmus: 4s ein • 2s halten • 6s aus",
+                daySuffix: "T.",
+                pillWater: "💧 Wasser getrunken", pillBreath: "🌬️ Geatmet",
+                exercises: [
+                    "👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.",
+                    "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstrecken, die Arme nach oben ziehen.",
+                    "💧 <strong>Wasser:</strong> Ein paar Schlucke klares Wasser trinken."
+                ]
             }
         };
 
-        let currentLang = localStorage.getItem('chebu_lang') || 'ru';
-        let notificationSent = false;
+        let currentLang = 'ru';
+        try { currentLang = localStorage.getItem('chebu_lang') || 'ru'; } catch(e) {}
         
+        let notificationSent = false;
+        let breathRunning = false;
+        let breathTimeouts = [];
+
         const wEl = document.getElementById('w-timer');
         const rEl = document.getElementById('r-timer');
         const ovEl = document.getElementById('overlay');
@@ -307,39 +450,46 @@
         const videoPlayer = document.getElementById('yoga-video');
         const musicBtn = document.getElementById('m-btn');
         const streakEl = document.getElementById('streak-display');
+        const dayStreakEl = document.getElementById('day-streak-display');
         const soundSelect = document.getElementById('alarm-sound-select');
         const daySelect = document.getElementById('start-day-select');
-        
-        musicAudio.src = MUSIC_URL;
-
-        if (localStorage.getItem('chebu_weekday')) {
-            daySelect.value = localStorage.getItem('chebu_weekday');
-        }
-
-        if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-            Notification.requestPermission();
-        }
+        const breathCircle = document.getElementById('breath-circle');
+        const breathHint = document.getElementById('breath-hint');
+        const badgeWater = document.getElementById('badge-water');
+        const badgeBreath = document.getElementById('badge-breath');
+        const badgeStretch = document.getElementById('badge-stretch');
+        const pillWater = document.getElementById('pill-water');
+        const pillBreath = document.getElementById('pill-breath');
 
         function applyLanguage(lang) {
+            if (!i18n[lang]) lang = 'ru';
             currentLang = lang;
-            localStorage.setItem('chebu_lang', lang);
+            try { localStorage.setItem('chebu_lang', lang); } catch(e) {}
             document.documentElement.lang = lang;
 
             document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
             document.getElementById('lang-de').classList.toggle('active', lang === 'de');
 
-            document.getElementById('main-title').innerHTML = i18n[lang].mainTitle;
-            document.getElementById('sound-label').innerHTML = i18n[lang].soundLabel;
-            document.getElementById('day-label').innerHTML = i18n[lang].dayLabel;
-            document.getElementById('opt-all').innerHTML = i18n[lang].optAll;
-            document.getElementById('opt-dig').innerHTML = i18n[lang].optDig;
-            document.getElementById('opt-gong').innerHTML = i18n[lang].optGong;
-            document.getElementById('opt-bowl').innerHTML = i18n[lang].optBowl;
-            document.getElementById('rest-title').innerHTML = i18n[lang].restTitle;
-            document.getElementById('rest-speech').innerHTML = i18n[lang].restSpeech;
-            document.getElementById('s-btn').innerHTML = i18n[lang].btnReturn;
+            document.getElementById('main-title').textContent = i18n[lang].mainTitle;
+            document.getElementById('status-text').textContent = i18n[lang].statusText;
+            document.getElementById('sound-label').textContent = i18n[lang].soundLabel;
+            document.getElementById('day-label').textContent = i18n[lang].dayLabel;
+            document.getElementById('opt-all').textContent = i18n[lang].optAll;
+            document.getElementById('opt-dig').textContent = i18n[lang].optDig;
+            document.getElementById('opt-gong').textContent = i18n[lang].optGong;
+            document.getElementById('opt-bowl').textContent = i18n[lang].optBowl;
+            document.getElementById('rest-title').textContent = i18n[lang].restTitle;
+            document.getElementById('rest-speech').textContent = i18n[lang].restSpeech;
+            document.getElementById('s-btn').textContent = i18n[lang].btnReturn;
+            breathHint.textContent = i18n[lang].breathHint;
+            pillWater.textContent = i18n[lang].pillWater;
+            pillBreath.textContent = i18n[lang].pillBreath;
             
-            musicBtn.innerHTML = musicAudio.paused ? i18n[lang].btnMusicOn : i18n[lang].btnMusicOff;
+            if (!breathRunning) {
+                breathCircle.textContent = i18n[lang].breathInhale;
+            }
+            
+            musicBtn.textContent = musicAudio.paused ? i18n[lang].btnMusicOn : i18n[lang].btnMusicOff;
 
             const exList = document.getElementById('exercises-list');
             exList.innerHTML = "";
@@ -349,7 +499,119 @@
                 exList.appendChild(li);
             });
 
-            updateStreakDisplay();
+            updateProgressUI();
+        }
+
+        // Сразу привязываем кнопки языков, чтобы работали мгновенно
+        document.getElementById('lang-ru').onclick = () => applyLanguage('ru');
+        document.getElementById('lang-de').onclick = () => applyLanguage('de');
+
+        musicAudio.src = MUSIC_URL;
+        try {
+            if (localStorage.getItem('chebu_weekday')) {
+                daySelect.value = localStorage.getItem('chebu_weekday');
+            }
+            if ('Notification' in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        } catch(e) {}
+
+        function getDateKey(offsetDays = 0) {
+            const d = new Date();
+            d.setDate(d.getDate() + offsetDays);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function getDailyProgress() {
+            const today = getDateKey(0);
+            try {
+                const saved = JSON.parse(localStorage.getItem('chebu_daily_progress') || '{}');
+                if (saved.date !== today) {
+                    const fresh = { date: today, water: false, breath: false, stretch: false, streakCounted: false };
+                    localStorage.setItem('chebu_daily_progress', JSON.stringify(fresh));
+                    return fresh;
+                }
+                return saved;
+            } catch(e) {
+                return { date: today, water: false, breath: false, stretch: false, streakCounted: false };
+            }
+        }
+
+        function setBalanceItem(type, value) {
+            const prog = getDailyProgress();
+            prog[type] = value;
+            try {
+                if (prog.water && prog.breath && prog.stretch && !prog.streakCounted) {
+                    prog.streakCounted = true;
+                    let days = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
+                    days++;
+                    localStorage.setItem('chebu_day_streak', days);
+                }
+                localStorage.setItem('chebu_daily_progress', JSON.stringify(prog));
+            } catch(e) {}
+            updateProgressUI();
+        }
+
+        function toggleBalanceItem(type) {
+            const prog = getDailyProgress();
+            setBalanceItem(type, !prog[type]);
+        }
+
+        function updateProgressUI() {
+            const prog = getDailyProgress();
+            let currentBio = 0, currentDays = 0;
+            try {
+                currentBio = parseInt(localStorage.getItem('chebu_streak')) || 0;
+                currentDays = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
+            } catch(e) {}
+
+            streakEl.textContent = `Bio-Score: ${currentBio}`;
+            dayStreakEl.textContent = `🔥 ${currentDays} ${i18n[currentLang].daySuffix}`;
+
+            badgeWater.classList.toggle('done', prog.water);
+            badgeBreath.classList.toggle('done', prog.breath);
+            badgeStretch.classList.toggle('done', prog.stretch);
+            pillWater.classList.toggle('checked', prog.water);
+            pillBreath.classList.toggle('checked', prog.breath);
+        }
+
+        badgeWater.onclick = () => toggleBalanceItem('water');
+        badgeBreath.onclick = () => toggleBalanceItem('breath');
+        badgeStretch.onclick = () => toggleBalanceItem('stretch');
+        pillWater.onclick = () => toggleBalanceItem('water');
+        pillBreath.onclick = () => toggleBalanceItem('breath');
+
+        function startBreathing() {
+            if (breathRunning) return;
+            breathRunning = true;
+            function cycle() {
+                if (!breathRunning) return;
+                breathCircle.textContent = i18n[currentLang].breathInhale;
+                breathCircle.className = 'breath-circle inhale';
+                const t1 = setTimeout(() => {
+                    if (!breathRunning) return;
+                    breathCircle.textContent = i18n[currentLang].breathHold;
+                    breathCircle.className = 'breath-circle hold';
+                    const t2 = setTimeout(() => {
+                        if (!breathRunning) return;
+                        breathCircle.textContent = i18n[currentLang].breathExhale;
+                        breathCircle.className = 'breath-circle exhale';
+                        const t3 = setTimeout(() => { if (breathRunning) cycle(); }, 6000);
+                        breathTimeouts.push(t3);
+                    }, 2000);
+                    breathTimeouts.push(t2);
+                }, 4000);
+                breathTimeouts.push(t1);
+            }
+            cycle();
+        }
+
+        function stopBreathing() {
+            breathRunning = false;
+            breathTimeouts.forEach(t => clearTimeout(t));
+            breathTimeouts = [];
+            breathCircle.className = 'breath-circle';
+            breathCircle.textContent = i18n[currentLang].breathInhale;
         }
 
         function format(seconds) {
@@ -357,20 +619,16 @@
             return `${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
         }
 
-        function updateStreakDisplay() {
-            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
-            streakEl.innerText = `Bio-Score: ${currentStreak}`;
-        }
-
         function incrementStreak() {
-            let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
-            currentStreak++;
-            localStorage.setItem('chebu_streak', currentStreak);
-            updateStreakDisplay();
+            try {
+                let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
+                localStorage.setItem('chebu_streak', currentStreak + 1);
+            } catch(e) {}
+            setBalanceItem('stretch', true);
         }
 
         function sendNotification(title, body) {
-            if (Notification.permission === "granted" && !notificationSent) {
+            if ('Notification' in window && Notification.permission === "granted" && !notificationSent) {
                 new Notification(title, { body: body });
                 notificationSent = true;
             }
@@ -383,14 +641,14 @@
             if (selectedValue !== "all" && parseInt(selectedValue) !== currentWeekday) {
                 const dayNamesRu = { "1": "Понедельника", "2": "Вторника", "3": "Среды", "4": "Четверга", "5": "Пятницы", "6": "Субботы", "0": "Воскресенья" };
                 const dayNamesDe = { "1": "Montag", "2": "Dienstag", "3": "Mittwoch", "4": "Donnerstag", "5": "Freitag", "6": "Samstag", "0": "Sonntag" };
-                
-                statusText.innerText = currentLang === 'ru' ? `Ожидание старта в день: ${dayNamesRu[selectedValue]}` : `Warten auf: ${dayNamesDe[selectedValue]}`;
-                wEl.innerText = "--:--";
+                statusText.textContent = currentLang === 'ru' ? `Ожидание старта: ${dayNamesRu[selectedValue]}` : `Warten auf: ${dayNamesDe[selectedValue]}`;
+                wEl.textContent = "--:--";
                 ovEl.classList.remove('active');
+                stopBreathing();
                 return;
             }
 
-            statusText.innerHTML = i18n[currentLang].statusText;
+            statusText.textContent = i18n[currentLang].statusText;
 
             const now = Math.floor(Date.now() / 1000);
             let endTime = parseInt(localStorage.getItem('chebu_endTime'));
@@ -409,17 +667,14 @@
                 if (mode === 'work') {
                     localStorage.setItem('chebu_mode', 'rest');
                     localStorage.setItem('chebu_endTime', now + REST_DURATION);
-                    
                     ovEl.classList.add('active');
-                    wEl.innerText = format(0);
-                    rEl.innerText = format(REST_DURATION);
-                    
-                    videoPlayer.play().catch(e => console.log("Ждем активность"));
-                    
+                    startBreathing();
+                    wEl.textContent = format(0);
+                    rEl.textContent = format(REST_DURATION);
+                    videoPlayer.play().catch(() => {});
                     alarmAudio.src = soundSelect.value;
                     alarmAudio.load(); 
-                    alarmAudio.play().catch(e => console.log("Блокировка автозвука браузером"));
-                    
+                    alarmAudio.play().catch(() => {});
                     sendNotification(i18n[currentLang].notifTitle, i18n[currentLang].notifBody);
                 } else {
                     incrementStreak();
@@ -428,11 +683,13 @@
             } else {
                 if (mode === 'work') {
                     ovEl.classList.remove('active');
-                    wEl.innerText = format(timeLeft);
+                    stopBreathing();
+                    wEl.textContent = format(timeLeft);
                     notificationSent = false;
                 } else {
                     ovEl.classList.add('active');
-                    rEl.innerText = format(timeLeft);
+                    startBreathing();
+                    rEl.textContent = format(timeLeft);
                 }
             }
         }
@@ -442,63 +699,51 @@
             localStorage.setItem('chebu_mode', 'work');
             localStorage.setItem('chebu_endTime', now + WORK_DURATION);
             ovEl.classList.remove('active');
-            
+            stopBreathing();
             musicAudio.pause();
             musicAudio.currentTime = 0;
             alarmAudio.pause();
             alarmAudio.currentTime = 0;
             videoPlayer.pause();
             videoPlayer.currentTime = 0;
-            
-            wEl.innerText = format(WORK_DURATION);
+            wEl.textContent = format(WORK_DURATION);
             notificationSent = false;
             applyLanguage(currentLang);
         }
 
-        document.getElementById('lang-ru').addEventListener('click', () => applyLanguage('ru'));
-        document.getElementById('lang-de').addEventListener('click', () => applyLanguage('de'));
-
-        daySelect.addEventListener('change', () => {
+        daySelect.onchange = () => {
             localStorage.setItem('chebu_weekday', daySelect.value);
             const currentWeekday = new Date().getDay();
             if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
                 startWorkMode();
             }
             updateTimer();
-        });
+        };
 
-        soundSelect.addEventListener('change', () => {
+        soundSelect.onchange = () => {
             alarmAudio.src = soundSelect.value;
             alarmAudio.load();
-            alarmAudio.play().catch(e => console.log("Нужен клик"));
+            alarmAudio.play().catch(() => {});
             setTimeout(() => { alarmAudio.pause(); alarmAudio.currentTime = 0; }, 2000);
-        });
+        };
 
-        function tick() {
-            updateTimer();
-            setTimeout(tick, 1000);
-        }
-        tick();
-
-        applyLanguage(currentLang);
-
-        musicBtn.addEventListener('click', () => {
+        musicBtn.onclick = () => {
             if (musicAudio.paused) {
-                musicAudio.play()
-                    .then(() => { musicBtn.innerHTML = i18n[currentLang].btnMusicOff; })
-                    .catch(e => console.log("Звук заблокирован"));
+                musicAudio.play().then(() => { musicBtn.textContent = i18n[currentLang].btnMusicOff; }).catch(() => {});
             } else {
                 musicAudio.pause();
-                musicBtn.innerHTML = i18n[currentLang].btnMusicOn;
+                musicBtn.textContent = i18n[currentLang].btnMusicOn;
             }
-        });
+        };
 
-        document.getElementById('s-btn').addEventListener('click', () => {
-            if (localStorage.getItem('chebu_mode') === 'rest') {
-                incrementStreak();
-            }
+        document.getElementById('s-btn').onclick = () => {
+            if (localStorage.getItem('chebu_mode') === 'rest') incrementStreak();
             startWorkMode();
-        });
+        };
+
+        applyLanguage(currentLang);
+        setInterval(updateTimer, 1000);
+        updateTimer();
     </script>
 </body>
 </html>
