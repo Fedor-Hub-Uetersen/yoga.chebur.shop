@@ -26,20 +26,22 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             margin: 0; 
-            overflow: hidden; 
+            padding: 15px 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .container { 
             position: relative;
             text-align: center; 
             background: var(--card); 
-            padding: 55px 35px 30px 35px; 
+            padding: 58px 30px 25px 30px; 
             border-radius: 20px; 
             border: 2px solid var(--accent);
             box-shadow: 0 0 25px rgba(255, 85, 0, 0.2), inset 0 0 15px rgba(255, 85, 0, 0.1); 
-            width: 390px; 
+            width: 395px; 
             max-width: 92vw;
             box-sizing: border-box;
         }
@@ -69,6 +71,7 @@
             box-shadow: 0 0 8px var(--music);
         }
 
+        /* Шапка прогресса и баллов */
         .stats-header {
             position: absolute;
             top: 12px;
@@ -79,6 +82,7 @@
             gap: 5px;
         }
         .score-row {
+            position: relative;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -91,6 +95,24 @@
             color: var(--music);
             text-shadow: 0 0 5px var(--music);
         }
+        .score-pop {
+            position: absolute;
+            right: 45px;
+            top: 18px;
+            color: var(--music);
+            font-weight: bold;
+            font-size: 13px;
+            text-shadow: 0 0 8px var(--music);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(0);
+            transition: opacity 0.6s, transform 0.6s;
+            z-index: 200;
+        }
+        .score-pop.show {
+            opacity: 1;
+            transform: translateY(-14px);
+        }
         .day-streak {
             color: var(--accent);
             text-shadow: 0 0 6px var(--accent);
@@ -102,52 +124,58 @@
         .daily-balance {
             display: flex;
             gap: 6px;
+            align-items: center;
         }
         .bal-badge {
-            font-size: 13px;
-            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 7px;
             border-radius: 8px;
             background: #1a1a24;
             border: 1px solid #333;
-            filter: grayscale(100%) opacity(0.45);
+            color: #aaa;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             user-select: none;
         }
-        .bal-badge.done {
-            filter: grayscale(0%) opacity(1);
+        .bal-badge:hover {
             border-color: var(--music);
-            background: rgba(0, 255, 102, 0.12);
-            box-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+            color: #fff;
+        }
+        .bal-badge.done {
+            border-color: var(--music);
+            color: #fff;
+            background: rgba(0, 255, 102, 0.14);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.45);
         }
 
         .logo-area {
-            margin-top: 12px;
-            margin-bottom: 18px;
+            margin-top: 8px;
+            margin-bottom: 14px;
         }
 
         .wolf-logo-placeholder {
-            font-size: 18px; 
+            font-size: 17px; 
             font-weight: bold;
             letter-spacing: 2px;
             color: #fff;
             text-shadow: var(--neon-glow);
             border: 1px dashed rgba(255, 85, 0, 0.4);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 10px;
             text-transform: uppercase;
         }
 
-        h1 { font-size: 24px; color: #fff; text-shadow: var(--neon-glow); margin: 12px 0 5px 0; text-transform: uppercase; }
-        .timer { font-size: 66px; font-weight: bold; margin: 8px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
-        .status { font-size: 14px; color: #8a8a93; letter-spacing: 1px; text-transform: uppercase; }
+        h1 { font-size: 22px; color: #fff; text-shadow: var(--neon-glow); margin: 10px 0 4px 0; text-transform: uppercase; }
+        .timer { font-size: 62px; font-weight: bold; margin: 6px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px #fff; }
+        .status { font-size: 13px; color: #8a8a93; letter-spacing: 1px; text-transform: uppercase; }
         
         .selectors-group {
-            margin: 15px 0 5px 0;
+            margin: 12px 0 8px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         .selector-item {
             display: flex;
@@ -171,10 +199,205 @@
             font-size: 13px;
             cursor: pointer;
             outline: none;
-            width: 85%;
+            width: 88%;
             text-align: center;
         }
 
+        /* БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ */
+        .habits-wrapper {
+            margin-top: 14px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .habits-toggle-btn {
+            background: #1a1a24;
+            color: #fff;
+            border: 1px solid var(--music);
+            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.15);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 88%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s;
+        }
+        .habits-toggle-btn:hover {
+            background: rgba(0, 255, 102, 0.12);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.35);
+        }
+        .habits-panel {
+            display: none;
+            width: 88%;
+            margin-top: 8px;
+            background: #16161d;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .habits-panel.open {
+            display: block;
+        }
+        .habit-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 175px;
+            overflow-y: auto;
+        }
+        .habit-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1e1e28;
+            padding: 7px 9px;
+            border-radius: 8px;
+            border: 1px solid #2c2c3a;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            gap: 6px;
+        }
+        .habit-item.due-now {
+            border-color: var(--accent);
+            background: rgba(255, 85, 0, 0.18);
+            box-shadow: 0 0 12px rgba(255, 85, 0, 0.5);
+            animation: pulseDue 1.5s infinite;
+        }
+        @keyframes pulseDue {
+            0%, 100% { box-shadow: 0 0 8px rgba(255, 85, 0, 0.4); }
+            50% { box-shadow: 0 0 18px rgba(255, 85, 0, 0.9); }
+        }
+        .habit-item.checked {
+            border-color: var(--music);
+            background: rgba(0, 255, 102, 0.1);
+            color: #a5d6a7;
+            animation: none;
+            box-shadow: none;
+        }
+        .habit-item.checked .habit-text {
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        .habit-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+        .habit-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid var(--accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #000;
+            flex-shrink: 0;
+        }
+        .habit-item.checked .habit-box {
+            background: var(--music);
+            border-color: var(--music);
+        }
+        .habit-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .habit-time-tag {
+            font-size: 11px;
+            color: #ffcc80;
+            background: rgba(255, 85, 0, 0.15);
+            border: 1px solid rgba(255, 85, 0, 0.35);
+            padding: 1px 5px;
+            border-radius: 5px;
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+        }
+        .habit-item.checked .habit-time-tag {
+            color: #8a8a93;
+            border-color: #333;
+            background: transparent;
+        }
+        .habit-pts {
+            font-size: 10px;
+            color: var(--music);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .habit-del {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0 3px;
+            flex-shrink: 0;
+        }
+        .habit-del:hover {
+            color: #ff5500;
+        }
+        .habit-add-row {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .habit-add-row input[type="text"] {
+            flex: 1;
+            min-width: 0;
+            background: #121216;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            outline: none;
+        }
+        .habit-add-row input[type="text"]:focus {
+            border-color: var(--accent);
+        }
+        .habit-add-row input[type="time"] {
+            background: #121216;
+            border: 1px solid #444;
+            color: #ffcc80;
+            padding: 5px 6px;
+            border-radius: 8px;
+            font-size: 11px;
+            outline: none;
+            color-scheme: dark;
+            cursor: pointer;
+        }
+        .habit-add-row input[type="time"]:focus {
+            border-color: var(--accent);
+        }
+        .habit-add-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 11px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* Оверлей Чебурашки */
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow-y: auto; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 15px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -274,7 +497,7 @@
         .btn-m:hover { background: var(--music); box-shadow: var(--neon-music); color: #000; }
 
         .footer-credits {
-            margin-top: 18px;
+            margin-top: 16px;
             font-size: 11px;
             color: #bbb;
             letter-spacing: 1px;
@@ -298,11 +521,12 @@
 
         <div class="stats-header">
             <div class="score-row">
+                <span class="score-pop" id="score-pop">+5!</span>
                 <span class="streak-counter" id="streak-display">Bio-Score: 0</span>
                 <span class="day-streak" id="day-streak-display">🔥 0 д.</span>
             </div>
             <div class="daily-balance">
-                <span class="bal-badge" id="badge-water">💧</span>
+                <span class="bal-badge" id="badge-water">💧 0/8</span>
                 <span class="bal-badge" id="badge-breath">🌬️</span>
                 <span class="bal-badge" id="badge-stretch">🧘</span>
             </div>
@@ -341,6 +565,22 @@
             </div>
         </div>
 
+        <!-- СВОРАЧИВАЕМЫЙ БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ -->
+        <div class="habits-wrapper">
+            <button type="button" class="habits-toggle-btn" id="habits-toggle">
+                <span id="habits-btn-label">☑️ Привычки дня (0/4)</span>
+                <span id="habits-arrow">▼</span>
+            </button>
+            <div class="habits-panel" id="habits-panel">
+                <ul class="habit-list" id="habit-list"></ul>
+                <div class="habit-add-row">
+                    <input type="text" id="new-habit-input" placeholder="Привычка...">
+                    <input type="time" id="new-habit-time" title="Время напоминания">
+                    <button type="button" class="habit-add-btn" id="add-habit-btn">+</button>
+                </div>
+            </div>
+        </div>
+
         <div class="footer-credits">
             © Tm.<a href="https://tech.chebur.shop" target="_blank">tech.chebur.shop</a> | <span class="neon-phone"><a href="tel:+49017661566343">+49017661566343</a></span>
         </div>
@@ -364,8 +604,8 @@
             <ul class="exercises" id="exercises-list"></ul>
 
             <div class="quick-checks">
-                <button type="button" class="check-pill" id="pill-water">💧 Выпил воды</button>
-                <button type="button" class="check-pill" id="pill-breath">🌬️ Подышал</button>
+                <button type="button" class="check-pill" id="pill-water">💧 +1 стакан воды (+5)</button>
+                <button type="button" class="check-pill" id="pill-breath">🌬️ Подышал (+10)</button>
             </div>
 
             <div class="btn-group">
@@ -400,10 +640,19 @@
                 btnMusicOn: "🎵 Включить музыку релакс", btnMusicOff: "⏸ Поставить на паузу",
                 btnReturn: "Вернуться в суету",
                 notifTitle: "Чебурашка зовёт!", notifBody: "Друг, пора размяться!",
+                habitNotifTitle: "Чебурашка напоминает! ⏰", habitNotifPrefix: "Пора выполнить:",
                 breathInhale: "Вдох", breathHold: "Пауза", breathExhale: "Выдох",
                 breathHint: "Ритм Ошо: 4с вдох • 2с пауза • 6с выдох",
                 daySuffix: "д.",
-                pillWater: "💧 Выпил воды", pillBreath: "🌬️ Подышал",
+                pillWater: "💧 +1 стакан воды (+5)", pillBreath: "🌬️ Подышал (+10)",
+                habitsLabel: "☑️ Привычки дня",
+                habitPlaceholder: "Привычка...",
+                defaultHabits: [
+                    { id: "h1", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+                    { id: "h2", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+                    { id: "h3", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
+                    { id: "h4", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+                ],
                 exercises: [
                     "👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.",
                     "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись лапами вверх.",
@@ -422,10 +671,19 @@
                 btnMusicOn: "🎵 Relax-Musik einschalten", btnMusicOff: "⏸ Pause",
                 btnReturn: "Zurück zur Arbeit",
                 notifTitle: "Tscheburaschka ruft!", notifBody: "Freund, Zeit für eine Pause!",
+                habitNotifTitle: "Tscheburaschka erinnert! ⏰", habitNotifPrefix: "Zeit für:",
                 breathInhale: "Einatmen", breathHold: "Halten", breathExhale: "Ausatmen",
                 breathHint: "Osho-Rhythmus: 4s ein • 2s halten • 6s aus",
                 daySuffix: "T.",
-                pillWater: "💧 Wasser getrunken", pillBreath: "🌬️ Geatmet",
+                pillWater: "💧 +1 Glas Wasser (+5)", pillBreath: "🌬️ Geatmet (+10)",
+                habitsLabel: "☑️ Tagesgewohnheiten",
+                habitPlaceholder: "Gewohnheit...",
+                defaultHabits: [
+                    { id: "h1", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+                    { id: "h2", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+                    { id: "h3", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
+                    { id: "h4", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+                ],
                 exercises: [
                     "👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.",
                     "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstrecken, die Arme nach oben ziehen.",
@@ -451,6 +709,7 @@
         const musicBtn = document.getElementById('m-btn');
         const streakEl = document.getElementById('streak-display');
         const dayStreakEl = document.getElementById('day-streak-display');
+        const scorePopEl = document.getElementById('score-pop');
         const soundSelect = document.getElementById('alarm-sound-select');
         const daySelect = document.getElementById('start-day-select');
         const breathCircle = document.getElementById('breath-circle');
@@ -460,6 +719,245 @@
         const badgeStretch = document.getElementById('badge-stretch');
         const pillWater = document.getElementById('pill-water');
         const pillBreath = document.getElementById('pill-breath');
+        const habitsToggle = document.getElementById('habits-toggle');
+        const habitsPanel = document.getElementById('habits-panel');
+        const habitsArrow = document.getElementById('habits-arrow');
+        const habitsBtnLabel = document.getElementById('habits-btn-label');
+        const habitListEl = document.getElementById('habit-list');
+        const newHabitInput = document.getElementById('new-habit-input');
+        const newHabitTime = document.getElementById('new-habit-time');
+        const addHabitBtn = document.getElementById('add-habit-btn');
+
+        function getDateKey(offsetDays = 0) {
+            const d = new Date();
+            d.setDate(d.getDate() + offsetDays);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function getCurrentHM() {
+            const d = new Date();
+            return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function getDailyProgress() {
+            const today = getDateKey(0);
+            try {
+                const saved = JSON.parse(localStorage.getItem('chebu_daily_progress') || '{}');
+                if (saved.date !== today) {
+                    const fresh = { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, streakCounted: false };
+                    localStorage.setItem('chebu_daily_progress', JSON.stringify(fresh));
+                    return fresh;
+                }
+                if (typeof saved.waterCount !== 'number') saved.waterCount = saved.water ? 1 : 0;
+                if (!saved.checkedHabits) saved.checkedHabits = {};
+                if (!saved.notifiedHabits) saved.notifiedHabits = {};
+                return saved;
+            } catch(e) {
+                return { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, streakCounted: false };
+            }
+        }
+
+        function saveDailyProgress(prog) {
+            try {
+                if (prog.waterCount > 0 && prog.breath && prog.stretch && !prog.streakCounted) {
+                    prog.streakCounted = true;
+                    let days = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
+                    days++;
+                    localStorage.setItem('chebu_day_streak', days);
+                    localStorage.setItem('chebu_last_completed_date', prog.date);
+                }
+                localStorage.setItem('chebu_daily_progress', JSON.stringify(prog));
+            } catch(e) {}
+        }
+
+        function addBioPoints(delta) {
+            try {
+                let current = parseInt(localStorage.getItem('chebu_streak')) || 0;
+                current = Math.max(0, current + delta);
+                localStorage.setItem('chebu_streak', current);
+            } catch(e) {}
+
+            if (delta !== 0) {
+                scorePopEl.textContent = delta > 0 ? `+${delta}!` : `${delta}`;
+                scorePopEl.style.color = delta > 0 ? 'var(--music)' : 'var(--accent)';
+                scorePopEl.classList.add('show');
+                setTimeout(() => scorePopEl.classList.remove('show'), 800);
+            }
+            updateProgressUI();
+        }
+
+        function getHabitsList() {
+            try {
+                const custom = JSON.parse(localStorage.getItem('chebu_habits_list'));
+                if (Array.isArray(custom) && custom.length > 0) return custom;
+            } catch(e) {}
+            return i18n.ru.defaultHabits;
+        }
+
+        function saveHabitsList(list) {
+            try { localStorage.setItem('chebu_habits_list', JSON.stringify(list)); } catch(e) {}
+        }
+
+        function renderHabits() {
+            const habits = getHabitsList();
+            const prog = getDailyProgress();
+            const nowHM = getCurrentHM();
+            habitListEl.innerHTML = "";
+            let doneCount = 0;
+
+            habits.forEach(h => {
+                const isDone = !!prog.checkedHabits[h.id];
+                if (isDone) doneCount++;
+
+                const isDueNow = !isDone && h.time && h.time === nowHM;
+
+                const li = document.createElement('li');
+                li.className = 'habit-item' + (isDone ? ' checked' : '') + (isDueNow ? ' due-now' : '');
+                
+                const title = h[currentLang] || h.ru || h.text;
+                const timeTag = h.time ? `<span class="habit-time-tag">⏰ ${h.time}</span>` : '';
+
+                li.innerHTML = `
+                    <div class="habit-left">
+                        <span class="habit-box">${isDone ? '✓' : ''}</span>
+                        <span class="habit-text" title="${title}">${title}</span>
+                    </div>
+                    ${timeTag}
+                    <span class="habit-pts">+${h.pts || 10}</span>
+                    <button type="button" class="habit-del" title="Удалить">×</button>
+                `;
+
+                li.querySelector('.habit-left').onclick = () => {
+                    const p = getDailyProgress();
+                    const nowDone = !p.checkedHabits[h.id];
+                    p.checkedHabits[h.id] = nowDone;
+                    saveDailyProgress(p);
+                    addBioPoints(nowDone ? (h.pts || 10) : -(h.pts || 10));
+                    renderHabits();
+                };
+
+                li.querySelector('.habit-del').onclick = (e) => {
+                    e.stopPropagation();
+                    const updated = getHabitsList().filter(item => item.id !== h.id);
+                    saveHabitsList(updated);
+                    renderHabits();
+                };
+
+                habitListEl.appendChild(li);
+            });
+
+            habitsBtnLabel.textContent = `${i18n[currentLang].habitsLabel} (${doneCount}/${habits.length})`;
+        }
+
+        // Проверка наступления времени для привычек
+        function checkHabitAlarms() {
+            const habits = getHabitsList();
+            const prog = getDailyProgress();
+            const nowHM = getCurrentHM();
+            let triggered = false;
+
+            habits.forEach(h => {
+                if (h.time && h.time === nowHM && !prog.checkedHabits[h.id] && !prog.notifiedHabits[h.id]) {
+                    prog.notifiedHabits[h.id] = true;
+                    triggered = true;
+
+                    // Раскрываем панель привычек, чтобы сразу было видно, что пора делать
+                    habitsPanel.classList.add('open');
+                    habitsArrow.textContent = '▲';
+
+                    // Звук гонга
+                    alarmAudio.src = soundSelect.value;
+                    alarmAudio.load();
+                    alarmAudio.play().catch(() => {});
+
+                    // Системное уведомление
+                    const title = h[currentLang] || h.ru || h.text;
+                    if ('Notification' in window && Notification.permission === "granted") {
+                        new Notification(i18n[currentLang].habitNotifTitle, {
+                            body: `${i18n[currentLang].habitNotifPrefix} ${title}`
+                        });
+                    }
+                }
+            });
+
+            if (triggered) {
+                saveDailyProgress(prog);
+                renderHabits();
+            }
+        }
+
+        habitsToggle.onclick = () => {
+            const isOpen = habitsPanel.classList.toggle('open');
+            habitsArrow.textContent = isOpen ? '▲' : '▼';
+        };
+
+        function handleAddHabit() {
+            const val = newHabitInput.value.trim();
+            if (!val) return;
+            const timeVal = newHabitTime.value || "";
+            const list = getHabitsList();
+            list.push({ id: 'h_' + Date.now(), ru: val, de: val, time: timeVal, pts: 10 });
+            saveHabitsList(list);
+            newHabitInput.value = '';
+            newHabitTime.value = '';
+            renderHabits();
+        }
+
+        addHabitBtn.onclick = handleAddHabit;
+        newHabitInput.onkeydown = (e) => { if (e.key === 'Enter') handleAddHabit(); };
+
+        function drinkWater() {
+            const prog = getDailyProgress();
+            if (prog.waterCount < 8) {
+                prog.waterCount++;
+                saveDailyProgress(prog);
+                addBioPoints(5);
+            } else {
+                prog.waterCount = 0;
+                saveDailyProgress(prog);
+                updateProgressUI();
+            }
+        }
+
+        function toggleBreathBadge() {
+            const prog = getDailyProgress();
+            prog.breath = !prog.breath;
+            saveDailyProgress(prog);
+            addBioPoints(prog.breath ? 10 : -10);
+        }
+
+        function toggleStretchBadge() {
+            const prog = getDailyProgress();
+            prog.stretch = !prog.stretch;
+            saveDailyProgress(prog);
+            addBioPoints(prog.stretch ? 15 : -15);
+        }
+
+        badgeWater.onclick = drinkWater;
+        pillWater.onclick = drinkWater;
+        badgeBreath.onclick = toggleBreathBadge;
+        pillBreath.onclick = toggleBreathBadge;
+        badgeStretch.onclick = toggleStretchBadge;
+
+        function updateProgressUI() {
+            const prog = getDailyProgress();
+            let currentBio = 0, currentDays = 0;
+            try {
+                currentBio = parseInt(localStorage.getItem('chebu_streak')) || 0;
+                currentDays = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
+            } catch(e) {}
+
+            streakEl.textContent = `Bio-Score: ${currentBio}`;
+            dayStreakEl.textContent = `🔥 ${currentDays} ${i18n[currentLang].daySuffix}`;
+
+            badgeWater.textContent = `💧 ${prog.waterCount}/8`;
+            badgeWater.classList.toggle('done', prog.waterCount > 0);
+            badgeBreath.classList.toggle('done', prog.breath);
+            badgeStretch.classList.toggle('done', prog.stretch);
+
+            pillWater.classList.toggle('checked', prog.waterCount > 0);
+            pillBreath.classList.toggle('checked', prog.breath);
+        }
 
         function applyLanguage(lang) {
             if (!i18n[lang]) lang = 'ru';
@@ -484,6 +982,7 @@
             breathHint.textContent = i18n[lang].breathHint;
             pillWater.textContent = i18n[lang].pillWater;
             pillBreath.textContent = i18n[lang].pillBreath;
+            newHabitInput.placeholder = i18n[lang].habitPlaceholder;
             
             if (!breathRunning) {
                 breathCircle.textContent = i18n[lang].breathInhale;
@@ -499,10 +998,10 @@
                 exList.appendChild(li);
             });
 
+            renderHabits();
             updateProgressUI();
         }
 
-        // Сразу привязываем кнопки языков, чтобы работали мгновенно
         document.getElementById('lang-ru').onclick = () => applyLanguage('ru');
         document.getElementById('lang-de').onclick = () => applyLanguage('de');
 
@@ -515,71 +1014,6 @@
                 Notification.requestPermission();
             }
         } catch(e) {}
-
-        function getDateKey(offsetDays = 0) {
-            const d = new Date();
-            d.setDate(d.getDate() + offsetDays);
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        }
-
-        function getDailyProgress() {
-            const today = getDateKey(0);
-            try {
-                const saved = JSON.parse(localStorage.getItem('chebu_daily_progress') || '{}');
-                if (saved.date !== today) {
-                    const fresh = { date: today, water: false, breath: false, stretch: false, streakCounted: false };
-                    localStorage.setItem('chebu_daily_progress', JSON.stringify(fresh));
-                    return fresh;
-                }
-                return saved;
-            } catch(e) {
-                return { date: today, water: false, breath: false, stretch: false, streakCounted: false };
-            }
-        }
-
-        function setBalanceItem(type, value) {
-            const prog = getDailyProgress();
-            prog[type] = value;
-            try {
-                if (prog.water && prog.breath && prog.stretch && !prog.streakCounted) {
-                    prog.streakCounted = true;
-                    let days = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
-                    days++;
-                    localStorage.setItem('chebu_day_streak', days);
-                }
-                localStorage.setItem('chebu_daily_progress', JSON.stringify(prog));
-            } catch(e) {}
-            updateProgressUI();
-        }
-
-        function toggleBalanceItem(type) {
-            const prog = getDailyProgress();
-            setBalanceItem(type, !prog[type]);
-        }
-
-        function updateProgressUI() {
-            const prog = getDailyProgress();
-            let currentBio = 0, currentDays = 0;
-            try {
-                currentBio = parseInt(localStorage.getItem('chebu_streak')) || 0;
-                currentDays = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
-            } catch(e) {}
-
-            streakEl.textContent = `Bio-Score: ${currentBio}`;
-            dayStreakEl.textContent = `🔥 ${currentDays} ${i18n[currentLang].daySuffix}`;
-
-            badgeWater.classList.toggle('done', prog.water);
-            badgeBreath.classList.toggle('done', prog.breath);
-            badgeStretch.classList.toggle('done', prog.stretch);
-            pillWater.classList.toggle('checked', prog.water);
-            pillBreath.classList.toggle('checked', prog.breath);
-        }
-
-        badgeWater.onclick = () => toggleBalanceItem('water');
-        badgeBreath.onclick = () => toggleBalanceItem('breath');
-        badgeStretch.onclick = () => toggleBalanceItem('stretch');
-        pillWater.onclick = () => toggleBalanceItem('water');
-        pillBreath.onclick = () => toggleBalanceItem('breath');
 
         function startBreathing() {
             if (breathRunning) return;
@@ -619,12 +1053,11 @@
             return `${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
         }
 
-        function incrementStreak() {
-            try {
-                let currentStreak = parseInt(localStorage.getItem('chebu_streak')) || 0;
-                localStorage.setItem('chebu_streak', currentStreak + 1);
-            } catch(e) {}
-            setBalanceItem('stretch', true);
+        function completeStretchSession() {
+            const prog = getDailyProgress();
+            prog.stretch = true;
+            saveDailyProgress(prog);
+            addBioPoints(15);
         }
 
         function sendNotification(title, body) {
@@ -635,6 +1068,8 @@
         }
 
         function updateTimer() {
+            checkHabitAlarms();
+
             const currentWeekday = new Date().getDay(); 
             const selectedValue = daySelect.value;
 
@@ -677,7 +1112,7 @@
                     alarmAudio.play().catch(() => {});
                     sendNotification(i18n[currentLang].notifTitle, i18n[currentLang].notifBody);
                 } else {
-                    incrementStreak();
+                    completeStretchSession();
                     startWorkMode();
                 }
             } else {
@@ -737,7 +1172,7 @@
         };
 
         document.getElementById('s-btn').onclick = () => {
-            if (localStorage.getItem('chebu_mode') === 'rest') incrementStreak();
+            if (localStorage.getItem('chebu_mode') === 'rest') completeStretchSession();
             startWorkMode();
         };
 
