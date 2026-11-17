@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
             background: var(--bg); 
             color: var(--text); 
             display: flex; 
-            flex-direction: column;
+            flex-direction: column; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
@@ -34,7 +34,7 @@
         }
 
         .container { 
-            position: relative;
+            position: relative; 
             text-align: center; 
             background: var(--card); 
             padding: 58px 30px 25px 30px; 
@@ -51,14 +51,14 @@
             top: 15px;
             left: 18px;
             display: flex;
-            gap: 6px;
+            gap: 5px;
             z-index: 100;
         }
         .lang-btn {
             background: #1a1a24;
             border: 1px solid #444;
             color: #8a8a93;
-            padding: 4px 10px;
+            padding: 4px 8px;
             font-size: 11px;
             border-radius: 5px;
             cursor: pointer;
@@ -515,7 +515,8 @@
 
     <div class="container">
         <div class="lang-switcher">
-            <button type="button" class="lang-btn active" id="lang-ru">RU</button>
+            <button type="button" class="lang-btn active" id="lang-en">EN</button>
+            <button type="button" class="lang-btn" id="lang-ru">RU</button>
             <button type="button" class="lang-btn" id="lang-de">DE</button>
         </div>
 
@@ -523,7 +524,7 @@
             <div class="score-row">
                 <span class="score-pop" id="score-pop">+5!</span>
                 <span class="streak-counter" id="streak-display">Bio-Score: 0</span>
-                <span class="day-streak" id="day-streak-display">🔥 0 д.</span>
+                <span class="day-streak" id="day-streak-display">🔥 0 d.</span>
             </div>
             <div class="daily-balance">
                 <span class="bal-badge" id="badge-water">💧 0/8</span>
@@ -536,31 +537,31 @@
             <div class="wolf-logo-placeholder">TECH.CHEBUR.SHOP</div>
         </div>
 
-        <h1 id="main-title">Время работать ✨</h1>
-        <div class="status" id="status-text">До разминки осталось:</div>
+        <h1 id="main-title">Time to Work ✨</h1>
+        <div class="status" id="status-text">Time until break:</div>
         <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">60:00</div>
         
         <div class="selectors-group">
             <div class="selector-item">
-                <label for="start-day-select" id="day-label">📅 День для зарядки:</label>
+                <label for="start-day-select" id="day-label">📅 Yoga Day:</label>
                 <select id="start-day-select">
-                    <option value="all" id="opt-all">Каждый день (Всегда активна)</option>
-                    <option value="1">Понедельник / Montag</option>
-                    <option value="2">Вторник / Dienstag</option>
-                    <option value="3">Среда / Mittwoch</option>
-                    <option value="4">Четверг / Donnerstag</option>
-                    <option value="5">Пятница / Freitag</option>
-                    <option value="6">Суббота / Samstag</option>
-                    <option value="0">Воскресенье / Sonntag</option>
+                    <option value="all" id="opt-all">Every Day (Always Active)</option>
+                    <option value="1" id="opt-d1">Monday</option>
+                    <option value="2" id="opt-d2">Tuesday</option>
+                    <option value="3" id="opt-d3">Wednesday</option>
+                    <option value="4" id="opt-d4">Thursday</option>
+                    <option value="5" id="opt-d5">Friday</option>
+                    <option value="6" id="opt-d6">Saturday</option>
+                    <option value="0" id="opt-d0">Sunday</option>
                 </select>
             </div>
 
             <div class="selector-item">
-                <label for="alarm-sound-select" id="sound-label">🔔 Сигнал разминки:</label>
+                <label for="alarm-sound-select" id="sound-label">🔔 Break Signal:</label>
                 <select id="alarm-sound-select">
-                    <option value="digital.mp3" id="opt-dig">Цифровой сигнал</option>
-                    <option value="gong.mp3" id="opt-gong" selected>Космический гонг</option>
-                    <option value="bowl.mp3" id="opt-bowl">Тибетская чаша</option>
+                    <option value="digital.mp3" id="opt-dig">Digital Signal</option>
+                    <option value="gong.mp3" id="opt-gong" selected>Cosmic Gong</option>
+                    <option value="bowl.mp3" id="opt-bowl">Tibetan Bowl</option>
                 </select>
             </div>
         </div>
@@ -568,14 +569,14 @@
         <!-- СВОРАЧИВАЕМЫЙ БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ -->
         <div class="habits-wrapper">
             <button type="button" class="habits-toggle-btn" id="habits-toggle">
-                <span id="habits-btn-label">☑️ Привычки дня (0/4)</span>
+                <span id="habits-btn-label">☑️ Daily Habits (0/4)</span>
                 <span id="habits-arrow">▼</span>
             </button>
             <div class="habits-panel" id="habits-panel">
                 <ul class="habit-list" id="habit-list"></ul>
                 <div class="habit-add-row">
-                    <input type="text" id="new-habit-input" placeholder="Привычка...">
-                    <input type="time" id="new-habit-time" title="Время напоминания">
+                    <input type="text" id="new-habit-input" placeholder="New habit...">
+                    <input type="time" id="new-habit-time" title="Reminder time">
                     <button type="button" class="habit-add-btn" id="add-habit-btn">+</button>
                 </div>
             </div>
@@ -592,25 +593,25 @@
                 <source src="video.mp4" type="video/mp4">
             </video>
             
-            <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 4px 0;">Время разминки! 🧘‍♂️</h2>
-            <div class="speech" id="rest-speech">«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»</div>
+            <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 4px 0;">Break Time! 🧘‍♂️</h2>
+            <div class="speech" id="rest-speech">«Take a deep breath and stretch your shoulders!»</div>
             <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 50px; margin: 2px 0;">05:00</div>
             
             <div class="breath-box">
-                <div class="breath-circle" id="breath-circle">Вдох</div>
-                <div class="breath-hint" id="breath-hint">Ритм Ошо: 4с вдох • 2с пауза • 6с выдох</div>
+                <div class="breath-circle" id="breath-circle">Inhale</div>
+                <div class="breath-hint" id="breath-hint">Osho Rhythm: 4s inhale • 2s hold • 6s exhale</div>
             </div>
 
             <ul class="exercises" id="exercises-list"></ul>
 
             <div class="quick-checks">
-                <button type="button" class="check-pill" id="pill-water">💧 +1 стакан воды (+5)</button>
-                <button type="button" class="check-pill" id="pill-breath">🌬️ Подышал (+10)</button>
+                <button type="button" class="check-pill" id="pill-water">💧 +1 Glass of Water (+5)</button>
+                <button type="button" class="check-pill" id="pill-breath">🌬️ Breathed (+10)</button>
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-m" id="m-btn">🎵 Включить музыку релакс</button>
-                <button type="button" class="btn" id="s-btn">Вернуться в суету</button>
+                <button type="button" class="btn btn-m" id="m-btn">🎵 Play Relax Music</button>
+                <button type="button" class="btn" id="s-btn">Back to Work</button>
             </div>
 
             <div class="footer-credits" style="color: #888; margin-top: 8px;">
@@ -628,12 +629,48 @@
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
 
         const i18n = {
+            en: {
+                mainTitle: "Time to Work ✨",
+                statusText: "Time until break:",
+                soundLabel: "🔔 Break Signal:",
+                dayLabel: "📅 Yoga Day:",
+                optAll: "Every Day (Always Active)",
+                days: { "1": "Monday", "2": "Tuesday", "3": "Wednesday", "4": "Thursday", "5": "Friday", "6": "Saturday", "0": "Sunday" },
+                waitPrefix: "Waiting for:",
+                optDig: "Digital Signal", optGong: "Cosmic Gong", optBowl: "Tibetan Bowl",
+                restTitle: "Break Time! 🧘‍♂️",
+                restSpeech: "«Take a deep breath and stretch your shoulders!»",
+                btnMusicOn: "🎵 Play Relax Music", btnMusicOff: "⏸ Pause Music",
+                btnReturn: "Back to Work",
+                notifTitle: "Cheburashka calls!", notifBody: "Friend, time to stretch!",
+                habitNotifTitle: "Cheburashka reminds you! ⏰", habitNotifPrefix: "Time for:",
+                breathInhale: "Inhale", breathHold: "Hold", breathExhale: "Exhale",
+                breathHint: "Osho Rhythm: 4s inhale • 2s hold • 6s exhale",
+                daySuffix: "d.",
+                pillWater: "💧 +1 Glass of Water (+5)", pillBreath: "🌬️ Breathed (+10)",
+                habitsLabel: "☑️ Daily Habits",
+                habitPlaceholder: "New habit...",
+                removeTitle: "Remove",
+                defaultHabits: [
+                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
+                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+                ],
+                exercises: [
+                    "👀 <strong>Eyes:</strong> Close your eyes for 10 seconds, then look far into the distance.",
+                    "🧘‍♂️ <strong>Back:</strong> Stand up straight and stretch your arms high above your head.",
+                    "💧 <strong>Water:</strong> Take a few sips of fresh, clean water."
+                ]
+            },
             ru: {
                 mainTitle: "Время работать ✨",
                 statusText: "До разминки осталось:",
                 soundLabel: "🔔 Сигнал разминки:",
                 dayLabel: "📅 День для зарядки:",
                 optAll: "Каждый день (Всегда активна)",
+                days: { "1": "Понедельник", "2": "Вторник", "3": "Среда", "4": "Четверг", "5": "Пятница", "6": "Суббота", "0": "Воскресенье" },
+                waitPrefix: "Ожидание старта:",
                 optDig: "Цифровой сигнал", optGong: "Космический гонг", optBowl: "Тибетская чаша",
                 restTitle: "Время разминки! 🧘‍♂️",
                 restSpeech: "«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»",
@@ -647,11 +684,12 @@
                 pillWater: "💧 +1 стакан воды (+5)", pillBreath: "🌬️ Подышал (+10)",
                 habitsLabel: "☑️ Привычки дня",
                 habitPlaceholder: "Привычка...",
+                removeTitle: "Удалить",
                 defaultHabits: [
-                    { id: "h1", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-                    { id: "h2", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
-                    { id: "h3", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
-                    { id: "h4", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
+                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
                 ],
                 exercises: [
                     "👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.",
@@ -665,6 +703,8 @@
                 soundLabel: "🔔 Pausensignal:",
                 dayLabel: "📅 Wochentag für Yoga:",
                 optAll: "Jeden Tag (Immer aktiv)",
+                days: { "1": "Montag", "2": "Dienstag", "3": "Mittwoch", "4": "Donnerstag", "5": "Freitag", "6": "Samstag", "0": "Sonntag" },
+                waitPrefix: "Warten auf:",
                 optDig: "Digitaler Alarm", optGong: "Weltraum-Gong", optBowl: "Tibetische Schale",
                 restTitle: "Zeit für die Pause! 🧘‍♂️",
                 restSpeech: "«Gena, entbasic-e dich... Atme tief ein und strecke dich!»",
@@ -678,11 +718,12 @@
                 pillWater: "💧 +1 Glas Wasser (+5)", pillBreath: "🌬️ Geatmet (+10)",
                 habitsLabel: "☑️ Tagesgewohnheiten",
                 habitPlaceholder: "Gewohnheit...",
+                removeTitle: "Entfernen",
                 defaultHabits: [
-                    { id: "h1", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-                    { id: "h2", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
-                    { id: "h3", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
-                    { id: "h4", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
+                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
                 ],
                 exercises: [
                     "👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.",
@@ -692,8 +733,8 @@
             }
         };
 
-        let currentLang = 'ru';
-        try { currentLang = localStorage.getItem('chebu_lang') || 'ru'; } catch(e) {}
+        let currentLang = 'en';
+        try { currentLang = localStorage.getItem('chebu_lang') || 'en'; } catch(e) {}
         
         let notificationSent = false;
         let breathRunning = false;
@@ -791,11 +832,15 @@
                 const custom = JSON.parse(localStorage.getItem('chebu_habits_list'));
                 if (Array.isArray(custom) && custom.length > 0) return custom;
             } catch(e) {}
-            return i18n.ru.defaultHabits;
+            return i18n.en.defaultHabits;
         }
 
         function saveHabitsList(list) {
             try { localStorage.setItem('chebu_habits_list', JSON.stringify(list)); } catch(e) {}
+        }
+
+        function getHabitTitle(h) {
+            return h[currentLang] || h.en || h.ru || h.de || h.text;
         }
 
         function renderHabits() {
@@ -814,7 +859,7 @@
                 const li = document.createElement('li');
                 li.className = 'habit-item' + (isDone ? ' checked' : '') + (isDueNow ? ' due-now' : '');
                 
-                const title = h[currentLang] || h.ru || h.text;
+                const title = getHabitTitle(h);
                 const timeTag = h.time ? `<span class="habit-time-tag">⏰ ${h.time}</span>` : '';
 
                 li.innerHTML = `
@@ -824,7 +869,7 @@
                     </div>
                     ${timeTag}
                     <span class="habit-pts">+${h.pts || 10}</span>
-                    <button type="button" class="habit-del" title="Удалить">×</button>
+                    <button type="button" class="habit-del" title="${i18n[currentLang].removeTitle}">×</button>
                 `;
 
                 li.querySelector('.habit-left').onclick = () => {
@@ -849,7 +894,6 @@
             habitsBtnLabel.textContent = `${i18n[currentLang].habitsLabel} (${doneCount}/${habits.length})`;
         }
 
-        // Проверка наступления времени для привычек
         function checkHabitAlarms() {
             const habits = getHabitsList();
             const prog = getDailyProgress();
@@ -861,17 +905,14 @@
                     prog.notifiedHabits[h.id] = true;
                     triggered = true;
 
-                    // Раскрываем панель привычек, чтобы сразу было видно, что пора делать
                     habitsPanel.classList.add('open');
                     habitsArrow.textContent = '▲';
 
-                    // Звук гонга
                     alarmAudio.src = soundSelect.value;
                     alarmAudio.load();
                     alarmAudio.play().catch(() => {});
 
-                    // Системное уведомление
-                    const title = h[currentLang] || h.ru || h.text;
+                    const title = getHabitTitle(h);
                     if ('Notification' in window && Notification.permission === "granted") {
                         new Notification(i18n[currentLang].habitNotifTitle, {
                             body: `${i18n[currentLang].habitNotifPrefix} ${title}`
@@ -896,7 +937,7 @@
             if (!val) return;
             const timeVal = newHabitTime.value || "";
             const list = getHabitsList();
-            list.push({ id: 'h_' + Date.now(), ru: val, de: val, time: timeVal, pts: 10 });
+            list.push({ id: 'h_' + Date.now(), en: val, ru: val, de: val, time: timeVal, pts: 10 });
             saveHabitsList(list);
             newHabitInput.value = '';
             newHabitTime.value = '';
@@ -960,11 +1001,12 @@
         }
 
         function applyLanguage(lang) {
-            if (!i18n[lang]) lang = 'ru';
+            if (!i18n[lang]) lang = 'en';
             currentLang = lang;
             try { localStorage.setItem('chebu_lang', lang); } catch(e) {}
             document.documentElement.lang = lang;
 
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
             document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
             document.getElementById('lang-de').classList.toggle('active', lang === 'de');
 
@@ -973,6 +1015,12 @@
             document.getElementById('sound-label').textContent = i18n[lang].soundLabel;
             document.getElementById('day-label').textContent = i18n[lang].dayLabel;
             document.getElementById('opt-all').textContent = i18n[lang].optAll;
+            
+            ["1", "2", "3", "4", "5", "6", "0"].forEach(d => {
+                const opt = document.getElementById(`opt-d${d}`);
+                if (opt) opt.textContent = i18n[lang].days[d];
+            });
+
             document.getElementById('opt-dig').textContent = i18n[lang].optDig;
             document.getElementById('opt-gong').textContent = i18n[lang].optGong;
             document.getElementById('opt-bowl').textContent = i18n[lang].optBowl;
@@ -1002,6 +1050,7 @@
             updateProgressUI();
         }
 
+        document.getElementById('lang-en').onclick = () => applyLanguage('en');
         document.getElementById('lang-ru').onclick = () => applyLanguage('ru');
         document.getElementById('lang-de').onclick = () => applyLanguage('de');
 
@@ -1074,9 +1123,9 @@
             const selectedValue = daySelect.value;
 
             if (selectedValue !== "all" && parseInt(selectedValue) !== currentWeekday) {
-                const dayNamesRu = { "1": "Понедельника", "2": "Вторника", "3": "Среды", "4": "Четверга", "5": "Пятницы", "6": "Субботы", "0": "Воскресенья" };
-                const dayNamesDe = { "1": "Montag", "2": "Dienstag", "3": "Mittwoch", "4": "Donnerstag", "5": "Freitag", "6": "Samstag", "0": "Sonntag" };
-                statusText.textContent = currentLang === 'ru' ? `Ожидание старта: ${dayNamesRu[selectedValue]}` : `Warten auf: ${dayNamesDe[selectedValue]}`;
+                const dayNamesRuGen = { "1": "Понедельника", "2": "Вторника", "3": "Среды", "4": "Четверга", "5": "Пятницы", "6": "Субботы", "0": "Воскресенья" };
+                const dayLabel = currentLang === 'ru' ? dayNamesRuGen[selectedValue] : i18n[currentLang].days[selectedValue];
+                statusText.textContent = `${i18n[currentLang].waitPrefix} ${dayLabel}`;
                 wEl.textContent = "--:--";
                 ovEl.classList.remove('active');
                 stopBreathing();
