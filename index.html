@@ -397,7 +397,7 @@
             flex-shrink: 0;
         }
 
-        /* Оверлей Чебурашки */
+        /* Экран разминки */
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow-y: auto; }
         .overlay.active { opacity: 1; pointer-events: auto; }
         .content { text-align: center; max-width: 600px; padding: 15px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -405,6 +405,7 @@
         .my-video {
             width: 290px;
             height: 162px;
+            object-fit: cover;
             border-radius: 15px;
             border: 2px solid var(--accent);
             box-shadow: var(--neon-glow);
@@ -523,7 +524,7 @@
         <div class="stats-header">
             <div class="score-row">
                 <span class="score-pop" id="score-pop">+5!</span>
-                <span class="streak-counter" id="streak-display">Bio-Score: 0</span>
+                <span class="streak-counter" id="streak-display">Day-Score: 0</span>
                 <span class="day-streak" id="day-streak-display">🔥 0 d.</span>
             </div>
             <div class="daily-balance">
@@ -589,7 +590,7 @@
 
     <div class="overlay" id="overlay">
         <div class="content">
-            <video class="my-video" id="yoga-video" controls preload="auto" loop muted>
+            <video class="my-video" id="yoga-video" autoplay loop muted playsinline preload="auto">
                 <source src="video.mp4" type="video/mp4">
             </video>
             
@@ -628,6 +629,13 @@
         const REST_DURATION = 300;  
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
 
+        const defaultHabitsData = [
+            { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
+            { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
+            { id: "h3", en: "🍵 Cup of Herbal Tea", ru: "🍵 Чашка ароматного чая", de: "🍵 Tasse Kräutertee", time: "16:00", pts: 10 },
+            { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
+        ];
+
         const i18n = {
             en: {
                 mainTitle: "Time to Work ✨",
@@ -639,11 +647,11 @@
                 waitPrefix: "Waiting for:",
                 optDig: "Digital Signal", optGong: "Cosmic Gong", optBowl: "Tibetan Bowl",
                 restTitle: "Break Time! 🧘‍♂️",
-                restSpeech: "«Take a deep breath and stretch your shoulders!»",
+                restSpeech: "«Time to reset... Take a deep breath and stretch your shoulders!»",
                 btnMusicOn: "🎵 Play Relax Music", btnMusicOff: "⏸ Pause Music",
                 btnReturn: "Back to Work",
-                notifTitle: "Cheburashka calls!", notifBody: "Friend, time to stretch!",
-                habitNotifTitle: "Cheburashka reminds you! ⏰", habitNotifPrefix: "Time for:",
+                notifTitle: "Yoga Break!", notifBody: "Friend, time to stretch!",
+                habitNotifTitle: "Daily Reminder ⏰", habitNotifPrefix: "Time for:",
                 breathInhale: "Inhale", breathHold: "Hold", breathExhale: "Exhale",
                 breathHint: "Osho Rhythm: 4s inhale • 2s hold • 6s exhale",
                 daySuffix: "d.",
@@ -651,12 +659,6 @@
                 habitsLabel: "☑️ Daily Habits",
                 habitPlaceholder: "New habit...",
                 removeTitle: "Remove",
-                defaultHabits: [
-                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
-                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
-                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
-                ],
                 exercises: [
                     "👀 <strong>Eyes:</strong> Close your eyes for 10 seconds, then look far into the distance.",
                     "🧘‍♂️ <strong>Back:</strong> Stand up straight and stretch your arms high above your head.",
@@ -673,27 +675,21 @@
                 waitPrefix: "Ожидание старта:",
                 optDig: "Цифровой сигнал", optGong: "Космический гонг", optBowl: "Тибетская чаша",
                 restTitle: "Время разминки! 🧘‍♂️",
-                restSpeech: "«Ген, заbasic-уйся... Вдохни поглубже и расправь плечи!»",
+                restSpeech: "«Время перезагрузки... Вдохни поглубже и расправь плечи!»",
                 btnMusicOn: "🎵 Включить музыку релакс", btnMusicOff: "⏸ Поставить на паузу",
                 btnReturn: "Вернуться в суету",
-                notifTitle: "Чебурашка зовёт!", notifBody: "Друг, пора размяться!",
-                habitNotifTitle: "Чебурашка напоминает! ⏰", habitNotifPrefix: "Пора выполнить:",
+                notifTitle: "Время разминки!", notifBody: "Друг, пора размяться!",
+                habitNotifTitle: "Напоминание о привычке ⏰", habitNotifPrefix: "Пора выполнить:",
                 breathInhale: "Вдох", breathHold: "Пауза", breathExhale: "Выдох",
                 breathHint: "Ритм Ошо: 4с вдох • 2с пауза • 6с выдох",
                 daySuffix: "д.",
                 pillWater: "💧 +1 стакан воды (+5)", pillBreath: "🌬️ Подышал (+10)",
                 habitsLabel: "☑️ Привычки дня",
-                habitPlaceholder: "Привычка...",
+                habitPlaceholder: "Новая привычка...",
                 removeTitle: "Удалить",
-                defaultHabits: [
-                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
-                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
-                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
-                ],
                 exercises: [
                     "👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.",
-                    "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись лапами вверх.",
+                    "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись руками вверх.",
                     "💧 <strong>Вода:</strong> Сделай пару глотков чистой воды."
                 ]
             },
@@ -707,27 +703,21 @@
                 waitPrefix: "Warten auf:",
                 optDig: "Digitaler Alarm", optGong: "Weltraum-Gong", optBowl: "Tibetische Schale",
                 restTitle: "Zeit für die Pause! 🧘‍♂️",
-                restSpeech: "«Gena, entbasic-e dich... Atme tief ein und strecke dich!»",
+                restSpeech: "«Zeit zum Durchatmen... Atme tief ein und strecke deine Schultern!»",
                 btnMusicOn: "🎵 Relax-Musik einschalten", btnMusicOff: "⏸ Pause",
                 btnReturn: "Zurück zur Arbeit",
-                notifTitle: "Tscheburaschka ruft!", notifBody: "Freund, Zeit für eine Pause!",
-                habitNotifTitle: "Tscheburaschka erinnert! ⏰", habitNotifPrefix: "Zeit für:",
+                notifTitle: "Yoga-Pause!", notifBody: "Freund, Zeit für eine Pause!",
+                habitNotifTitle: "Tägliche Erinnerung ⏰", habitNotifPrefix: "Zeit für:",
                 breathInhale: "Einatmen", breathHold: "Halten", breathExhale: "Ausatmen",
                 breathHint: "Osho-Rhythmus: 4s ein • 2s halten • 6s aus",
                 daySuffix: "T.",
                 pillWater: "💧 +1 Glas Wasser (+5)", pillBreath: "🌬️ Geatmet (+10)",
                 habitsLabel: "☑️ Tagesgewohnheiten",
-                habitPlaceholder: "Gewohnheit...",
+                habitPlaceholder: "Neue Gewohnheit...",
                 removeTitle: "Entfernen",
-                defaultHabits: [
-                    { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-                    { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
-                    { id: "h3", en: "🍵 Cup of Sugar-Free Pu-Erh", ru: "🍵 Чашка Пуэра без сахара", de: "🍵 Pu-Erh Tee ohne Zucker", time: "16:00", pts: 10 },
-                    { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
-                ],
                 exercises: [
                     "👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.",
-                    "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstrecken, die Arme nach oben ziehen.",
+                    "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstellen, die Arme nach oben strecken.",
                     "💧 <strong>Wasser:</strong> Ein paar Schlucke klares Wasser trinken."
                 ]
             }
@@ -829,10 +819,13 @@
 
         function getHabitsList() {
             try {
-                const custom = JSON.parse(localStorage.getItem('chebu_habits_list'));
-                if (Array.isArray(custom) && custom.length > 0) return custom;
+                const raw = localStorage.getItem('chebu_habits_list');
+                if (raw !== null) {
+                    const custom = JSON.parse(raw);
+                    if (Array.isArray(custom)) return custom;
+                }
             } catch(e) {}
-            return i18n.en.defaultHabits;
+            return defaultHabitsData;
         }
 
         function saveHabitsList(list) {
@@ -840,7 +833,7 @@
         }
 
         function getHabitTitle(h) {
-            return h[currentLang] || h.en || h.ru || h.de || h.text;
+            return h[currentLang] || h.en || h.ru || h.de || h.text || "";
         }
 
         function renderHabits() {
@@ -936,7 +929,7 @@
             const val = newHabitInput.value.trim();
             if (!val) return;
             const timeVal = newHabitTime.value || "";
-            const list = getHabitsList();
+            const list = [...getHabitsList()];
             list.push({ id: 'h_' + Date.now(), en: val, ru: val, de: val, time: timeVal, pts: 10 });
             saveHabitsList(list);
             newHabitInput.value = '';
@@ -988,7 +981,7 @@
                 currentDays = parseInt(localStorage.getItem('chebu_day_streak')) || 0;
             } catch(e) {}
 
-            streakEl.textContent = `Bio-Score: ${currentBio}`;
+            streakEl.textContent = `Day-Score: ${currentBio}`;
             dayStreakEl.textContent = `🔥 ${currentDays} ${i18n[currentLang].daySuffix}`;
 
             badgeWater.textContent = `💧 ${prog.waterCount}/8`;
