@@ -203,6 +203,27 @@
             text-align: center;
         }
 
+        /* ПАРНЫЙ БЛОК ВЫБОРА ВРЕМЕНИ РАБОТЫ И ОТДЫХА */
+        .durations-row {
+            display: flex;
+            gap: 8px;
+            width: 88%;
+            justify-content: space-between;
+        }
+        .durations-row .selector-item {
+            flex: 1;
+            min-width: 0;
+        }
+        .durations-row .selector-item label {
+            font-size: 10px;
+            letter-spacing: 0.6px;
+        }
+        .durations-row .selector-item select {
+            width: 100%;
+            padding: 6px 6px;
+            font-size: 12.5px;
+        }
+
         /* БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ */
         .habits-wrapper {
             margin-top: 12px;
@@ -397,7 +418,7 @@
             flex-shrink: 0;
         }
 
-        /* ЭКРАН 5-МИНУТНОЙ РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ */
+        /* ЭКРАН РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ */
         .overlay {
             position: fixed;
             top: 0;
@@ -493,7 +514,7 @@
             text-transform: uppercase;
         }
 
-        /* КАРТОЧКА УПРАЖНЕНИЙ ДНЯ ВНУТРИ 5-МИНУТНОГО ЭКРАНА */
+        /* КАРТОЧКА УПРАЖНЕНИЙ ДНЯ ВНУТРИ ЭКРАНА ОТДЫХА */
         .overlay-rites-box {
             width: 100%;
             background: #14141b;
@@ -730,6 +751,13 @@
             font-weight: bold; 
             text-shadow: var(--neon-footer);
         }
+        .disclaimer-note {
+            margin-top: 8px;
+            font-size: 10px;
+            line-height: 1.35;
+            color: #6f6f7b;
+            letter-spacing: 0.2px;
+        }
     </style>
 </head>
 <body>
@@ -763,6 +791,26 @@
         <div class="timer" id="w-timer" style="color: #fff; text-shadow: var(--neon-glow);">60:00</div>
         
         <div class="selectors-group">
+            <!-- ВЫБОР ВРЕМЕНИ РАБОТЫ И РАЗМИНКИ -->
+            <div class="durations-row">
+                <div class="selector-item">
+                    <label for="work-duration-select" id="work-dur-label">⏱️ Work:</label>
+                    <select id="work-duration-select">
+                        <option value="1500" id="opt-w25">25 min</option>
+                        <option value="2700" id="opt-w45">45 min</option>
+                        <option value="3600" id="opt-w60" selected>60 min</option>
+                    </select>
+                </div>
+                <div class="selector-item">
+                    <label for="rest-duration-select" id="rest-dur-label">🧘 Break:</label>
+                    <select id="rest-duration-select">
+                        <option value="300" id="opt-r5">5 min</option>
+                        <option value="600" id="opt-r10">10 min</option>
+                        <option value="900" id="opt-r15" selected>15 min</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="selector-item">
                 <label for="start-day-select" id="day-label">📅 Yoga Day:</label>
                 <select id="start-day-select">
@@ -806,9 +854,10 @@
         <div class="footer-credits">
             © Tm.<a href="https://tech.chebur.shop" target="_blank">tech.chebur.shop</a> | <span class="neon-phone"><a href="tel:+49017661566343">+49017661566343</a></span>
         </div>
+        <div class="disclaimer-note" id="disclaimer-note"></div>
     </div>
 
-    <!-- ЭКРАН 5-МИНУТНОЙ РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ -->
+    <!-- ЭКРАН РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ -->
     <div class="overlay" id="overlay">
         <div class="content">
             <video class="my-video" id="yoga-video" autoplay loop muted playsinline preload="auto">
@@ -817,7 +866,7 @@
             
             <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 2px 0;">Break Time! 🧘‍♂️</h2>
             <div class="speech" id="rest-speech">«Take a deep breath and stretch your shoulders!»</div>
-            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 46px; margin: 2px 0;">05:00</div>
+            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 46px; margin: 2px 0;">15:00</div>
             
             <div class="breath-box">
                 <div class="breath-circle" id="breath-circle">Inhale</div>
@@ -873,15 +922,15 @@
     <audio id="alarm-sound" preload="auto"></audio>
 
     <script>
-        const WORK_DURATION = 3600;   
-        const REST_DURATION = 300;  
-        const EXERCISE_DURATION = 60; // 1 минута на одно упражнение
+        const DEFAULT_WORK_DURATION = 3600;   
+        const DEFAULT_REST_DURATION = 900;  
+        const EXERCISE_DURATION = 60;
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
 
         /* КОМПЛЕКСЫ УПРАЖНЕНИЙ ПО ДНЯМ НЕДЕЛИ (ВСЕ 7 ДНЕЙ) */
         const dailyRitesData = {
             "1": {
-                videoUrl: "", // Понедельник: 5 тибетских жемчужин
+                videoUrl: "",
                 exercises: [
                     {
                         ru: { title: "1. Вращение вокруг оси", text: "Руки в стороны на уровне плеч. Медленно вращайтесь по часовой стрелке, фиксируя взгляд на одной точке." },
@@ -889,44 +938,44 @@
                         de: { title: "1. Drehung", text: "Arme auf Schulterhöhe ausbreiten. Langsam im Uhrzeigersinn drehen, Blick auf einen Punkt fixieren." }
                     },
                     {
-                        ru: { title: "2. Подъём ног лёжа", text: "Лёжа на спине: на вдохе одновременно поднимите голову (подбородок к груди) и прямые ноги вверх, на выдохе плавно опустите." },
-                        en: { title: "2. Leg Raises", text: "Lying on your back: inhale and lift head (chin to chest) and straight legs up together; exhale and lower slowly." },
-                        de: { title: "2. Beinheben", text: "Rückenlage: Einatmen, Kopf (Kinn zur Brust) und gestreckte Beine gleichzeitig heben; ausatmen, langsam senken." }
+                        ru: { title: "2. Подъём ног лёжа", text: "Лёжа на спине: на вдохе одновременно поднимите голову и прямые ноги вверх, на выдохе плавно опустите." },
+                        en: { title: "2. Leg Raises", text: "Lying on your back: inhale and lift head and straight legs up together; exhale and lower slowly." },
+                        de: { title: "2. Beinheben", text: "Rückenlage: Einatmen, Kopf und gestreckte Beine gleichzeitig heben; ausatmen, langsam senken." }
                     },
                     {
-                        ru: { title: "3. Прогиб на коленях", text: "Стоя на коленях, ладони под ягодицами: на вдохе мягко прогнитесь назад, запрокинув голову; на выдохе вернитесь вперёд." },
-                        en: { title: "3. Kneeling Arch", text: "Kneeling with hands under glutes: inhale and arch gently backward tilting head back; exhale and return forward." },
-                        de: { title: "3. Rückbeuge", text: "Kniestand, Hände am Gesäß: Einatmen, sanft zurückbeugen und Kopf neigen; ausatmen, nach vorn zurückkehren." }
+                        ru: { title: "3. Прогиб на коленях", text: "Стоя на коленях, ладони у бёдер: на вдохе мягко потянитесь грудью вверх, на выдохе вернитесь в исходное положение." },
+                        en: { title: "3. Kneeling Arch", text: "Kneeling with hands near hips: inhale and lift chest gently upward; exhale and return to start." },
+                        de: { title: "3. Rückbeuge", text: "Kniestand, Hände an der Hüfte: Einatmen, Brust sanft heben; ausatmen, zur Mitte zurückkehren." }
                     },
                     {
-                        ru: { title: "4. Поза «Стола»", text: "Сидя с прямыми ногами, ладони у бёдер: на вдохе поднимите таз в горизонтальную линию с корпусом, на выдохе опуститесь." },
-                        en: { title: "4. Tabletop Pose", text: "Seated with straight legs, palms by hips: inhale and lift hips into a flat tabletop line; exhale and lower down." },
-                        de: { title: "4. Tisch-Position", text: "Sitzend, Beine gestreckt, Hände neben der Hüfte: Einatmen, Becken waagerecht anheben; ausatmen, absenken." }
+                        ru: { title: "4. Поза «Стола»", text: "Сидя с прямыми ногами, ладони у бёдер: на вдохе поднимите корпус в горизонтальную линию, на выдохе опуститесь." },
+                        en: { title: "4. Tabletop Pose", text: "Seated with straight legs, palms by hips: inhale and lift torso into a flat line; exhale and lower down." },
+                        de: { title: "4. Tisch-Position", text: "Sitzend, Beine gestreckt, Hände neben der Hüfte: Einatmen, Körper waagerecht anheben; ausatmen, absenken." }
                     },
                     {
-                        ru: { title: "5. «Две собаки»", text: "Из прогиба с упором на руки: на вдохе поднимите таз вверх («горкой»), на выдохе плавно вернитесь в прогиб." },
-                        en: { title: "5. Two Dogs", text: "From an upward arch on hands: inhale and lift hips high into an inverted V; exhale and flow back into the arch." },
-                        de: { title: "5. Zwei Hunde", text: "Aus der Aufwärtsbeuge auf den Händen: Einatmen, Becken hoch ins umgekehrte V heben; ausatmen, zurücksinken." }
+                        ru: { title: "5. Плавный переход", text: "Из упора на руки мягко поднимите таз вверх, вытягивая спину, затем плавно вернитесь в исходную позицию." },
+                        en: { title: "5. Smooth Flow", text: "From hands and knees, smoothly lift hips up to lengthen your back, then lower back with control." },
+                        de: { title: "5. Sanfter Wechsel", text: "Aus dem Vierfüßlerstand Becken sanft heben, Rücken strecken und ruhig wieder absenken." }
                     }
                 ]
             },
             "2": {
-                videoUrl: "", // Вторник: Здоровая спина и шея
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. Кошка — Корова", text: "На четвереньках: на вдохе мягко прогните спину и посмотрите вверх, на выдохе округлите спину и прижмите подбородок к груди." },
-                        en: { title: "1. Cat — Cow", text: "On all fours: inhale and gently arch your back looking up; exhale and round your spine, tucking chin to chest." },
-                        de: { title: "1. Katze — Kuh", text: "Im Vierfüßlerstand: Einatmen, Rücken sanft durchbiegen und hochschauen; ausatmen, Rücken runden, Kinn zur Brust." }
+                        ru: { title: "1. Кошка — Корова", text: "На четвереньках: на вдохе мягко прогните спину и посмотрите вверх, на выдохе округлите спину и опустите голову." },
+                        en: { title: "1. Cat — Cow", text: "On all fours: inhale and gently arch your back looking up; exhale and round your spine, relaxing your head." },
+                        de: { title: "1. Katze — Kuh", text: "Im Vierfüßlerstand: Einatmen, Rücken sanft durchbiegen und hochschauen; ausatmen, Rücken runden." }
                     },
                     {
-                        ru: { title: "2. Вытяжение шеи", text: "Сидя с ровной спиной, на выдохе плавно наклоните правое ухо к плечу без рывков. Сделайте 3 спокойных цикла дыхания и смените сторону." },
-                        en: { title: "2. Neck Stretch", text: "Seated tall, exhale and gently tilt your right ear toward your shoulder without force. Take 3 slow breaths, then switch sides." },
-                        de: { title: "2. Nackendehnung", text: "Aufrecht sitzen, ausatmen und das rechte Ohr sanft zur Schulter neigen. 3 ruhige Atemzüge halten, dann Seite wechseln." }
+                        ru: { title: "2. Вытяжение шеи", text: "Сидя с ровной спиной, на выдохе плавно наклоните правое ухо к плечу. Сделайте 3 спокойных вдоха и выдоха и смените сторону." },
+                        en: { title: "2. Neck Stretch", text: "Seated tall, exhale and gently tilt your right ear toward your shoulder. Take 3 slow breaths, then switch sides." },
+                        de: { title: "2. Nackendehnung", text: "Aufrecht sitzen, ausatmen und das rechte Ohr sanft zur Schulter neigen. 3 ruhige Atemzüge, dann wechseln." }
                     },
                     {
-                        ru: { title: "3. Раскрытие груди", text: "Сцепите руки в замок за спиной, сведите лопатки. На вдохе мягко потяните руки назад и вверх, раскрывая грудную клетку." },
-                        en: { title: "3. Chest Opener", text: "Clasp hands behind your back and squeeze shoulder blades together. Inhale and gently draw arms back and up to open the chest." },
-                        de: { title: "3. Brustöffner", text: "Hände hinter dem Rücken verschränken, Schulterblätter zusammenziehen. Einatmen, Arme sanft nach hinten oben ziehen." }
+                        ru: { title: "3. Раскрытие груди", text: "Сцепите руки за спиной, сведите лопатки. На вдохе мягко потяните руки назад, раскрывая плечи и грудную клетку." },
+                        en: { title: "3. Chest Opener", text: "Clasp hands behind your back and draw shoulder blades together. Inhale and gently open your chest and shoulders." },
+                        de: { title: "3. Brustöffner", text: "Hände hinter dem Rücken verschränken, Schulterblätter zusammenziehen. Einatmen, Brust und Schultern öffnen." }
                     },
                     {
                         ru: { title: "4. Скрутка сидя", text: "Сидя прямо, на выдохе мягко разверните корпус вправо, положив левую руку на правое колено. Подышите 3 цикла и повторите влево." },
@@ -934,79 +983,79 @@
                         de: { title: "4. Drehsitz", text: "Aufrecht sitzen, ausatmen und Oberkörper sanft nach rechts drehen, linke Hand aufs rechte Knie. 3 Atemzüge, dann links." }
                     },
                     {
-                        ru: { title: "5. Поза Ребёнка", text: "Опустите таз на пятки, лоб на пол, руки вытяните далеко вперёд. Сделайте 5 глубоких вдохов и выдохов, полностью расслабляя поясницу." },
-                        en: { title: "5. Child's Pose", text: "Sit hips back on heels, rest forehead on the floor, and reach arms far forward. Take 5 deep breaths, relaxing the lower back." },
-                        de: { title: "5. Kindeshaltung", text: "Gesäß auf die Fersen setzen, Stirn ablegen, Arme weit nach vorn strecken. 5 tiefe Atemzüge lang den unteren Rücken entspannen." }
+                        ru: { title: "5. Поза Ребёнка", text: "Опустите таз на пятки, лоб на пол, руки вытяните вперёд. Сделайте 5 спокойных вдохов и выдохов, давая спине отдохнуть." },
+                        en: { title: "5. Child's Pose", text: "Sit hips back on heels, rest forehead on the floor, and reach arms forward. Take 5 calm breaths to rest your back." },
+                        de: { title: "5. Kindeshaltung", text: "Gesäß auf die Fersen setzen, Stirn ablegen, Arme vor strecken. 5 ruhige Atemzüge zur Entspannung des Rückens." }
                     }
                 ]
             },
             "3": {
-                videoUrl: "", // Среда: Баланс и фокус
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. Поза Дерева", text: "Стоя на одной ноге, уприте стопу другой в голень (не в колено). Соедините ладони у груди и держите баланс 4 спокойных вдоха." },
-                        en: { title: "1. Tree Pose", text: "Standing on one leg, press the other foot into your calf (avoid the knee). Bring palms together at chest for 4 calm breaths." },
-                        de: { title: "1. Baum-Haltung", text: "Auf einem Bein stehen, anderen Fuß an die Wade legen (nicht ans Knie). Hände vor der Brust falten, 4 ruhige Atemzüge halten." }
+                        ru: { title: "1. Поза Дерева", text: "Стоя на одной ноге, уприте стопу другой в голень. Соедините ладони у груди и держите равновесие 4 спокойных вдоха." },
+                        en: { title: "1. Tree Pose", text: "Standing on one leg, rest the other foot against your calf. Bring palms together at chest for 4 calm breaths." },
+                        de: { title: "1. Baum-Haltung", text: "Auf einem Bein stehen, anderen Fuß an die Wade legen. Hände vor der Brust falten, 4 ruhige Atemzüge halten." }
                     },
                     {
-                        ru: { title: "2. Птица — Собака", text: "На четвереньках: на вдохе вытяните правую руку вперёд, а левую ногу назад в одну линию со спиной; на выдохе смените." },
+                        ru: { title: "2. Птица — Собака", text: "На четвереньках: на вдохе вытяните правую руку вперёд и левую ногу назад в одну линию со спиной; на выдохе смените." },
                         en: { title: "2. Bird — Dog", text: "On all fours: inhale and extend right arm forward and left leg back in line with your spine; exhale and switch sides." },
                         de: { title: "2. Vogel — Hund", text: "Im Vierfüßlerstand: Einatmen, rechten Arm vor und linkes Bein zurück strecken; ausatmen, Seite wechseln." }
                     },
                     {
-                        ru: { title: "3. Поза Стула", text: "Стопы вместе: на вдохе поднимите руки вверх, на выдохе отведите таз назад, словно садитесь на стул, держа спину прямой." },
-                        en: { title: "3. Chair Pose", text: "Feet together: inhale and raise arms overhead; exhale and sit hips back into an invisible chair, keeping your spine straight." },
-                        de: { title: "3. Stuhl-Position", text: "Füße zusammen: Einatmen, Arme heben; ausatmen, Gesäß nach hinten senken wie auf einen Stuhl, Rücken gerade halten." }
+                        ru: { title: "3. Поза Стула", text: "Стопы вместе: на вдохе поднимите руки вверх, на выдохе мягко отведите таз назад, сохраняя ровную осанку." },
+                        en: { title: "3. Chair Pose", text: "Feet together: inhale and raise arms overhead; exhale and sit hips slightly back while keeping an upright posture." },
+                        de: { title: "3. Stuhl-Position", text: "Füße zusammen: Einatmen, Arme heben; ausatmen, Gesäß leicht nach hinten senken bei aufrechter Haltung." }
                     },
                     {
-                        ru: { title: "4. Поза Воина I", text: "Широкий шаг правой ногой вперёд (колено над пяткой), на вдохе потянитесь руками вверх, раскрывая грудь; затем смените ногу." },
-                        en: { title: "4. Warrior I", text: "Step right foot wide forward (knee over ankle), inhale and reach arms high lifting the chest; then switch legs." },
-                        de: { title: "4. Krieger I", text: "Großer Schritt rechts vor (Knie über dem Knöchel), einatmen, Arme hochstrecken und Brust öffnen; dann Bein wechseln." }
+                        ru: { title: "4. Поза Воина I", text: "Широкий шаг правой ногой вперёд, на вдохе потянитесь руками вверх, раскрывая грудную клетку; затем смените ногу." },
+                        en: { title: "4. Warrior I", text: "Step right foot wide forward, inhale and reach arms up opening the chest; then switch legs." },
+                        de: { title: "4. Krieger I", text: "Großer Schritt rechts vor, einatmen, Arme hochstrecken und Brust öffnen; dann Bein wechseln." }
                     },
                     {
-                        ru: { title: "5. Поза Горы", text: "Стопы на ширине таза: на глубоком вдохе потянитесь макушкой и руками вверх, на выдохе опустите плечи и почувствуйте опору." },
-                        en: { title: "5. Mountain Pose", text: "Feet hip-width apart: take a deep inhale reaching crown and arms up; exhale, relax shoulders and feel grounded." },
-                        de: { title: "5. Berg-Haltung", text: "Füße hüftbreit: Tief einatmen, Scheitel und Arme hochstrecken; ausatmen, Schultern sinken lassen und Stand spüren." }
+                        ru: { title: "5. Поза Горы", text: "Стопы на ширине таза: на глубоком вдохе потянитесь макушкой вверх, на выдохе опустите плечи и почувствуйте устойчивость." },
+                        en: { title: "5. Mountain Pose", text: "Feet hip-width apart: take a deep inhale reaching crown up; exhale, drop shoulders and feel steady." },
+                        de: { title: "5. Berg-Haltung", text: "Füße hüftbreit: Tief einatmen, Scheitel heben; ausatmen, Schultern sinken lassen und Stand spüren." }
                     }
                 ]
             },
             "4": {
-                videoUrl: "", // Четверг: Суставы и гибкость
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. Плечи и кисти", text: "Сделайте 8 плавных круговых вращений плечами назад, затем мягко разомните кисти рук круговыми движениями в обе стороны." },
-                        en: { title: "1. Shoulders & Wrists", text: "Roll your shoulders backward 8 times slowly, then gently circle your wrists in both directions to release tension." },
+                        ru: { title: "1. Плечи и кисти", text: "Сделайте 8 плавных круговых движений плечами назад, затем мягко разомните кисти рук круговыми движениями." },
+                        en: { title: "1. Shoulders & Wrists", text: "Roll your shoulders backward 8 times slowly, then gently circle your wrists in both directions." },
                         de: { title: "1. Schultern & Handgelenke", text: "Schultern 8-mal langsam nach hinten kreisen, danach die Handgelenke sanft in beide Richtungen bewegen." }
                     },
                     {
-                        ru: { title: "2. Боковое вытяжение", text: "Поднимите правую руку вверх и на выдохе плавно наклонитесь влево, вытягивая весь правый бок. Повторите в другую сторону." },
-                        en: { title: "2. Side Stretch", text: "Reach right arm overhead and exhale into a gentle lean to the left, lengthening the right side. Repeat on the other side." },
-                        de: { title: "2. Seitliche Dehnung", text: "Rechten Arm heben und beim Ausatmen sanft nach links neigen, rechte Flanke dehnen. Gegenseite wiederholen." }
+                        ru: { title: "2. Боковое вытяжение", text: "Поднимите правую руку вверх и на выдохе плавно наклонитесь влево, вытягивая бок. Повторите в другую сторону." },
+                        en: { title: "2. Side Stretch", text: "Reach right arm overhead and exhale into a gentle lean to the left, lengthening your side. Repeat on the other side." },
+                        de: { title: "2. Seitliche Dehnung", text: "Rechten Arm heben und beim Ausatmen sanft nach links neigen, Flanke dehnen. Gegenseite wiederholen." }
                     },
                     {
-                        ru: { title: "3. Мягкий выпад", text: "Из положения на коленях шагните правой ногой вперёд, мягко подавая таз вниз на 4 вдоха. Поменяйте ноги без резких движений." },
+                        ru: { title: "3. Мягкий выпад", text: "Из положения на коленях шагните правой ногой вперёд, мягко подавая таз вниз на 4 вдоха. Плавный переход на другую ногу." },
                         en: { title: "3. Low Lunge", text: "From kneeling, step right foot forward and gently sink hips down for 4 calm breaths. Switch legs smoothly." },
-                        de: { title: "3. Tiefer Ausfallschritt", text: "Aus dem Kniestand rechten Fuß vor setzen, Hüfte sanft für 4 Atemzüge sinken lassen. Ruhig die Seite wechseln." }
+                        de: { title: "3. Tiefer Ausfallschritt", text: "Aus dem Kniestand rechten Fuß vor setzen, Hüfte sanft für 4 Atemzüge sinken lassen. Ruhig wechseln." }
                     },
                     {
-                        ru: { title: "4. Перекаты стоп", text: "Плавно поднимитесь на носки на вдохе и опуститесь на пятки на выдохе (8–10 раз) для разгона лимфы и разминки голеностопа." },
-                        en: { title: "4. Ankle Rolls", text: "Inhale and rise smoothly onto your tiptoes, exhale and lower onto heels (8–10 times) to wake up ankles and circulation." },
-                        de: { title: "4. Fuß-Abrollen", text: "Einatmen, langsam auf die Zehenspitzen heben; ausatmen, Fersen senken (8–10 Mal) für Sprunggelenke und Kreislauf." }
+                        ru: { title: "4. Перекаты стоп", text: "Плавно поднимитесь на носки на вдохе и опуститесь на пятки на выдохе (8–10 раз), чтобы размять стопы и взбодриться." },
+                        en: { title: "4. Ankle Rolls", text: "Inhale and rise smoothly onto your tiptoes, exhale and lower onto heels (8–10 times) to wake up your feet." },
+                        de: { title: "4. Fuß-Abrollen", text: "Einatmen, langsam auf die Zehenspitzen heben; ausatmen, Fersen senken (8–10 Mal), um Füße zu lockern." }
                     },
                     {
-                        ru: { title: "5. Волна позвоночником", text: "Стоя с чуть согнутыми коленями, плавно опустите голову и округлую спину вниз, затем медленно раскрутитесь позвонок за позвонком." },
-                        en: { title: "5. Spinal Wave", text: "With knees slightly bent, gently roll head and spine down toward the floor, then slowly roll back up vertebra by vertebra." },
-                        de: { title: "5. Wirbelsäulen-Welle", text: "Knie leicht beugen, Kopf und Rücken Wirbel für Wirbel nach unten abrollen, dann langsam wieder aufrichten." }
+                        ru: { title: "5. Плавный наклон", text: "Стоя с чуть согнутыми коленями, мягко наклонитесь вперёд, затем медленно выпрямитесь в исходное положение." },
+                        en: { title: "5. Gentle Roll", text: "With knees slightly bent, gently bend forward, then slowly return to an upright standing position." },
+                        de: { title: "5. Sanftes Aufrichten", text: "Knie leicht beugen, sanft nach vorn neigen und langsam wieder aufrichten." }
                     }
                 ]
             },
             "5": {
-                videoUrl: "", // Пятница: Антистресс после недели
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. «Тряпичная кукла»", text: "Стопы на ширине таза, колени присогнуты: наклонитесь вперёд, обхватите локти и расслабьте шею и спину на 5 глубоких выдохов." },
-                        en: { title: "1. Ragdoll Fold", text: "Feet hip-width apart, knees softly bent: fold forward, hold opposite elbows, and let neck and back hang for 5 deep breaths." },
-                        de: { title: "1. Sanfte Vorbeuge", text: "Füße hüftbreit, Knie leicht gebeugt: Nach vorn beugen, Ellbogen greifen und Nacken 5 tiefe Atemzüge locker lassen." }
+                        ru: { title: "1. Мягкий наклон", text: "Стопы на ширине таза, колени присогнуты: наклонитесь вперёд и расслабьте плечи и шею на 5 спокойных выдохов." },
+                        en: { title: "1. Soft Forward Fold", text: "Feet hip-width apart, knees softly bent: fold forward and relax shoulders and neck for 5 calm breaths." },
+                        de: { title: "1. Sanfte Vorbeuge", text: "Füße hüftbreit, Knie leicht gebeugt: Nach vorn neigen und Schultern sowie Nacken 5 Atemzüge lockern." }
                     },
                     {
                         ru: { title: "2. Поза Бабочки", text: "Сидя на полу, соедините стопы вместе, колени разведите в стороны. Держите спину ровно и спокойно дышите 5 циклов." },
@@ -1016,37 +1065,37 @@
                     {
                         ru: { title: "3. Скрутка лёжа", text: "Лёжа на спине, согните колени и мягко опустите их вправо, а голову поверните влево. Расслабьтесь на 4 вдоха и смените." },
                         en: { title: "3. Supine Twist", text: "Lying on your back, bend knees and gently drop them right while turning your head left. Relax for 4 breaths, then switch." },
-                        de: { title: "3. Liegende Drehung", text: "In Rückenlage Knie anwinkeln und sanft nach rechts ablegen, Kopf nach links drehen. 4 Atemzüge entspannen, dann wechseln." }
+                        de: { title: "3. Liegende Drehung", text: "In Rückenlage Knie anwinkeln und sanft nach rechts ablegen, Kopf nach links drehen. 4 Atemzüge, dann wechseln." }
                     },
                     {
-                        ru: { title: "4. Ноги вверх", text: "Лёжа на спине, поднимите расслабленные ноги вверх (можно опереть на стену или диван) на 1 минуту, снимая усталость." },
-                        en: { title: "4. Legs Up", text: "Lying on your back, rest relaxed legs straight up (or against a wall/sofa) for 1 minute to drain fatigue from the legs." },
-                        de: { title: "4. Beine hochlegen", text: "In Rückenlage die entspannten Beine nach oben strecken (oder an Wand/Sofa lehnen) und 1 Minute lang entlasten." }
+                        ru: { title: "4. Ноги вверх", text: "Лёжа на спине, поднимите расслабленные ноги вверх (можно опереть на диван или стену) на 1 минуту для отдыха ног." },
+                        en: { title: "4. Legs Up", text: "Lying on your back, rest relaxed legs up (or against a sofa/wall) for 1 minute to rest your legs." },
+                        de: { title: "4. Beine hochlegen", text: "In Rückenlage entspannte Beine nach oben legen (oder an Sofa/Wand) und 1 Minute lang ausruhen." }
                     },
                     {
-                        ru: { title: "5. Дыхание животом", text: "Положите ладонь на живот: на вдохе живот мягко надувается как шар, на длинном выдохе плавно опускается. Сделайте 6 раз." },
-                        en: { title: "5. Belly Breathing", text: "Place one hand on your belly: inhale so the belly rises softly like a balloon, exhale slowly and fully. Repeat 6 times." },
-                        de: { title: "5. Bauchatmung", text: "Eine Hand auf den Bauch legen: Einatmen, Bauch hebt sich sanft; langsam und vollständig ausatmen. 6-mal wiederholen." }
+                        ru: { title: "5. Дыхание животом", text: "Положите ладонь на живот: на вдохе живот мягко поднимается, на спокойном выдохе плавно опускается. Сделайте 6 раз." },
+                        en: { title: "5. Belly Breathing", text: "Place one hand on your belly: inhale so the belly rises softly, exhale slowly and evenly. Repeat 6 times." },
+                        de: { title: "5. Bauchatmung", text: "Eine Hand auf den Bauch legen: Einatmen, Bauch hebt sich sanft; ruhig ausatmen. 6-mal wiederholen." }
                     }
                 ]
             },
             "6": {
-                videoUrl: "", // Суббота: Утренний тонус
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. Потягивание Полумесяц", text: "Сцепите пальцы над головой, выверните ладони вверх и на вдохе потянитесь всем телом к потолку, удлиняя позвоночник." },
-                        en: { title: "1. Crescent Reach", text: "Interlace fingers overhead, turn palms up, and inhale as you stretch your whole body tall toward the ceiling." },
-                        de: { title: "1. Halbmond-Streckung", text: "Finger über dem Kopf verschränken, Handflächen nach oben drehen und beim Einatmen den ganzen Körper lang strecken." }
+                        ru: { title: "1. Потягивание вверх", text: "Сцепите пальцы над головой, поверните ладони вверх и на вдохе мягко потянитесь всем телом к потолку." },
+                        en: { title: "1. Overhead Stretch", text: "Interlace fingers overhead, turn palms up, and inhale as you gently stretch your whole body upward." },
+                        de: { title: "1. Streckung nach oben", text: "Finger über dem Kopf verschränken, Handflächen nach oben drehen und beim Einatmen sanft strecken." }
                     },
                     {
-                        ru: { title: "2. Поза Сфинкса", text: "Лёжа на животе, обопритесь на предплечья (локти под плечами). Мягко потянитесь грудью вперёд и вверх без залома в пояснице." },
-                        en: { title: "2. Sphinx Pose", text: "Lying on your stomach, prop yourself on forearms (elbows under shoulders). Gently lift chest forward without straining lower back." },
-                        de: { title: "2. Sphinx-Haltung", text: "In Bauchlage auf die Unterarme stützen (Ellbogen unter den Schultern). Brust sanft nach vorn heben, Lendenwirbel schonen." }
+                        ru: { title: "2. Поза Сфинкса", text: "Лёжа на животе, обопритесь на предплечья (локти под плечами). Мягко потянитесь грудью вперёд в комфортной амплитуде." },
+                        en: { title: "2. Sphinx Pose", text: "Lying on your stomach, rest on forearms (elbows under shoulders). Gently lift chest forward in a comfortable range." },
+                        de: { title: "2. Sphinx-Haltung", text: "In Bauchlage auf die Unterarme stützen (Ellbogen unter den Schultern). Brust sanft und angenehm heben." }
                     },
                     {
-                        ru: { title: "3. Собака мордой вниз", text: "Из упора на ладони поднимите таз вверх, вытягивая спину в прямую линию. Колени можно слегка присогнуть, пятки тянутся к полу." },
-                        en: { title: "3. Downward Dog", text: "From hands and knees, lift hips high to lengthen your spine into a straight line. Keep knees slightly soft, heels reaching down." },
-                        de: { title: "3. Herabschauender Hund", text: "Aus dem Vierfüßlerstand Becken hochheben, Rücken lang strecken. Knie dürfen leicht gebeugt bleiben, Fersen sinken." }
+                        ru: { title: "3. Собака мордой вниз", text: "Из упора на ладони поднимите таз вверх, вытягивая спину. Колени можно слегка присогнуть, пятки тянутся вниз." },
+                        en: { title: "3. Downward Dog", text: "From hands and knees, lift hips high to lengthen your back. Keep knees slightly soft, heels reaching down." },
+                        de: { title: "3. Herabschauender Hund", text: "Aus dem Vierfüßlerstand Becken heben, Rücken lang strecken. Knie leicht gebeugt, Fersen sinken." }
                     },
                     {
                         ru: { title: "4. Поза Воина II", text: "Широко расставьте ноги, согните правое колено, руки вытяните в стороны на уровне плеч и посмотрите поверх правой ладони." },
@@ -1061,32 +1110,32 @@
                 ]
             },
             "0": {
-                videoUrl: "", // Воскресенье: Восстановление и дыхание
+                videoUrl: "",
                 exercises: [
                     {
-                        ru: { title: "1. Переменное дыхание", text: "Закройте правую ноздрю пальцем — вдох через левую; закройте левую — выдох через правую. Повторите 5 спокойных циклов." },
-                        en: { title: "1. Nostril Breathing", text: "Close right nostril with thumb and inhale left; close left nostril and exhale right. Repeat for 5 slow, calming cycles." },
-                        de: { title: "1. Wechselatmung", text: "Rechtes Nasenloch schließen, links einatmen; linkes schließen, rechts ausatmen. 5 ruhige Zyklen wiederholen." }
+                        ru: { title: "1. Спокойное дыхание", text: "Сделайте 5 медленных циклов вдоха и выдоха через нос в комфортном ровном темпе." },
+                        en: { title: "1. Calm Nasal Breath", text: "Take 5 slow cycles of inhaling and exhaling through your nose at a comfortable, steady pace." },
+                        de: { title: "1. Ruhige Nasenatmung", text: "5 langsame Atemzüge durch die Nase in einem angenehmen, gleichmäßigen Tempo ausführen." }
                     },
                     {
-                        ru: { title: "2. Бабочка лёжа", text: "Лёжа на спине, соедините стопы вместе, а колени мягко опустите в стороны. Положите руки на рёбра и дышите ровно." },
-                        en: { title: "2. Reclined Butterfly", text: "Lying on your back, bring soles of feet together and let knees open wide. Rest hands on your ribs and breathe gently." },
-                        de: { title: "2. Liegender Schmetterling", text: "In Rückenlage Fußsohlen aneinanderlegen, Knie locker öffnen. Hände auf die Rippen legen und ruhig atmen." }
+                        ru: { title: "2. Бабочка лёжа", text: "Лёжа на спине, соедините стопы вместе, а колени мягко опустите в стороны. Положите руки на корпус и дышите ровно." },
+                        en: { title: "2. Reclined Butterfly", text: "Lying on your back, bring soles of feet together and let knees open wide. Rest hands on your body and breathe gently." },
+                        de: { title: "2. Liegender Schmetterling", text: "In Rückenlage Fußsohlen aneinanderlegen, Knie locker öffnen. Hände auf den Körper legen und ruhig atmen." }
                     },
                     {
-                        ru: { title: "3. Снятие зажима лица", text: "На вдохе слегка зажмурьтесь и сожмите губы, на выдохе полностью расслабьте лоб, веки и разомкните челюсти (4 раза)." },
-                        en: { title: "3. Face & Jaw Release", text: "Inhale and gently squeeze eyes and lips; exhale and completely soften forehead, eyelids, and unclench your jaw (4 times)." },
-                        de: { title: "3. Kiefer & Gesicht lösen", text: "Einatmen, Augen und Lippen sanft anspannen; ausatmen, Stirn, Lider und Kiefer komplett entspannen (4-mal)." }
+                        ru: { title: "3. Расслабление лица", text: "На вдохе слегка напрягите мышцы лица, на выдохе мягко расслабьте лоб, веки и челюсть (4 раза)." },
+                        en: { title: "3. Facial Relaxation", text: "Inhale and gently tense facial muscles; exhale and softly relax forehead, eyelids, and jaw (4 times)." },
+                        de: { title: "3. Gesicht entspannen", text: "Einatmen, Gesichtsmuskeln leicht anspannen; ausatmen, Stirn, Lider und Kiefer sanft entspannen (4-mal)." }
                     },
                     {
-                        ru: { title: "4. Полное дыхание", text: "Медленно вдыхайте, наполняя сначала живот, затем грудную клетку и ключицы; так же плавно выдыхайте сверху вниз (5 раз)." },
-                        en: { title: "4. Full Yogic Breath", text: "Inhale slowly filling belly first, then ribs, then upper chest; exhale just as smoothly from top to bottom (5 times)." },
-                        de: { title: "4. Vollständige Atmung", text: "Langsam einatmen: erst Bauch, dann Rippen, dann Brustkorb füllen; ebenso sanft von oben nach unten ausatmen (5-mal)." }
+                        ru: { title: "4. Полное дыхание", text: "Медленно вдыхайте, наполняя сначала живот, затем грудную клетку; так же плавно выдыхайте (5 раз)." },
+                        en: { title: "4. Full Breath", text: "Inhale slowly filling belly first, then chest; exhale just as smoothly from top to bottom (5 times)." },
+                        de: { title: "4. Volle Atmung", text: "Langsam einatmen: erst Bauch, dann Brustkorb füllen; ebenso sanft ausatmen (5-mal)." }
                     },
                     {
-                        ru: { title: "5. Шавасана (Покой)", text: "Лягте удобно на спину, раскиньте руки и ноги, закройте глаза и 2 минуты просто наблюдайте за тишиной внутри." },
-                        en: { title: "5. Savasana Rest", text: "Lie comfortably on your back, let arms and legs fall open, close your eyes, and rest in quiet stillness for 2 minutes." },
-                        de: { title: "5. Savasana-Ruhe", text: "Bequem auf den Rücken legen, Arme und Beine locker ablegen, Augen schließen und 2 Minuten Stille genießen." }
+                        ru: { title: "5. Шавасана (Покой)", text: "Лягте удобно на спину, раскиньте руки и ноги, закройте глаза и 2 минуты спокойно отдыхайте." },
+                        en: { title: "5. Savasana Rest", text: "Lie comfortably on your back, let arms and legs fall open, close your eyes, and rest quietly for 2 minutes." },
+                        de: { title: "5. Savasana-Ruhe", text: "Bequem auf den Rücken legen, Arme und Beine locker ablegen, Augen schließen und 2 Minuten ruhig entspannen." }
                     }
                 ]
             }
@@ -1102,6 +1151,9 @@
             en: {
                 mainTitle: "Time to Work ✨",
                 statusText: "Time until break:",
+                workDurLabel: "⏱️ Work:",
+                restDurLabel: "🧘 Break:",
+                minSuffix: "min",
                 soundLabel: "🔔 Break Signal:",
                 dayLabel: "📅 Yoga Day:",
                 optAll: "Every Day (Always Active)",
@@ -1126,11 +1178,15 @@
                 riteVideoSoon: "▶ Video soon",
                 riteVideoWatch: "▶ YouTube",
                 exTimerStart: "▶ Start 1m",
-                exTimerPause: "⏸ Pause"
+                exTimerPause: "⏸ Pause",
+                disclaimer: "General wellness & break timer app. Not medical advice."
             },
             ru: {
                 mainTitle: "Время работать ✨",
                 statusText: "До разминки осталось:",
+                workDurLabel: "⏱️ Работа:",
+                restDurLabel: "🧘 Отдых:",
+                minSuffix: "мин",
                 soundLabel: "🔔 Сигнал разминки:",
                 dayLabel: "📅 День для зарядки:",
                 optAll: "Каждый день (Всегда активна)",
@@ -1155,11 +1211,15 @@
                 riteVideoSoon: "▶ Видео скоро",
                 riteVideoWatch: "▶ YouTube",
                 exTimerStart: "▶ Старт 1 мин",
-                exTimerPause: "⏸ Пауза"
+                exTimerPause: "⏸ Пауза",
+                disclaimer: "Таймер перерывов и общих привычек. Не является мед. услугой."
             },
             de: {
                 mainTitle: "Zeit zu arbeiten ✨",
                 statusText: "Bis zur Pause:",
+                workDurLabel: "⏱️ Arbeit:",
+                restDurLabel: "🧘 Pause:",
+                minSuffix: "Min.",
                 soundLabel: "🔔 Pausensignal:",
                 dayLabel: "📅 Wochentag für Yoga:",
                 optAll: "Jeden Tag (Immer aktiv)",
@@ -1184,7 +1244,8 @@
                 riteVideoSoon: "▶ Video bald",
                 riteVideoWatch: "▶ YouTube",
                 exTimerStart: "▶ Start 1 Min",
-                exTimerPause: "⏸ Pause"
+                exTimerPause: "⏸ Pause",
+                disclaimer: "Pausen- und Gewohnheitstimer. Keine medizinische Beratung."
             }
         };
 
@@ -1196,7 +1257,6 @@
         let breathTimeouts = [];
         let currentRiteIndex = 0;
 
-        /* СОСТОЯНИЕ 1-МИНУТНОГО ТАЙМЕРА УПРАЖНЕНИЯ */
         let exTimeLeft = EXERCISE_DURATION;
         let exTimerInterval = null;
 
@@ -1211,6 +1271,8 @@
         const streakEl = document.getElementById('streak-display');
         const dayStreakEl = document.getElementById('day-streak-display');
         const scorePopEl = document.getElementById('score-pop');
+        const workDurationSelect = document.getElementById('work-duration-select');
+        const restDurationSelect = document.getElementById('rest-duration-select');
         const soundSelect = document.getElementById('alarm-sound-select');
         const daySelect = document.getElementById('start-day-select');
         const breathCircle = document.getElementById('breath-circle');
@@ -1228,8 +1290,8 @@
         const newHabitInput = document.getElementById('new-habit-input');
         const newHabitTime = document.getElementById('new-habit-time');
         const addHabitBtn = document.getElementById('add-habit-btn');
+        const disclaimerEl = document.getElementById('disclaimer-note');
 
-        /* ЭЛЕМЕНТЫ УПРАЖНЕНИЙ В 5-МИНУТНОМ ОКНЕ */
         const overlayRitesBox = document.getElementById('overlay-rites-box');
         const ritePrevBtn = document.getElementById('rite-prev');
         const riteNextBtn = document.getElementById('rite-next');
@@ -1244,6 +1306,16 @@
         const exTimerReset = document.getElementById('ex-timer-reset');
         const riteDotsEl = document.getElementById('rite-dots');
         const riteDoneBtn = document.getElementById('rite-done-btn');
+
+        function getWorkDuration() {
+            const val = parseInt(workDurationSelect.value);
+            return isNaN(val) || val <= 0 ? DEFAULT_WORK_DURATION : val;
+        }
+
+        function getRestDuration() {
+            const val = parseInt(restDurationSelect.value);
+            return isNaN(val) || val <= 0 ? DEFAULT_REST_DURATION : val;
+        }
 
         function getActiveDayKey() {
             return daySelect.value === "all" ? String(new Date().getDay()) : daySelect.value;
@@ -1308,7 +1380,6 @@
             updateProgressUI();
         }
 
-        /* УПРАВЛЕНИЕ 1-МИНУТНЫМ ТАЙМЕРОМ УПРАЖНЕНИЯ */
         function updateExTimerUI() {
             exTimerVal.textContent = format(exTimeLeft);
             const isRunning = exTimerInterval !== null;
@@ -1376,7 +1447,6 @@
 
         exTimerReset.onclick = resetExTimer;
 
-        /* РЕНДЕР КОМПЛЕКСА УПРАЖНЕНИЙ В 5-МИНУТНОМ ОКНЕ */
         function renderOverlayRites() {
             const activeDay = getActiveDayKey();
             const dayBlock = dailyRitesData[activeDay];
@@ -1658,6 +1728,17 @@
 
             document.getElementById('main-title').textContent = i18n[lang].mainTitle;
             document.getElementById('status-text').textContent = i18n[lang].statusText;
+            document.getElementById('work-dur-label').textContent = i18n[lang].workDurLabel;
+            document.getElementById('rest-dur-label').textContent = i18n[lang].restDurLabel;
+
+            const mSuf = i18n[lang].minSuffix;
+            document.getElementById('opt-w25').textContent = `25 ${mSuf}`;
+            document.getElementById('opt-w45').textContent = `45 ${mSuf}`;
+            document.getElementById('opt-w60').textContent = `60 ${mSuf}`;
+            document.getElementById('opt-r5').textContent = `5 ${mSuf}`;
+            document.getElementById('opt-r10').textContent = `10 ${mSuf}`;
+            document.getElementById('opt-r15').textContent = `15 ${mSuf}`;
+
             document.getElementById('sound-label').textContent = i18n[lang].soundLabel;
             document.getElementById('day-label').textContent = i18n[lang].dayLabel;
             document.getElementById('opt-all').textContent = i18n[lang].optAll;
@@ -1677,6 +1758,7 @@
             pillWater.textContent = i18n[lang].pillWater;
             pillBreath.textContent = i18n[lang].pillBreath;
             newHabitInput.placeholder = i18n[lang].habitPlaceholder;
+            disclaimerEl.textContent = i18n[lang].disclaimer;
             
             if (!breathRunning) {
                 breathCircle.textContent = i18n[lang].breathInhale;
@@ -1695,6 +1777,12 @@
 
         musicAudio.src = MUSIC_URL;
         try {
+            if (localStorage.getItem('chebu_work_dur')) {
+                workDurationSelect.value = localStorage.getItem('chebu_work_dur');
+            }
+            if (localStorage.getItem('chebu_rest_dur')) {
+                restDurationSelect.value = localStorage.getItem('chebu_rest_dur');
+            }
             if (localStorage.getItem('chebu_weekday')) {
                 daySelect.value = localStorage.getItem('chebu_weekday');
             }
@@ -1774,15 +1862,17 @@
 
             statusText.textContent = i18n[currentLang].statusText;
 
+            const workDur = getWorkDuration();
+            const restDur = getRestDuration();
             const now = Math.floor(Date.now() / 1000);
             let endTime = parseInt(localStorage.getItem('chebu_endTime'));
             let mode = localStorage.getItem('chebu_mode');
 
             if (!endTime || !mode) {
                 localStorage.setItem('chebu_mode', 'work');
-                localStorage.setItem('chebu_endTime', now + WORK_DURATION);
+                localStorage.setItem('chebu_endTime', now + workDur);
                 mode = 'work';
-                endTime = now + WORK_DURATION;
+                endTime = now + workDur;
             }
 
             let timeLeft = endTime - now;
@@ -1790,12 +1880,12 @@
             if (timeLeft <= 0) {
                 if (mode === 'work') {
                     localStorage.setItem('chebu_mode', 'rest');
-                    localStorage.setItem('chebu_endTime', now + REST_DURATION);
+                    localStorage.setItem('chebu_endTime', now + restDur);
                     ovEl.classList.add('active');
                     startBreathing();
                     renderOverlayRites();
                     wEl.textContent = format(0);
-                    rEl.textContent = format(REST_DURATION);
+                    rEl.textContent = format(restDur);
                     videoPlayer.play().catch(() => {});
                     alarmAudio.src = soundSelect.value;
                     alarmAudio.load(); 
@@ -1821,9 +1911,10 @@
         }
 
         function startWorkMode() {
+            const workDur = getWorkDuration();
             const now = Math.floor(Date.now() / 1000);
             localStorage.setItem('chebu_mode', 'work');
-            localStorage.setItem('chebu_endTime', now + WORK_DURATION);
+            localStorage.setItem('chebu_endTime', now + workDur);
             ovEl.classList.remove('active');
             stopBreathing();
             stopExTimer();
@@ -1834,10 +1925,30 @@
             alarmAudio.currentTime = 0;
             videoPlayer.pause();
             videoPlayer.currentTime = 0;
-            wEl.textContent = format(WORK_DURATION);
+            wEl.textContent = format(workDur);
             notificationSent = false;
             applyLanguage(currentLang);
         }
+
+        workDurationSelect.onchange = () => {
+            try { localStorage.setItem('chebu_work_dur', workDurationSelect.value); } catch(e) {}
+            const currentWeekday = new Date().getDay();
+            if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
+                startWorkMode();
+            }
+            updateTimer();
+        };
+
+        restDurationSelect.onchange = () => {
+            try { localStorage.setItem('chebu_rest_dur', restDurationSelect.value); } catch(e) {}
+            const restDur = getRestDuration();
+            rEl.textContent = format(restDur);
+            if (localStorage.getItem('chebu_mode') === 'rest') {
+                const now = Math.floor(Date.now() / 1000);
+                localStorage.setItem('chebu_endTime', now + restDur);
+            }
+            updateTimer();
+        };
 
         daySelect.onchange = () => {
             localStorage.setItem('chebu_weekday', daySelect.value);
