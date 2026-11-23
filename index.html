@@ -205,7 +205,7 @@
 
         /* БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ */
         .habits-wrapper {
-            margin-top: 14px;
+            margin-top: 12px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -397,41 +397,69 @@
             flex-shrink: 0;
         }
 
-        /* Экран разминки */
-        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(6, 6, 8, 0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow-y: auto; }
+        /* ЭКРАН 5-МИНУТНОЙ РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(6, 6, 8, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            overflow-y: auto;
+            padding: 16px 12px 24px 12px;
+            box-sizing: border-box;
+        }
         .overlay.active { opacity: 1; pointer-events: auto; }
-        .content { text-align: center; max-width: 600px; padding: 15px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .content {
+            text-align: center;
+            max-width: 560px;
+            width: 100%;
+            padding: 8px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            box-sizing: border-box;
+        }
         
         .my-video {
-            width: 290px;
-            height: 162px;
+            width: 280px;
+            height: 156px;
             object-fit: cover;
             border-radius: 15px;
             border: 2px solid var(--accent);
             box-shadow: var(--neon-glow);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: #000;
         }
         
-        .speech { font-style: italic; color: #ffaa66; font-size: 15px; margin-bottom: 6px; }
+        .speech { font-style: italic; color: #ffaa66; font-size: 14px; margin-bottom: 4px; }
 
         .breath-box {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 6px 0 10px 0;
+            margin: 4px 0 8px 0;
         }
         .breath-circle {
-            width: 74px;
-            height: 74px;
+            width: 66px;
+            height: 66px;
             border-radius: 50%;
             border: 2px solid var(--music);
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.4), inset 0 0 12px rgba(0, 255, 102, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -441,12 +469,12 @@
             transition: transform 4s ease-in-out, border-color 0.5s, box-shadow 0.5s;
         }
         .breath-circle.inhale {
-            transform: scale(1.24);
+            transform: scale(1.22);
             border-color: var(--music);
             box-shadow: 0 0 25px var(--music), inset 0 0 15px var(--music);
         }
         .breath-circle.hold {
-            transform: scale(1.24);
+            transform: scale(1.22);
             border-color: var(--accent);
             box-shadow: 0 0 25px var(--accent), inset 0 0 15px var(--accent);
             transition: transform 0.2s linear, border-color 0.4s, box-shadow 0.4s;
@@ -460,18 +488,210 @@
         .breath-hint {
             font-size: 11px;
             color: #8a8a93;
-            margin-top: 12px;
-            letter-spacing: 1px;
+            margin-top: 10px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
         }
 
-        .exercises { text-align: left; font-size: 15px; line-height: 1.45; margin-bottom: 12px; width: 100%; color: #e1e1e6; }
+        /* КАРТОЧКА УПРАЖНЕНИЙ ДНЯ ВНУТРИ 5-МИНУТНОГО ЭКРАНА */
+        .overlay-rites-box {
+            width: 100%;
+            background: #14141b;
+            border: 1px solid rgba(255, 85, 0, 0.65);
+            box-shadow: inset 0 0 12px rgba(255, 85, 0, 0.14);
+            border-radius: 14px;
+            padding: 11px 14px;
+            box-sizing: border-box;
+            text-align: left;
+            margin-bottom: 12px;
+            transition: border-color 0.25s;
+        }
+        .overlay-rites-box.all-done {
+            border-color: var(--music);
+            box-shadow: inset 0 0 12px rgba(0, 255, 102, 0.14);
+        }
+        .rites-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .rites-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rite-arrow {
+            background: #1e1e28;
+            border: 1px solid #444;
+            color: #fff;
+            width: 26px;
+            height: 24px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .rite-arrow:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .rite-counter {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffcc80;
+            letter-spacing: 0.5px;
+            font-variant-numeric: tabular-nums;
+        }
+        .rite-day-badge {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .rite-video-link {
+            background: #1e1e28;
+            border: 1px solid #3a3a48;
+            color: #888;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 9px;
+            border-radius: 7px;
+            text-decoration: none;
+            pointer-events: none;
+            transition: all 0.2s;
+        }
+        .rite-video-link.ready {
+            border-color: var(--music);
+            color: var(--music);
+            pointer-events: auto;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.25);
+        }
+        .rite-video-link.ready:hover {
+            background: rgba(0, 255, 102, 0.15);
+        }
+        .rite-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .rite-desc {
+            font-size: 13px;
+            line-height: 1.42;
+            color: #d6d6de;
+            margin-bottom: 8px;
+        }
+        .ex-timer-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1a1a24;
+            border: 1px solid rgba(0, 255, 102, 0.35);
+            border-radius: 9px;
+            padding: 5px 10px;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+        .ex-timer-strip.running {
+            border-color: var(--music);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+        }
+        .ex-timer-val {
+            font-size: 16px;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+            color: var(--music);
+        }
+        .ex-timer-btns {
+            display: flex;
+            gap: 6px;
+        }
+        .ex-mini-btn {
+            background: #242433;
+            border: 1px solid var(--music);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ex-mini-btn:hover {
+            background: var(--music);
+            color: #000;
+        }
+        .ex-mini-reset {
+            background: #1e1e28;
+            border: 1px solid #555;
+            color: #ccc;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .rites-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .rite-progress-dots {
+            display: flex;
+            gap: 5px;
+        }
+        .rite-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #2c2c3a;
+            border: 1px solid #444;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rite-dot.active {
+            border-color: var(--accent);
+            transform: scale(1.15);
+        }
+        .rite-dot.done {
+            background: var(--music);
+            border-color: var(--music);
+            box-shadow: 0 0 5px var(--music);
+        }
+        .rite-done-btn {
+            background: #1e1e28;
+            border: 1px solid var(--accent);
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: bold;
+            padding: 4px 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rite-done-btn:hover {
+            background: rgba(255, 85, 0, 0.2);
+        }
+        .rite-done-btn.completed {
+            border-color: var(--music);
+            background: rgba(0, 255, 102, 0.14);
+            color: var(--music);
+        }
         
         .quick-checks {
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
         }
         .check-pill {
@@ -498,7 +718,7 @@
         .btn-m:hover { background: var(--music); box-shadow: var(--neon-music); color: #000; }
 
         .footer-credits {
-            margin-top: 16px;
+            margin-top: 14px;
             font-size: 11px;
             color: #bbb;
             letter-spacing: 1px;
@@ -570,7 +790,7 @@
         <!-- СВОРАЧИВАЕМЫЙ БЛОК ПРИВЫЧЕК С ВРЕМЕНЕМ -->
         <div class="habits-wrapper">
             <button type="button" class="habits-toggle-btn" id="habits-toggle">
-                <span id="habits-btn-label">☑️ Daily Habits (0/4)</span>
+                <span id="habits-btn-label">☑️ Daily Habits (0/3)</span>
                 <span id="habits-arrow">▼</span>
             </button>
             <div class="habits-panel" id="habits-panel">
@@ -588,22 +808,50 @@
         </div>
     </div>
 
+    <!-- ЭКРАН 5-МИНУТНОЙ РАЗМИНКИ С ЛОТОСОМ И УПРАЖНЕНИЯМИ ДНЯ -->
     <div class="overlay" id="overlay">
         <div class="content">
             <video class="my-video" id="yoga-video" autoplay loop muted playsinline preload="auto">
                 <source src="video.mp4" type="video/mp4">
             </video>
             
-            <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 4px 0;">Break Time! 🧘‍♂️</h2>
+            <h2 id="rest-title" style="text-shadow: var(--neon-glow); margin: 2px 0;">Break Time! 🧘‍♂️</h2>
             <div class="speech" id="rest-speech">«Take a deep breath and stretch your shoulders!»</div>
-            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 50px; margin: 2px 0;">05:00</div>
+            <div class="timer" id="r-timer" style="color: var(--music); text-shadow: var(--neon-music); font-size: 46px; margin: 2px 0;">05:00</div>
             
             <div class="breath-box">
                 <div class="breath-circle" id="breath-circle">Inhale</div>
                 <div class="breath-hint" id="breath-hint">Osho Rhythm: 4s inhale • 2s hold • 6s exhale</div>
             </div>
 
-            <ul class="exercises" id="exercises-list"></ul>
+            <!-- КОМПЛЕКС УПРАЖНЕНИЙ НА ВЫБРАННЫЙ ДЕНЬ НЕДЕЛИ -->
+            <div class="overlay-rites-box" id="overlay-rites-box">
+                <div class="rites-top">
+                    <div class="rites-nav">
+                        <button type="button" class="rite-arrow" id="rite-prev">‹</button>
+                        <span class="rite-counter" id="rite-counter">1 / 5</span>
+                        <button type="button" class="rite-arrow" id="rite-next">›</button>
+                        <span class="rite-day-badge" id="rite-day-badge">Monday</span>
+                    </div>
+                    <a class="rite-video-link" id="rite-video-link" target="_blank" rel="noopener">▶ YouTube</a>
+                </div>
+
+                <div class="rite-title" id="rite-title">1. Spinning</div>
+                <div class="rite-desc" id="rite-desc"></div>
+
+                <div class="ex-timer-strip" id="ex-timer-strip">
+                    <span class="ex-timer-val" id="ex-timer-val">01:00</span>
+                    <div class="ex-timer-btns">
+                        <button type="button" class="ex-mini-btn" id="ex-timer-toggle">▶ Start 1m</button>
+                        <button type="button" class="ex-mini-reset" id="ex-timer-reset" title="Reset">↺</button>
+                    </div>
+                </div>
+
+                <div class="rites-footer">
+                    <div class="rite-progress-dots" id="rite-dots"></div>
+                    <button type="button" class="rite-done-btn" id="rite-done-btn">Done (+5)</button>
+                </div>
+            </div>
 
             <div class="quick-checks">
                 <button type="button" class="check-pill" id="pill-water">💧 +1 Glass of Water (+5)</button>
@@ -627,11 +875,225 @@
     <script>
         const WORK_DURATION = 3600;   
         const REST_DURATION = 300;  
+        const EXERCISE_DURATION = 60; // 1 минута на одно упражнение
         const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
+
+        /* КОМПЛЕКСЫ УПРАЖНЕНИЙ ПО ДНЯМ НЕДЕЛИ (ВСЕ 7 ДНЕЙ) */
+        const dailyRitesData = {
+            "1": {
+                videoUrl: "", // Понедельник: 5 тибетских жемчужин
+                exercises: [
+                    {
+                        ru: { title: "1. Вращение вокруг оси", text: "Руки в стороны на уровне плеч. Медленно вращайтесь по часовой стрелке, фиксируя взгляд на одной точке." },
+                        en: { title: "1. Spinning", text: "Arms out at shoulder height. Spin slowly clockwise, keeping your gaze fixed on one point." },
+                        de: { title: "1. Drehung", text: "Arme auf Schulterhöhe ausbreiten. Langsam im Uhrzeigersinn drehen, Blick auf einen Punkt fixieren." }
+                    },
+                    {
+                        ru: { title: "2. Подъём ног лёжа", text: "Лёжа на спине: на вдохе одновременно поднимите голову (подбородок к груди) и прямые ноги вверх, на выдохе плавно опустите." },
+                        en: { title: "2. Leg Raises", text: "Lying on your back: inhale and lift head (chin to chest) and straight legs up together; exhale and lower slowly." },
+                        de: { title: "2. Beinheben", text: "Rückenlage: Einatmen, Kopf (Kinn zur Brust) und gestreckte Beine gleichzeitig heben; ausatmen, langsam senken." }
+                    },
+                    {
+                        ru: { title: "3. Прогиб на коленях", text: "Стоя на коленях, ладони под ягодицами: на вдохе мягко прогнитесь назад, запрокинув голову; на выдохе вернитесь вперёд." },
+                        en: { title: "3. Kneeling Arch", text: "Kneeling with hands under glutes: inhale and arch gently backward tilting head back; exhale and return forward." },
+                        de: { title: "3. Rückbeuge", text: "Kniestand, Hände am Gesäß: Einatmen, sanft zurückbeugen und Kopf neigen; ausatmen, nach vorn zurückkehren." }
+                    },
+                    {
+                        ru: { title: "4. Поза «Стола»", text: "Сидя с прямыми ногами, ладони у бёдер: на вдохе поднимите таз в горизонтальную линию с корпусом, на выдохе опуститесь." },
+                        en: { title: "4. Tabletop Pose", text: "Seated with straight legs, palms by hips: inhale and lift hips into a flat tabletop line; exhale and lower down." },
+                        de: { title: "4. Tisch-Position", text: "Sitzend, Beine gestreckt, Hände neben der Hüfte: Einatmen, Becken waagerecht anheben; ausatmen, absenken." }
+                    },
+                    {
+                        ru: { title: "5. «Две собаки»", text: "Из прогиба с упором на руки: на вдохе поднимите таз вверх («горкой»), на выдохе плавно вернитесь в прогиб." },
+                        en: { title: "5. Two Dogs", text: "From an upward arch on hands: inhale and lift hips high into an inverted V; exhale and flow back into the arch." },
+                        de: { title: "5. Zwei Hunde", text: "Aus der Aufwärtsbeuge auf den Händen: Einatmen, Becken hoch ins umgekehrte V heben; ausatmen, zurücksinken." }
+                    }
+                ]
+            },
+            "2": {
+                videoUrl: "", // Вторник: Здоровая спина и шея
+                exercises: [
+                    {
+                        ru: { title: "1. Кошка — Корова", text: "На четвереньках: на вдохе мягко прогните спину и посмотрите вверх, на выдохе округлите спину и прижмите подбородок к груди." },
+                        en: { title: "1. Cat — Cow", text: "On all fours: inhale and gently arch your back looking up; exhale and round your spine, tucking chin to chest." },
+                        de: { title: "1. Katze — Kuh", text: "Im Vierfüßlerstand: Einatmen, Rücken sanft durchbiegen und hochschauen; ausatmen, Rücken runden, Kinn zur Brust." }
+                    },
+                    {
+                        ru: { title: "2. Вытяжение шеи", text: "Сидя с ровной спиной, на выдохе плавно наклоните правое ухо к плечу без рывков. Сделайте 3 спокойных цикла дыхания и смените сторону." },
+                        en: { title: "2. Neck Stretch", text: "Seated tall, exhale and gently tilt your right ear toward your shoulder without force. Take 3 slow breaths, then switch sides." },
+                        de: { title: "2. Nackendehnung", text: "Aufrecht sitzen, ausatmen und das rechte Ohr sanft zur Schulter neigen. 3 ruhige Atemzüge halten, dann Seite wechseln." }
+                    },
+                    {
+                        ru: { title: "3. Раскрытие груди", text: "Сцепите руки в замок за спиной, сведите лопатки. На вдохе мягко потяните руки назад и вверх, раскрывая грудную клетку." },
+                        en: { title: "3. Chest Opener", text: "Clasp hands behind your back and squeeze shoulder blades together. Inhale and gently draw arms back and up to open the chest." },
+                        de: { title: "3. Brustöffner", text: "Hände hinter dem Rücken verschränken, Schulterblätter zusammenziehen. Einatmen, Arme sanft nach hinten oben ziehen." }
+                    },
+                    {
+                        ru: { title: "4. Скрутка сидя", text: "Сидя прямо, на выдохе мягко разверните корпус вправо, положив левую руку на правое колено. Подышите 3 цикла и повторите влево." },
+                        en: { title: "4. Seated Twist", text: "Sitting upright, exhale and gently twist torso right, placing left hand on right knee. Hold for 3 breaths, then repeat left." },
+                        de: { title: "4. Drehsitz", text: "Aufrecht sitzen, ausatmen und Oberkörper sanft nach rechts drehen, linke Hand aufs rechte Knie. 3 Atemzüge, dann links." }
+                    },
+                    {
+                        ru: { title: "5. Поза Ребёнка", text: "Опустите таз на пятки, лоб на пол, руки вытяните далеко вперёд. Сделайте 5 глубоких вдохов и выдохов, полностью расслабляя поясницу." },
+                        en: { title: "5. Child's Pose", text: "Sit hips back on heels, rest forehead on the floor, and reach arms far forward. Take 5 deep breaths, relaxing the lower back." },
+                        de: { title: "5. Kindeshaltung", text: "Gesäß auf die Fersen setzen, Stirn ablegen, Arme weit nach vorn strecken. 5 tiefe Atemzüge lang den unteren Rücken entspannen." }
+                    }
+                ]
+            },
+            "3": {
+                videoUrl: "", // Среда: Баланс и фокус
+                exercises: [
+                    {
+                        ru: { title: "1. Поза Дерева", text: "Стоя на одной ноге, уприте стопу другой в голень (не в колено). Соедините ладони у груди и держите баланс 4 спокойных вдоха." },
+                        en: { title: "1. Tree Pose", text: "Standing on one leg, press the other foot into your calf (avoid the knee). Bring palms together at chest for 4 calm breaths." },
+                        de: { title: "1. Baum-Haltung", text: "Auf einem Bein stehen, anderen Fuß an die Wade legen (nicht ans Knie). Hände vor der Brust falten, 4 ruhige Atemzüge halten." }
+                    },
+                    {
+                        ru: { title: "2. Птица — Собака", text: "На четвереньках: на вдохе вытяните правую руку вперёд, а левую ногу назад в одну линию со спиной; на выдохе смените." },
+                        en: { title: "2. Bird — Dog", text: "On all fours: inhale and extend right arm forward and left leg back in line with your spine; exhale and switch sides." },
+                        de: { title: "2. Vogel — Hund", text: "Im Vierfüßlerstand: Einatmen, rechten Arm vor und linkes Bein zurück strecken; ausatmen, Seite wechseln." }
+                    },
+                    {
+                        ru: { title: "3. Поза Стула", text: "Стопы вместе: на вдохе поднимите руки вверх, на выдохе отведите таз назад, словно садитесь на стул, держа спину прямой." },
+                        en: { title: "3. Chair Pose", text: "Feet together: inhale and raise arms overhead; exhale and sit hips back into an invisible chair, keeping your spine straight." },
+                        de: { title: "3. Stuhl-Position", text: "Füße zusammen: Einatmen, Arme heben; ausatmen, Gesäß nach hinten senken wie auf einen Stuhl, Rücken gerade halten." }
+                    },
+                    {
+                        ru: { title: "4. Поза Воина I", text: "Широкий шаг правой ногой вперёд (колено над пяткой), на вдохе потянитесь руками вверх, раскрывая грудь; затем смените ногу." },
+                        en: { title: "4. Warrior I", text: "Step right foot wide forward (knee over ankle), inhale and reach arms high lifting the chest; then switch legs." },
+                        de: { title: "4. Krieger I", text: "Großer Schritt rechts vor (Knie über dem Knöchel), einatmen, Arme hochstrecken und Brust öffnen; dann Bein wechseln." }
+                    },
+                    {
+                        ru: { title: "5. Поза Горы", text: "Стопы на ширине таза: на глубоком вдохе потянитесь макушкой и руками вверх, на выдохе опустите плечи и почувствуйте опору." },
+                        en: { title: "5. Mountain Pose", text: "Feet hip-width apart: take a deep inhale reaching crown and arms up; exhale, relax shoulders and feel grounded." },
+                        de: { title: "5. Berg-Haltung", text: "Füße hüftbreit: Tief einatmen, Scheitel und Arme hochstrecken; ausatmen, Schultern sinken lassen und Stand spüren." }
+                    }
+                ]
+            },
+            "4": {
+                videoUrl: "", // Четверг: Суставы и гибкость
+                exercises: [
+                    {
+                        ru: { title: "1. Плечи и кисти", text: "Сделайте 8 плавных круговых вращений плечами назад, затем мягко разомните кисти рук круговыми движениями в обе стороны." },
+                        en: { title: "1. Shoulders & Wrists", text: "Roll your shoulders backward 8 times slowly, then gently circle your wrists in both directions to release tension." },
+                        de: { title: "1. Schultern & Handgelenke", text: "Schultern 8-mal langsam nach hinten kreisen, danach die Handgelenke sanft in beide Richtungen bewegen." }
+                    },
+                    {
+                        ru: { title: "2. Боковое вытяжение", text: "Поднимите правую руку вверх и на выдохе плавно наклонитесь влево, вытягивая весь правый бок. Повторите в другую сторону." },
+                        en: { title: "2. Side Stretch", text: "Reach right arm overhead and exhale into a gentle lean to the left, lengthening the right side. Repeat on the other side." },
+                        de: { title: "2. Seitliche Dehnung", text: "Rechten Arm heben und beim Ausatmen sanft nach links neigen, rechte Flanke dehnen. Gegenseite wiederholen." }
+                    },
+                    {
+                        ru: { title: "3. Мягкий выпад", text: "Из положения на коленях шагните правой ногой вперёд, мягко подавая таз вниз на 4 вдоха. Поменяйте ноги без резких движений." },
+                        en: { title: "3. Low Lunge", text: "From kneeling, step right foot forward and gently sink hips down for 4 calm breaths. Switch legs smoothly." },
+                        de: { title: "3. Tiefer Ausfallschritt", text: "Aus dem Kniestand rechten Fuß vor setzen, Hüfte sanft für 4 Atemzüge sinken lassen. Ruhig die Seite wechseln." }
+                    },
+                    {
+                        ru: { title: "4. Перекаты стоп", text: "Плавно поднимитесь на носки на вдохе и опуститесь на пятки на выдохе (8–10 раз) для разгона лимфы и разминки голеностопа." },
+                        en: { title: "4. Ankle Rolls", text: "Inhale and rise smoothly onto your tiptoes, exhale and lower onto heels (8–10 times) to wake up ankles and circulation." },
+                        de: { title: "4. Fuß-Abrollen", text: "Einatmen, langsam auf die Zehenspitzen heben; ausatmen, Fersen senken (8–10 Mal) für Sprunggelenke und Kreislauf." }
+                    },
+                    {
+                        ru: { title: "5. Волна позвоночником", text: "Стоя с чуть согнутыми коленями, плавно опустите голову и округлую спину вниз, затем медленно раскрутитесь позвонок за позвонком." },
+                        en: { title: "5. Spinal Wave", text: "With knees slightly bent, gently roll head and spine down toward the floor, then slowly roll back up vertebra by vertebra." },
+                        de: { title: "5. Wirbelsäulen-Welle", text: "Knie leicht beugen, Kopf und Rücken Wirbel für Wirbel nach unten abrollen, dann langsam wieder aufrichten." }
+                    }
+                ]
+            },
+            "5": {
+                videoUrl: "", // Пятница: Антистресс после недели
+                exercises: [
+                    {
+                        ru: { title: "1. «Тряпичная кукла»", text: "Стопы на ширине таза, колени присогнуты: наклонитесь вперёд, обхватите локти и расслабьте шею и спину на 5 глубоких выдохов." },
+                        en: { title: "1. Ragdoll Fold", text: "Feet hip-width apart, knees softly bent: fold forward, hold opposite elbows, and let neck and back hang for 5 deep breaths." },
+                        de: { title: "1. Sanfte Vorbeuge", text: "Füße hüftbreit, Knie leicht gebeugt: Nach vorn beugen, Ellbogen greifen und Nacken 5 tiefe Atemzüge locker lassen." }
+                    },
+                    {
+                        ru: { title: "2. Поза Бабочки", text: "Сидя на полу, соедините стопы вместе, колени разведите в стороны. Держите спину ровно и спокойно дышите 5 циклов." },
+                        en: { title: "2. Butterfly Pose", text: "Seated on the floor, bring soles of your feet together and let knees drop wide. Keep spine tall for 5 calm breaths." },
+                        de: { title: "2. Schmetterling", text: "Im Sitzen Fußsohlen aneinanderlegen, Knie locker nach außen sinken lassen. Rücken aufrecht halten, 5 Atemzüge." }
+                    },
+                    {
+                        ru: { title: "3. Скрутка лёжа", text: "Лёжа на спине, согните колени и мягко опустите их вправо, а голову поверните влево. Расслабьтесь на 4 вдоха и смените." },
+                        en: { title: "3. Supine Twist", text: "Lying on your back, bend knees and gently drop them right while turning your head left. Relax for 4 breaths, then switch." },
+                        de: { title: "3. Liegende Drehung", text: "In Rückenlage Knie anwinkeln und sanft nach rechts ablegen, Kopf nach links drehen. 4 Atemzüge entspannen, dann wechseln." }
+                    },
+                    {
+                        ru: { title: "4. Ноги вверх", text: "Лёжа на спине, поднимите расслабленные ноги вверх (можно опереть на стену или диван) на 1 минуту, снимая усталость." },
+                        en: { title: "4. Legs Up", text: "Lying on your back, rest relaxed legs straight up (or against a wall/sofa) for 1 minute to drain fatigue from the legs." },
+                        de: { title: "4. Beine hochlegen", text: "In Rückenlage die entspannten Beine nach oben strecken (oder an Wand/Sofa lehnen) und 1 Minute lang entlasten." }
+                    },
+                    {
+                        ru: { title: "5. Дыхание животом", text: "Положите ладонь на живот: на вдохе живот мягко надувается как шар, на длинном выдохе плавно опускается. Сделайте 6 раз." },
+                        en: { title: "5. Belly Breathing", text: "Place one hand on your belly: inhale so the belly rises softly like a balloon, exhale slowly and fully. Repeat 6 times." },
+                        de: { title: "5. Bauchatmung", text: "Eine Hand auf den Bauch legen: Einatmen, Bauch hebt sich sanft; langsam und vollständig ausatmen. 6-mal wiederholen." }
+                    }
+                ]
+            },
+            "6": {
+                videoUrl: "", // Суббота: Утренний тонус
+                exercises: [
+                    {
+                        ru: { title: "1. Потягивание Полумесяц", text: "Сцепите пальцы над головой, выверните ладони вверх и на вдохе потянитесь всем телом к потолку, удлиняя позвоночник." },
+                        en: { title: "1. Crescent Reach", text: "Interlace fingers overhead, turn palms up, and inhale as you stretch your whole body tall toward the ceiling." },
+                        de: { title: "1. Halbmond-Streckung", text: "Finger über dem Kopf verschränken, Handflächen nach oben drehen und beim Einatmen den ganzen Körper lang strecken." }
+                    },
+                    {
+                        ru: { title: "2. Поза Сфинкса", text: "Лёжа на животе, обопритесь на предплечья (локти под плечами). Мягко потянитесь грудью вперёд и вверх без залома в пояснице." },
+                        en: { title: "2. Sphinx Pose", text: "Lying on your stomach, prop yourself on forearms (elbows under shoulders). Gently lift chest forward without straining lower back." },
+                        de: { title: "2. Sphinx-Haltung", text: "In Bauchlage auf die Unterarme stützen (Ellbogen unter den Schultern). Brust sanft nach vorn heben, Lendenwirbel schonen." }
+                    },
+                    {
+                        ru: { title: "3. Собака мордой вниз", text: "Из упора на ладони поднимите таз вверх, вытягивая спину в прямую линию. Колени можно слегка присогнуть, пятки тянутся к полу." },
+                        en: { title: "3. Downward Dog", text: "From hands and knees, lift hips high to lengthen your spine into a straight line. Keep knees slightly soft, heels reaching down." },
+                        de: { title: "3. Herabschauender Hund", text: "Aus dem Vierfüßlerstand Becken hochheben, Rücken lang strecken. Knie dürfen leicht gebeugt bleiben, Fersen sinken." }
+                    },
+                    {
+                        ru: { title: "4. Поза Воина II", text: "Широко расставьте ноги, согните правое колено, руки вытяните в стороны на уровне плеч и посмотрите поверх правой ладони." },
+                        en: { title: "4. Warrior II", text: "Step feet wide apart, bend right knee, extend arms out at shoulder height, and gaze steadily over your right hand." },
+                        de: { title: "4. Krieger II", text: "Beine weit grätschen, rechtes Knie beugen, Arme auf Schulterhöhe ausbreiten und ruhig über die rechte Hand blicken." }
+                    },
+                    {
+                        ru: { title: "5. Поза Треугольника", text: "Из широкой стойки с прямыми ногами потянитесь правой рукой вправо и опустите её на голень, левую поднимите вверх." },
+                        en: { title: "5. Triangle Pose", text: "From a wide stance with straight legs, reach right hand forward and rest it on your shin while lifting the left arm up." },
+                        de: { title: "5. Dreieck-Haltung", text: "Aus weitem Stand mit gestreckten Beinen rechte Hand zum Schienbein senken und den linken Arm nach oben strecken." }
+                    }
+                ]
+            },
+            "0": {
+                videoUrl: "", // Воскресенье: Восстановление и дыхание
+                exercises: [
+                    {
+                        ru: { title: "1. Переменное дыхание", text: "Закройте правую ноздрю пальцем — вдох через левую; закройте левую — выдох через правую. Повторите 5 спокойных циклов." },
+                        en: { title: "1. Nostril Breathing", text: "Close right nostril with thumb and inhale left; close left nostril and exhale right. Repeat for 5 slow, calming cycles." },
+                        de: { title: "1. Wechselatmung", text: "Rechtes Nasenloch schließen, links einatmen; linkes schließen, rechts ausatmen. 5 ruhige Zyklen wiederholen." }
+                    },
+                    {
+                        ru: { title: "2. Бабочка лёжа", text: "Лёжа на спине, соедините стопы вместе, а колени мягко опустите в стороны. Положите руки на рёбра и дышите ровно." },
+                        en: { title: "2. Reclined Butterfly", text: "Lying on your back, bring soles of feet together and let knees open wide. Rest hands on your ribs and breathe gently." },
+                        de: { title: "2. Liegender Schmetterling", text: "In Rückenlage Fußsohlen aneinanderlegen, Knie locker öffnen. Hände auf die Rippen legen und ruhig atmen." }
+                    },
+                    {
+                        ru: { title: "3. Снятие зажима лица", text: "На вдохе слегка зажмурьтесь и сожмите губы, на выдохе полностью расслабьте лоб, веки и разомкните челюсти (4 раза)." },
+                        en: { title: "3. Face & Jaw Release", text: "Inhale and gently squeeze eyes and lips; exhale and completely soften forehead, eyelids, and unclench your jaw (4 times)." },
+                        de: { title: "3. Kiefer & Gesicht lösen", text: "Einatmen, Augen und Lippen sanft anspannen; ausatmen, Stirn, Lider und Kiefer komplett entspannen (4-mal)." }
+                    },
+                    {
+                        ru: { title: "4. Полное дыхание", text: "Медленно вдыхайте, наполняя сначала живот, затем грудную клетку и ключицы; так же плавно выдыхайте сверху вниз (5 раз)." },
+                        en: { title: "4. Full Yogic Breath", text: "Inhale slowly filling belly first, then ribs, then upper chest; exhale just as smoothly from top to bottom (5 times)." },
+                        de: { title: "4. Vollständige Atmung", text: "Langsam einatmen: erst Bauch, dann Rippen, dann Brustkorb füllen; ebenso sanft von oben nach unten ausatmen (5-mal)." }
+                    },
+                    {
+                        ru: { title: "5. Шавасана (Покой)", text: "Лягте удобно на спину, раскиньте руки и ноги, закройте глаза и 2 минуты просто наблюдайте за тишиной внутри." },
+                        en: { title: "5. Savasana Rest", text: "Lie comfortably on your back, let arms and legs fall open, close your eyes, and rest in quiet stillness for 2 minutes." },
+                        de: { title: "5. Savasana-Ruhe", text: "Bequem auf den Rücken legen, Arme und Beine locker ablegen, Augen schließen und 2 Minuten Stille genießen." }
+                    }
+                ]
+            }
+        };
 
         const defaultHabitsData = [
             { id: "h1", en: "🧘 Morning Yoga", ru: "🧘 Утренняя йога", de: "🧘 Morgen-Yoga", time: "08:00", pts: 10 },
-            { id: "h2", en: "🌳 Outdoor Walk", ru: "🌳 Прогулка на воздухе", de: "🌳 Spaziergang", time: "14:00", pts: 10 },
             { id: "h3", en: "🍵 Cup of Herbal Tea", ru: "🍵 Чашка ароматного чая", de: "🍵 Tasse Kräutertee", time: "16:00", pts: 10 },
             { id: "h4", en: "👀 Eye Gymnastics", ru: "👀 Гимнастика для глаз", de: "👀 Augengymnastik", time: "19:00", pts: 10 }
         ];
@@ -659,11 +1121,12 @@
                 habitsLabel: "☑️ Daily Habits",
                 habitPlaceholder: "New habit...",
                 removeTitle: "Remove",
-                exercises: [
-                    "👀 <strong>Eyes:</strong> Close your eyes for 10 seconds, then look far into the distance.",
-                    "🧘‍♂️ <strong>Back:</strong> Stand up straight and stretch your arms high above your head.",
-                    "💧 <strong>Water:</strong> Take a few sips of fresh, clean water."
-                ]
+                riteDone: "Done (+5)",
+                riteCompleted: "✓ Done",
+                riteVideoSoon: "▶ Video soon",
+                riteVideoWatch: "▶ YouTube",
+                exTimerStart: "▶ Start 1m",
+                exTimerPause: "⏸ Pause"
             },
             ru: {
                 mainTitle: "Время работать ✨",
@@ -687,11 +1150,12 @@
                 habitsLabel: "☑️ Привычки дня",
                 habitPlaceholder: "Новая привычка...",
                 removeTitle: "Удалить",
-                exercises: [
-                    "👀 <strong>Глаза:</strong> Закрой глаза на 10 секунд, посмотри в окно вдаль.",
-                    "🧘‍♂️ <strong>Спина:</strong> Встань ровно, потянись руками вверх.",
-                    "💧 <strong>Вода:</strong> Сделай пару глотков чистой воды."
-                ]
+                riteDone: "Выполнено (+5)",
+                riteCompleted: "✓ Готово",
+                riteVideoSoon: "▶ Видео скоро",
+                riteVideoWatch: "▶ YouTube",
+                exTimerStart: "▶ Старт 1 мин",
+                exTimerPause: "⏸ Пауза"
             },
             de: {
                 mainTitle: "Zeit zu arbeiten ✨",
@@ -715,11 +1179,12 @@
                 habitsLabel: "☑️ Tagesgewohnheiten",
                 habitPlaceholder: "Neue Gewohnheit...",
                 removeTitle: "Entfernen",
-                exercises: [
-                    "👀 <strong>Augen:</strong> Augen für 10 Sekunden schließen, in die Ferne schauen.",
-                    "🧘‍♂️ <strong>Rücken:</strong> Aufrecht hinstellen, die Arme nach oben strecken.",
-                    "💧 <strong>Wasser:</strong> Ein paar Schlucke klares Wasser trinken."
-                ]
+                riteDone: "Erledigt (+5)",
+                riteCompleted: "✓ Erledigt",
+                riteVideoSoon: "▶ Video bald",
+                riteVideoWatch: "▶ YouTube",
+                exTimerStart: "▶ Start 1 Min",
+                exTimerPause: "⏸ Pause"
             }
         };
 
@@ -729,6 +1194,11 @@
         let notificationSent = false;
         let breathRunning = false;
         let breathTimeouts = [];
+        let currentRiteIndex = 0;
+
+        /* СОСТОЯНИЕ 1-МИНУТНОГО ТАЙМЕРА УПРАЖНЕНИЯ */
+        let exTimeLeft = EXERCISE_DURATION;
+        let exTimerInterval = null;
 
         const wEl = document.getElementById('w-timer');
         const rEl = document.getElementById('r-timer');
@@ -759,6 +1229,26 @@
         const newHabitTime = document.getElementById('new-habit-time');
         const addHabitBtn = document.getElementById('add-habit-btn');
 
+        /* ЭЛЕМЕНТЫ УПРАЖНЕНИЙ В 5-МИНУТНОМ ОКНЕ */
+        const overlayRitesBox = document.getElementById('overlay-rites-box');
+        const ritePrevBtn = document.getElementById('rite-prev');
+        const riteNextBtn = document.getElementById('rite-next');
+        const riteCounterEl = document.getElementById('rite-counter');
+        const riteDayBadgeEl = document.getElementById('rite-day-badge');
+        const riteVideoLink = document.getElementById('rite-video-link');
+        const riteTitleEl = document.getElementById('rite-title');
+        const riteDescEl = document.getElementById('rite-desc');
+        const exTimerStrip = document.getElementById('ex-timer-strip');
+        const exTimerVal = document.getElementById('ex-timer-val');
+        const exTimerToggle = document.getElementById('ex-timer-toggle');
+        const exTimerReset = document.getElementById('ex-timer-reset');
+        const riteDotsEl = document.getElementById('rite-dots');
+        const riteDoneBtn = document.getElementById('rite-done-btn');
+
+        function getActiveDayKey() {
+            return daySelect.value === "all" ? String(new Date().getDay()) : daySelect.value;
+        }
+
         function getDateKey(offsetDays = 0) {
             const d = new Date();
             d.setDate(d.getDate() + offsetDays);
@@ -775,16 +1265,17 @@
             try {
                 const saved = JSON.parse(localStorage.getItem('chebu_daily_progress') || '{}');
                 if (saved.date !== today) {
-                    const fresh = { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, streakCounted: false };
+                    const fresh = { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, completedRites: {}, streakCounted: false };
                     localStorage.setItem('chebu_daily_progress', JSON.stringify(fresh));
                     return fresh;
                 }
                 if (typeof saved.waterCount !== 'number') saved.waterCount = saved.water ? 1 : 0;
                 if (!saved.checkedHabits) saved.checkedHabits = {};
                 if (!saved.notifiedHabits) saved.notifiedHabits = {};
+                if (!saved.completedRites) saved.completedRites = {};
                 return saved;
             } catch(e) {
-                return { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, streakCounted: false };
+                return { date: today, waterCount: 0, breath: false, stretch: false, checkedHabits: {}, notifiedHabits: {}, completedRites: {}, streakCounted: false };
             }
         }
 
@@ -816,6 +1307,168 @@
             }
             updateProgressUI();
         }
+
+        /* УПРАВЛЕНИЕ 1-МИНУТНЫМ ТАЙМЕРОМ УПРАЖНЕНИЯ */
+        function updateExTimerUI() {
+            exTimerVal.textContent = format(exTimeLeft);
+            const isRunning = exTimerInterval !== null;
+            exTimerStrip.classList.toggle('running', isRunning);
+            exTimerToggle.textContent = isRunning ? i18n[currentLang].exTimerPause : i18n[currentLang].exTimerStart;
+        }
+
+        function stopExTimer() {
+            if (exTimerInterval !== null) {
+                clearInterval(exTimerInterval);
+                exTimerInterval = null;
+            }
+            updateExTimerUI();
+        }
+
+        function resetExTimer() {
+            stopExTimer();
+            exTimeLeft = EXERCISE_DURATION;
+            updateExTimerUI();
+        }
+
+        function completeCurrentRiteFromTimer() {
+            const activeDay = getActiveDayKey();
+            const dayBlock = dailyRitesData[activeDay];
+            if (!dayBlock) return;
+
+            alarmAudio.src = soundSelect.value;
+            alarmAudio.load();
+            alarmAudio.play().catch(() => {});
+            setTimeout(() => { alarmAudio.pause(); alarmAudio.currentTime = 0; }, 2500);
+
+            const prog = getDailyProgress();
+            const riteKey = `${activeDay}_${currentRiteIndex}`;
+            if (!prog.completedRites[riteKey]) {
+                prog.completedRites[riteKey] = true;
+                saveDailyProgress(prog);
+                addBioPoints(5);
+            }
+
+            if (currentRiteIndex < dayBlock.exercises.length - 1) {
+                currentRiteIndex++;
+            }
+            renderOverlayRites();
+        }
+
+        exTimerToggle.onclick = () => {
+            if (exTimerInterval !== null) {
+                stopExTimer();
+            } else {
+                if (exTimeLeft <= 0) exTimeLeft = EXERCISE_DURATION;
+                exTimerInterval = setInterval(() => {
+                    exTimeLeft--;
+                    if (exTimeLeft <= 0) {
+                        stopExTimer();
+                        exTimeLeft = EXERCISE_DURATION;
+                        updateExTimerUI();
+                        completeCurrentRiteFromTimer();
+                    } else {
+                        updateExTimerUI();
+                    }
+                }, 1000);
+                updateExTimerUI();
+            }
+        };
+
+        exTimerReset.onclick = resetExTimer;
+
+        /* РЕНДЕР КОМПЛЕКСА УПРАЖНЕНИЙ В 5-МИНУТНОМ ОКНЕ */
+        function renderOverlayRites() {
+            const activeDay = getActiveDayKey();
+            const dayBlock = dailyRitesData[activeDay];
+
+            if (!dayBlock || !dayBlock.exercises || dayBlock.exercises.length === 0) {
+                overlayRitesBox.style.display = 'none';
+                return;
+            }
+
+            overlayRitesBox.style.display = 'block';
+            const list = dayBlock.exercises;
+            if (currentRiteIndex >= list.length) currentRiteIndex = 0;
+            if (currentRiteIndex < 0) currentRiteIndex = list.length - 1;
+
+            const prog = getDailyProgress();
+            const item = list[currentRiteIndex];
+            const langContent = item[currentLang] || item.en;
+            const riteKey = `${activeDay}_${currentRiteIndex}`;
+            const isDone = !!prog.completedRites[riteKey];
+            const hasVideo = dayBlock.videoUrl && dayBlock.videoUrl.trim() !== "";
+
+            riteCounterEl.textContent = `${currentRiteIndex + 1} / ${list.length}`;
+            riteDayBadgeEl.textContent = i18n[currentLang].days[activeDay] || "";
+            riteTitleEl.textContent = langContent.title;
+            riteDescEl.textContent = langContent.text;
+
+            if (hasVideo) {
+                riteVideoLink.textContent = i18n[currentLang].riteVideoWatch;
+                riteVideoLink.href = dayBlock.videoUrl.trim();
+                riteVideoLink.classList.add('ready');
+            } else {
+                riteVideoLink.textContent = i18n[currentLang].riteVideoSoon;
+                riteVideoLink.removeAttribute('href');
+                riteVideoLink.classList.remove('ready');
+            }
+
+            riteDoneBtn.textContent = isDone ? i18n[currentLang].riteCompleted : i18n[currentLang].riteDone;
+            riteDoneBtn.classList.toggle('completed', isDone);
+            updateExTimerUI();
+
+            riteDotsEl.innerHTML = "";
+            let allDoneCount = 0;
+            list.forEach((_, idx) => {
+                const dotDone = !!prog.completedRites[`${activeDay}_${idx}`];
+                if (dotDone) allDoneCount++;
+                const dot = document.createElement('span');
+                dot.className = 'rite-dot' + (idx === currentRiteIndex ? ' active' : '') + (dotDone ? ' done' : '');
+                dot.onclick = () => {
+                    currentRiteIndex = idx;
+                    resetExTimer();
+                    renderOverlayRites();
+                };
+                riteDotsEl.appendChild(dot);
+            });
+
+            overlayRitesBox.classList.toggle('all-done', allDoneCount === list.length);
+        }
+
+        ritePrevBtn.onclick = () => {
+            const dayBlock = dailyRitesData[getActiveDayKey()];
+            if (!dayBlock) return;
+            currentRiteIndex = (currentRiteIndex - 1 + dayBlock.exercises.length) % dayBlock.exercises.length;
+            resetExTimer();
+            renderOverlayRites();
+        };
+
+        riteNextBtn.onclick = () => {
+            const dayBlock = dailyRitesData[getActiveDayKey()];
+            if (!dayBlock) return;
+            currentRiteIndex = (currentRiteIndex + 1) % dayBlock.exercises.length;
+            resetExTimer();
+            renderOverlayRites();
+        };
+
+        riteDoneBtn.onclick = () => {
+            const activeDay = getActiveDayKey();
+            const dayBlock = dailyRitesData[activeDay];
+            if (!dayBlock) return;
+
+            const prog = getDailyProgress();
+            const riteKey = `${activeDay}_${currentRiteIndex}`;
+            const nowDone = !prog.completedRites[riteKey];
+            prog.completedRites[riteKey] = nowDone;
+            saveDailyProgress(prog);
+            addBioPoints(nowDone ? 5 : -5);
+
+            if (nowDone && currentRiteIndex < dayBlock.exercises.length - 1) {
+                currentRiteIndex++;
+            }
+            resetExTimer();
+            renderOverlayRites();
+        };
 
         function getHabitsList() {
             try {
@@ -1031,14 +1684,7 @@
             
             musicBtn.textContent = musicAudio.paused ? i18n[lang].btnMusicOn : i18n[lang].btnMusicOff;
 
-            const exList = document.getElementById('exercises-list');
-            exList.innerHTML = "";
-            i18n[lang].exercises.forEach(ex => {
-                const li = document.createElement('li');
-                li.innerHTML = ex;
-                exList.appendChild(li);
-            });
-
+            renderOverlayRites();
             renderHabits();
             updateProgressUI();
         }
@@ -1122,6 +1768,7 @@
                 wEl.textContent = "--:--";
                 ovEl.classList.remove('active');
                 stopBreathing();
+                stopExTimer();
                 return;
             }
 
@@ -1146,6 +1793,7 @@
                     localStorage.setItem('chebu_endTime', now + REST_DURATION);
                     ovEl.classList.add('active');
                     startBreathing();
+                    renderOverlayRites();
                     wEl.textContent = format(0);
                     rEl.textContent = format(REST_DURATION);
                     videoPlayer.play().catch(() => {});
@@ -1161,6 +1809,7 @@
                 if (mode === 'work') {
                     ovEl.classList.remove('active');
                     stopBreathing();
+                    stopExTimer();
                     wEl.textContent = format(timeLeft);
                     notificationSent = false;
                 } else {
@@ -1177,6 +1826,8 @@
             localStorage.setItem('chebu_endTime', now + WORK_DURATION);
             ovEl.classList.remove('active');
             stopBreathing();
+            stopExTimer();
+            resetExTimer();
             musicAudio.pause();
             musicAudio.currentTime = 0;
             alarmAudio.pause();
@@ -1190,6 +1841,9 @@
 
         daySelect.onchange = () => {
             localStorage.setItem('chebu_weekday', daySelect.value);
+            currentRiteIndex = 0;
+            resetExTimer();
+            renderOverlayRites();
             const currentWeekday = new Date().getDay();
             if (daySelect.value === "all" || parseInt(daySelect.value) === currentWeekday) {
                 startWorkMode();
