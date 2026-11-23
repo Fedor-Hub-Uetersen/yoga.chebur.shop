@@ -1,6 +1,6 @@
 {
-  "name": "CheburYoga",
-  "short_name": "CheburYoga",
+  "name": "YogaChebur",
+  "short_name": "YogaChebur",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0a0c",
